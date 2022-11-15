@@ -1,0 +1,29 @@
+
+[site]
+url = "https://rustpr.github.io"
+name = "Rust PR"
+description = "A magazine focus on great PR of Rust community"
+menu = [
+  { name = "About", url = "/about" },
+  { name = "GitHub", url = "https://github.com/rustpr/rustpr" },
+]
+
+[authors]
+folyd = { name = "Folyd", editor = true }
+
+[theme]
+primary_color = "#f8e9b8"
+secondary_color = "#faf8f3"
+main_color = "#222c4b"
+link_color = "#36a5ea"
+background_image = "/static/bg.jpeg"
+head_template = "templates/head.html"
+footer_template = "templates/footer.html"
+default_cover = "/static/bg.jpeg"
+default_avatar = "/static/avatar.png"
+
+[[issue]]
+slug = "i"
+number = 1
+title = "Issue 1"
+path = "content/issue-1"

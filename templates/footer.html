@@ -1,0 +1,38 @@
+<div class="tw-bg-[#0f1125] tw-p-10 tw-pt-20 tw-text-slate-300 tw-translate-y-[-8rem]">
+    <div class="tw-flex tw-justify-center tw-mb-28 tw-top-16 tw-font-bold">
+        <div class="tw-text-sm md:tw-text-2xl tw-border-solid tw-border-2 tw-border-[#354d88] tw-py-3">
+            <span class="tw-bg-[#354d88] tw-p-4">Subscriber:</span>
+            <span class="tw-px-2 md:tw-px-4">
+                <a class="hover:underline" href="/feed.xml">RSS</a>
+            </span>
+        </div>
+    </div>
+    <div class="tw-container tw-mx-auto tw-flex tw-flex-col sm:tw-flex-row">
+        <div class="tw-text-sm tw-max-w-sm">
+            <div class="tw-bg-[#354d88] tw-w-12 tw-h-5 tw-my-4"></div>
+            <a class="tw-text-4xl tw-font-bold tw-text-slate-100" href="/">{{ site.name }}</a>
+            <div class="tw-py-6">
+                {{ site.description }}
+            </div>
+        </div>
+        <div class="tw-flex tw-flex-col sm:tw-flex-row sm:tw-justify-around tw-grow">
+            <div class="tw-pt-12 sm:tw-pt-0">
+                <div class="tw-bg-[#354d88] tw-w-5 tw-h-5 tw-my-4"></div>
+                <div class="tw-text-xl tw-font-bold tw-mb-4">Editor</div>
+                <a class="tw-my-2 tw-block hover:underline" href="https://folyd.com">@Folyd</a>
+            </div>
+            <div class="tw-pt-12 sm:tw-pt-0">
+                <div class="tw-bg-[#354d88] tw-w-5 tw-h-5 tw-my-4"></div>
+                <div class="tw-text-xl tw-font-bold tw-mb-4">More</div>
+                <a class="tw-my-2 tw-block hover:underline" href="/about">About</a>
+                <a class="tw-my-2 tw-block hover:underline" href="/faq">FAQ</a>
+                <a class="tw-my-2 tw-block hover:underline" href="https://github.com/rustpr/rustpr">Github</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tw-absolute tw-bottom-0 tw-left-0 tw-right-0 tw-h-36 tw-bg-[#0f1125]">
+    <div class="tw-text-xs tw-text-slate-400 tw-text-center tw-mt-12">
+        Copyright © {{ now() | date(format="%Y") }} {{ site.name }}
+    </div>
+</div>
