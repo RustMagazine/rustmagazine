@@ -5,7 +5,7 @@ name = "Rust PR"
 description = "A magazine focus on great PR of Rust community"
 menu = [
   { name = "About", url = "/about" },
-  { name = "GitHub", url = "https://github.com/rustpr/rustpr" },
+  { name = "GitHub", url = "https://github.com/rustpr/rustpr.github.io" },
 ]
 
 [authors]
@@ -19,6 +19,7 @@ link_color = "#36a5ea"
 background_image = "/static/bg.jpeg"
 head_template = "templates/head.html"
 footer_template = "templates/footer.html"
+article_extend_template = "templates/article-extend.html"
 default_cover = "/static/bg.jpeg"
 default_avatar = "/static/avatar.png"
 
