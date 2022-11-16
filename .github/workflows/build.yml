@@ -24,12 +24,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@stable
-      - name: Install zine
-        run: cargo install zine
+      # - uses: dtolnay/rust-toolchain@stable
+      # - name: Install zine
+      #   run: cargo install zine
       - name: Build magazine
         run: |
-          zine build
+          ./bin/zine-linux-amd64 build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
