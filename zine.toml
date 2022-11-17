@@ -7,6 +7,7 @@ menu = [
   { name = "About", url = "/about" },
   { name = "GitHub", url = "https://github.com/rustpr/rustpr.github.io" },
 ]
+social_image = "/static/bg.jepg"
 
 [authors]
 folyd = { name = "Folyd", editor = true }
