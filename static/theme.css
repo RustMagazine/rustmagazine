@@ -8,7 +8,23 @@
 /* Set font family for those text */
 div.text-main,
 span.text-main,
+h1,
 a > div.text-black,
 a.group {
   font-family: "Alfa Slab One", serif;
+}
+
+h1,
+article,
+a > div.text-black {
+  color: var(--main-color) !important;
+}
+
+main {
+  font-family: "Fira Sans", Helvetica, Arial, sans-serif;
+}
+
+.prose {
+  max-width: 78ch !important;
+  /* font-size: 1.1rem !important; */
 }
