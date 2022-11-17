@@ -23,6 +23,9 @@ article_extend_template = "templates/article-extend.html"
 default_cover = "/static/bg.jpeg"
 default_avatar = "/static/avatar.png"
 
+[markdown]
+highlight_theme = "ayu-light"
+
 [[issue]]
 slug = "i"
 number = 1
