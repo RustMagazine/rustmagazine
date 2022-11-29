@@ -1,23 +1,23 @@
-.bg-primary.text-main {
+.zine-header {
   background-position-x: center;
   background-position-y: top;
   background-size: cover;
-  font-family: "Alfa Slab One", serif;
 }
 
 /* Set font family for those text */
-div.text-main,
-span.text-main,
-h1,
-a > div.text-black,
-a.group {
-  font-family: "Alfa Slab One", serif;
+.zine-brand,
+.zine-menu,
+.zine-diamond,
+.zine-button,
+.zine-article-title,
+.zine-card-title,
+h1 {
+  font-family: "Alfa Slab One", serif !important;
+  color: var(--main-color) !important;
 }
 
-h1,
-article,
-a > div.text-black {
-  color: var(--main-color) !important;
+.zine-card-date {
+  font-family: "Alfa Slab One", serif !important;
 }
 
 main {
@@ -25,6 +25,5 @@ main {
 }
 
 .prose {
-  max-width: 78ch !important;
-  /* font-size: 1.1rem !important; */
+  max-width: 75ch !important;
 }

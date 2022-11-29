@@ -1,3 +1,6 @@
+slug = "i"
+number = 1
+title = "Issue 1"
 
 [[article]]
 slug = "1"

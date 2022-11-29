@@ -3,9 +3,10 @@
 url = "https://rustpr.github.io"
 name = "Rust PR"
 description = "A magazine focus on great PR of Rust community"
+edit_url = "https://github.com/rustpr/rustpr.github.io/edit/main"
 menu = [
-  { name = "About", url = "/about" },
-  { name = "GitHub", url = "https://github.com/rustpr/rustpr.github.io" },
+    { name = "About", url = "/about" },
+    { name = "GitHub", url = "https://github.com/rustpr/rustpr.github.io" },
 ]
 social_image = "/static/bg.jepg"
 
@@ -26,9 +27,3 @@ default_avatar = "/static/avatar.png"
 
 [markdown]
 highlight_theme = "ayu-light"
-
-[[issue]]
-slug = "i"
-number = 1
-title = "Issue 1"
-path = "content/issue-1"
