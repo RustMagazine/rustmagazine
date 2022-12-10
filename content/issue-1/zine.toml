@@ -3,7 +3,7 @@ number = 1
 title = "Issue 1"
 
 [[article]]
-path = "announcing"
+path = "/announcing"
 file = "announcing.md"
 title = "Announcing Rust Magazine"
 author = "folyd"
