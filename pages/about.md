@@ -1,1 +1,1 @@
-# About RustPR
+# About Rust Magazine
