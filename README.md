@@ -1,2 +1,3 @@
-# rustpr
-A magazine focus on great PR of Rust community
+# Rust Magazine
+
+A publication dedicated to the Rust programming language.

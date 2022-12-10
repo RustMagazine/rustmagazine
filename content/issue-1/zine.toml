@@ -6,7 +6,8 @@ title = "Issue 1"
 path = "/announcing"
 file = "announcing.md"
 title = "Announcing Rust Magazine"
-author = "folyd"
+author = "rust-magazine"
 pub_date = "2022-12-10"
 publish = true
 featured = true
+i18n.zh = { path = "/announcing-zh", file = "announcing-zh.md", title = "宣布 Rust 杂志", pub_date = "2022-12-10" }

@@ -25,5 +25,5 @@ main {
 }
 
 .prose, .max-w-prose {
-  max-width: 75ch !important;
+  max-width: 80ch !important;
 }
