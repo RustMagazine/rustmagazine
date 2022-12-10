@@ -24,6 +24,6 @@ main {
   font-family: "Fira Sans", Helvetica, Arial, sans-serif;
 }
 
-.prose {
+.prose, .max-w-prose {
   max-width: 75ch !important;
 }

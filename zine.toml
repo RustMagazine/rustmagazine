@@ -1,8 +1,8 @@
 
 [site]
 url = "https://rustpr.github.io"
-name = "Rust PR"
-description = "A magazine focus on great PR of Rust community"
+name = "Rust Magazine"
+description = "A publication dedicated to the Rust programming language"
 edit_url = "https://github.com/rustpr/rustpr.github.io/edit/main"
 menu = [
     { name = "About", url = "/about" },

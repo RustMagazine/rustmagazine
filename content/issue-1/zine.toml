@@ -3,11 +3,10 @@ number = 1
 title = "Issue 1"
 
 [[article]]
-slug = "1"
-file = "1-first.md"
-title = "First article"
+path = "announcing"
+file = "announcing.md"
+title = "Announcing Rust Magazine"
 author = "folyd"
-cover = ""
-pub_date = "2022-11-15"
+pub_date = "2022-12-10"
 publish = true
 featured = true
