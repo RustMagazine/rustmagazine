@@ -7,7 +7,6 @@ module.exports = {
     content: [
         './templates/**/*.html',
     ],
-    prefix: 'tw-',
     corePlugins: {
         // Disable preflight styles.
         preflight: false,

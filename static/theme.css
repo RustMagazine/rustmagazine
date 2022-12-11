@@ -20,8 +20,12 @@ h1 {
   font-family: "Alfa Slab One", serif !important;
 }
 
-main {
+main, footer {
   font-family: "Fira Sans", Helvetica, Arial, sans-serif;
+}
+
+.zine-brand-bottom {
+    font-family: "Alfa Slab One", serif; 
 }
 
 .prose, .max-w-prose {
