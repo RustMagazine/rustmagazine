@@ -11,7 +11,7 @@ menu = [
 social_image = "/static/bg.jepg"
 
 [authors]
-rust-magazine = { name = "The Magazine Editor Team", editor = true }
+rust-magazine = { name = "The Editor Team", editor = true, bio = "The magazine editor team" }
 folyd = {}
 
 [theme]
