@@ -8,7 +8,7 @@ menu = [
     { name = "About", url = "/about" },
     { name = "GitHub", url = "https://github.com/rustmagazine/rustmagazine.github.io" },
 ]
-social_image = "/static/bg.jepg"
+social_image = "/static/bg.jpeg"
 
 [authors]
 rust-magazine = { name = "The Editor Team", editor = true, bio = "The magazine editor team" }
@@ -28,3 +28,7 @@ default_avatar = "/static/avatar.png"
 
 [markdown]
 highlight_theme = "ayu-light"
+
+[topics]
+annoucement = {}
+game = { name = "Game development", description = "Topic of rust game development." }
