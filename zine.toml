@@ -35,5 +35,5 @@ default_avatar = "/static/avatar.png"
 highlight_theme = "ayu-light"
 
 [topics]
-annoucement = {}
+announcement = {}
 game = { name = "Game development", description = "Topic of rust game development." }
