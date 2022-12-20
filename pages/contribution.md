@@ -47,7 +47,7 @@ featured = true
 
 ## Add author
 
-If you are the first time contributing to the magazine, you also should add your profile into the `[authors]` section of the root `zine.toml` file.
+If this is your first time contributing to the magazine, you should also add your profile to the `[authors]` section of the root `zine.toml` file.
 
 ```diff
 [authors]
