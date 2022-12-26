@@ -1,7 +1,6 @@
 > This is the first article on **pr-demystifying** topics. Each article labeled **pr-demystifying** will attempt to demystify the details behind the PR.
 
-Last month, when I was browsing the rust-lang repo's PR list, PR [#104435](https://github.com/rust-lang/rust/pull/104435)  (`VecDeque::resize should re-use the buffer in the passed-in element`) caught my eye. Seems pretty interesting. I wonder why we need to optimize `VecDeque::resize()`? Where does the old version suck? How did the author optimize the new version? After diving into the PR code, I figured it out.
-
+While browsing the rust-lang repository's list of pull requests last month, I came across PR [#104435](https://github.com/rust-lang/rust/pull/104435), titled `VecDeque::resize should re-use the buffer in the passed-in element`. This PR caught my attention because it seemed interesting and I wanted to understand more about it. I began to wonder why it was necessary to optimize `VecDeque::resize()` and how the old version might be lacking. I also wanted to know how the author had optimized the new version. After delving into the code in the PR, I was able to gain a deeper understanding of these issues.
 
 ## VecDeque::resize()
 
@@ -25,11 +24,11 @@ buf.resize(5, 20);
 assert_eq!(buf, [5, 10, 20, 20, 20]);
 ```
 
-The API is straightforward. The first argument is the new length the VecDeque should resize to, and the second argument is the default seed value the new elements should clone from when the VecDeque should expand.
+The `VecDeque::resize()` API is simple to use. It takes two arguments: the new length to which the `VecDeque` should be resized, and a default value to use for any new elements that are added to the `VecDeque` when it expands.
 
 ## The problem
 
-If we don't dive into the implementation details of `VecDeque::resize()`, we never know if there is really a need for optimization. We never reuse the original value we passed in, just like the author [@scottmcm](https://github.com/scottmcm)  mentioned in the PR title. For example:
+However, if we don't look at the implementation details of this function, we might not realize that there is room for optimization. As the PR's author [@scottmcm](https://github.com/scottmcm) pointed out, the old version did not reuse the value that was passed in as the default, resulting in unnecessary cloning of values.
 
 ```rs
 use std::collections::VecDeque;
@@ -38,8 +37,7 @@ let mut buf = VecDeque::new();
 buf.resize(5, String::from("rust"));
 ```
 
-The owned string `rust` was cloned five times even though we only need four, the last of those clones is avoidable. This is because we use `VecDeque::resize_with()` underneath.
-
+ For example, the string "rust" was cloned five times, even though only four were needed, because the `VecDeque::resize()` function used `VecDeque::resize_with()` underneath, which passed a closure to the `repeat_with().take()`.
 
 ```rs
 pub fn resize(&mut self, new_len: usize, value: T) {
@@ -57,7 +55,7 @@ pub fn resize_with(&mut self, new_len: usize, generator: impl FnMut() -> T) {
 }
 ```
 
-Here we simply use `repeat_with().take()` to produce the finite iterator. However, the closure of `repeat_with()` will be called repeatedly until we reach the take limit.
+This closure was called repeatedly until it reached the `take` limit, causing unnecessary cloning. 
 
 ```rs
 pub fn repeat_with<A, F: FnMut() -> A>(repeater: F) -> RepeatWith<F> {
@@ -86,11 +84,11 @@ impl<A, F: FnMut() -> A> Iterator for RepeatWith<F> {
 }
 ```
 
-Now that we already know the problem, let’s move on to the next part. How the author fixed it.
+Now that we have identified the problem, let's move on to how the author fixed it.
 
 ## iter::repeat_n
 
-Here is the point, the most important change is using `repeat_n()` to replace the entire `repeat_with().take()`:
+The most significant change made in PR [#104435](https://github.com/rust-lang/rust/pull/104435) was the replacement of `repeat_with().take()` with `repeat_n()`.
 
 ```diff
 pub fn resize(&mut self, new_len: usize, value: T) {
@@ -106,7 +104,7 @@ pub fn resize(&mut self, new_len: usize, value: T) {
 
 We can learn more about `repeat_n` from [ACP: Uplift iter::repeat_n from itertools](https://github.com/rust-lang/libs-team/issues/120). The author proposes to uplift [itertools::repeat_n()](https://docs.rs/itertools/latest/itertools/fn.repeat_n.html) into the standard library, just like how [iter::repeat_with()]() has obviated [itertools::repeat_call()](https://docs.rs/itertools/latest/itertools/fn.repeat_call.html).
 
-How does `repeat_n()` avoid the unnecessary clone? Let’s dive into the code:
+How does `repeat_n()` avoid the unnecessary cloning? Let’s dive into the code:
 
 ```rs
 pub fn repeat_n<T: Clone>(element: T, count: usize) -> RepeatN<T> {
@@ -150,7 +148,7 @@ impl<A: Clone> Iterator for RepeatN<A> {
 }
 ```
 
-Not too much code, we can easily grasp it. The `RepeatN` struct returned by `repeat_n()` is the point. To save a clone, `RepeatN` declares its `element` to be the `ManuallyDrop` type.
+Not too much code, we can easily grasp it. The `RepeatN` struct returned by `repeat_n()` is the point. To save a cloning, `RepeatN` declares its `element` as the `ManuallyDrop` type.
 
 ## ManuallyDrop\<T\>
 
@@ -170,9 +168,9 @@ pub unsafe fn take(slot: &mut ManuallyDrop<T>) -> T {
 
 - The `DerefMut` implementation
 
-In the `next()` method of `RepeatN`'s `Iterator` implementations, we clone the element in each iteration when the `count` doesn't reach 0. In the last iteration, we reuse the buffer via the call `ManuallyDrop::take()` to avoid the extra clone.
+In the `Iterator` implementation of `RepeatN`, the `next()` method clones the element in each iteration until the `count` reaches 0. In the final iteration, the `ManuallyDrop::take()` function is used to reuse the buffer and avoid an extra clone. 
 
-Wait，but why does `A::clone(&mut self.element)` will get an instance of `A`? The type of `&mut self.element` is `&mut ManuallyDrop`, not `&mut A`. Well, there are some kinds of obscure. Actually, it is a [Deref coercion](https://doc.rust-lang.org/std/ops/trait.DerefMut.html#more-on-deref-coercion). Here is a simpler example to help us understand:
+Wait, but why does `A::clone(&mut self.element)` will get an instance of `A`? The type of `&mut self.element` is `&mut ManuallyDrop`, not `&mut A`. Well, the use of `ManuallyDrop` may seem obscure at first, but it becomes clearer when we consider the `Deref` and `DerefMut` traits that it implements. These traits allow for a type like `&mut ManuallyDrop<A>` to be treated as if it were a type like `&mut A`. This is known as [Deref coercion](https://doc.rust-lang.org/std/ops/trait.DerefMut.html#more-on-deref-coercion). As an example, consider the following code:
 
 ```rs
 fn main() {
@@ -184,7 +182,10 @@ fn test(s: &str) {
     println!("{s}");
 }
 ```
-The `test()` function argument type is `&str`. Here, not only we can pass a `&String`, we can also pass a `&mut String`. This is because `String` implements [Deref](https://doc.rust-lang.org/src/alloc/string.rs.html#2455) and [DerefMut](https://doc.rust-lang.org/src/alloc/string.rs.html#2465). `ManuallyDrop` also implements the `DerefMut` trait.
+
+Here, we are able to pass a `&mut String` value to the `test()` function, even though the function's argument type is `&str`. This is because `String` implements both [Deref](https://doc.rust-lang.org/src/alloc/string.rs.html#2455) and [DerefMut](https://doc.rust-lang.org/src/alloc/string.rs.html#2465), allowing it to be treated as if it were a `&str` value. 
+
+Similarly, `ManuallyDrop<A>` also implements `DerefMut`, allowing it to be treated as if it were an `&mut A` value.
 
 ```rs
 impl<T: ?Sized> const DerefMut for ManuallyDrop<T> {
@@ -195,7 +196,7 @@ impl<T: ?Sized> const DerefMut for ManuallyDrop<T> {
 }
 ```
 
-Don't forget, however, another essential implementation:
+It's important to note that the `Deref` trait also has a implementation for `&mut T`:
 
 ```rs
 impl<T: ?Sized> const Deref for &mut T {
@@ -209,9 +210,6 @@ impl<T: ?Sized> const Deref for &mut T {
 
 So `A::clone(&mut self.element)` works because `&mut ManuallyDrop<A>` can convert to `&mut A` due to **Deref coercion**, then `&mut A` can convert to `&A` also due to **Deref coercion**.
 
-
 ## Conclusion
 
-Rust is a thriving and prosperous project. There are more than hundreds of Pull requests merged per week. As a Rust developer, every release note of a stable version is the change we are concerned about most, we rarely track every single PR progress. However, this does not mean we should not care about the PR and the story behind the author and PR. That’s why I proposed a topic called [#pr-demystifying](/topic/pr-demystifying) to label these articles. Perhaps the rest of the community will learn a lot from these articles. If you come across a good PR in the Rust community, it also deserves an article to share what you learn.
-
-The PR [#104435](https://github.com/rust-lang/rust/pull/104435) isn’t a big optimization, it let me learn a lot though. Thanks to the author [@scottmcm](https://github.com/scottmcm) for working on this. I also hope this article is helpful to you.
+As a Rust developer, I am often most concerned with the changes listed in the stable release notes. However, this does not mean that I should not be interested in the individual pull requests (PRs) that are being merged into the project. There are hundreds of PRs merged each week, and each one has a story and an author behind it. That's why I propose the creation of a topic called [#pr-demystifying](/topic/pr-demystifying), where we can share articles about interesting or educational PRs in the Rust community. The PR [#104435](https://github.com/rust-lang/rust/pull/104435), for example, may not be a major optimization, but it allowed me to learn a lot. I would like to thank the author [@scottmcm](https://github.com/scottmcm) for their work on this PR. I hope that this article and others like it will be helpful to others in the community.
