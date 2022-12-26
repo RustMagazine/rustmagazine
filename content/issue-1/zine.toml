@@ -19,5 +19,5 @@ title = "VecDeque::resize() optimization"
 author = "folyd"
 topic = ["pr-demystifying", "optimization"]
 pub_date = "2022-12-24"
-publish = true
+publish = false
 featured = true
