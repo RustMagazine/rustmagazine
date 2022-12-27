@@ -1,6 +1,6 @@
 > This is the first article on **pr-demystifying** topics. Each article labeled **pr-demystifying** will attempt to demystify the details behind the PR.
 
-While browsing the rust-lang repository's list of pull requests last month, I came across PR [#104435](https://github.com/rust-lang/rust/pull/104435), titled `VecDeque::resize should re-use the buffer in the passed-in element`. This PR caught my attention because it seemed interesting and I wanted to understand more about it. I began to wonder why it was necessary to optimize `VecDeque::resize()` and how the old version might be lacking. I also wanted to know how the author had optimized the new version. After delving into the code in the PR, I was able to gain a deeper understanding of these issues.
+While browsing the rust-lang repository's list of pull requests last month, I came across PR [#104435], titled `VecDeque::resize should re-use the buffer in the passed-in element`. This PR caught my attention because it seemed interesting and I wanted to understand more about it. I began to wonder why it was necessary to optimize `VecDeque::resize()` and how the old version might be lacking. I also wanted to know how the author had optimized the new version. After delving into the code in the PR, I was able to gain a deeper understanding of these issues.
 
 ## VecDeque::resize()
 
@@ -28,7 +28,7 @@ The `VecDeque::resize()` API is simple to use. It takes two arguments: the new l
 
 ## The problem
 
-However, if we don't look at the implementation details of this function, we might not realize that there is room for optimization. As the PR's author [@scottmcm](https://github.com/scottmcm) pointed out, the old version did not reuse the value that was passed in as the default, resulting in unnecessary cloning of values.
+However, if we don't look at the implementation details of this function, we might not realize that there is room for optimization. As the PR's author [@scottmcm] pointed out, the old version did not reuse the value that was passed in as the default, resulting in unnecessary cloning of values.
 
 ```rs
 use std::collections::VecDeque;
@@ -88,7 +88,7 @@ Now that we have identified the problem, let's move on to how the author fixed i
 
 ## iter::repeat_n
 
-The most significant change made in PR [#104435](https://github.com/rust-lang/rust/pull/104435) was the replacement of `repeat_with().take()` with `repeat_n()`.
+The most significant change made in PR [#104435] was the replacement of `repeat_with().take()` with `repeat_n()`.
 
 ```diff
 pub fn resize(&mut self, new_len: usize, value: T) {
@@ -212,4 +212,8 @@ So `A::clone(&mut self.element)` works because `&mut ManuallyDrop<A>` can conver
 
 ## Conclusion
 
-As a Rust developer, I am often most concerned with the changes listed in the stable release notes. However, this does not mean that I should not be interested in the individual pull requests (PRs) that are being merged into the project. There are hundreds of PRs merged each week, and each one has a story and an author behind it. That's why I propose the creation of a topic called [#pr-demystifying](/topic/pr-demystifying), where we can share articles about interesting or educational PRs in the Rust community. The PR [#104435](https://github.com/rust-lang/rust/pull/104435), for example, may not be a major optimization, but it allowed me to learn a lot. I would like to thank the author [@scottmcm](https://github.com/scottmcm) for their work on this PR. I hope that this article and others like it will be helpful to others in the community.
+As a Rust developer, I am often most concerned with the changes listed in the stable release notes. However, this does not mean that I should not be interested in the individual pull requests (PRs) that are being merged into the project. There are hundreds of PRs merged each week, and each one has a story and an author behind it. That's why I propose the creation of a topic called [#pr-demystifying], where we can share articles about interesting or educational PRs in the Rust community. The PR [#104435], for example, may not be a major optimization, but it allowed me to learn a lot. I would like to thank the author [@scottmcm] for their work on this PR. I hope that this article and others like it will be helpful to others in the community.
+
+[#pr-demystifying]: /topic/pr-demystifying
+[#104435]: https://github.com/rust-lang/rust/pull/104435
+[@scottmcm]: https://github.com/scottmcm
