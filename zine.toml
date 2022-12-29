@@ -12,12 +12,13 @@ social_image = "/static/bg.jpeg"
 
 [authors]
 rust-magazine = { name = "The Editor Team", editor = true, bio = "The magazine editor team" }
-folyd = { bio = """
+folyd = { editor = true, bio = """
 The author of [Rust Search Extension](https://github.com/huhu/rust-search-extension) and [zine](https://github.com/zineland/zine).
 
 - [Github](https://github.com/folyd)
 - [Blog](https://folyd.com)
-"""}
+""" }
+lcrossman = { name = "LCrossman", editor = true }
 
 [theme]
 primary_color = "#f8e9b8"
