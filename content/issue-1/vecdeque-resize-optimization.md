@@ -6,9 +6,11 @@ While browsing the rust-lang repository's list of pull requests last month, I ca
 
 Firstly, let's get familiar with the [VecDeque::resize()](https://doc.rust-lang.org/std/collections/struct.VecDeque.html#method.resize).
 
-> Modifies the deque in-place so that len() is equal to new_len, either by removing excess elements from the back or by appending clones of value to the back.
+> `pub fn resize(&mut self, new_len: usize, value: T)`
+>
+> Modifies the deque in-place so that `len()` is equal to `new_len`, either by removing excess elements from the back or by appending clones of `value` to the back.
 
-```rs
+```rust
 use std::collections::VecDeque;
 
 let mut buf = VecDeque::new();
