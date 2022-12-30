@@ -21,3 +21,12 @@ topic = ["pr-demystifying", "optimization"]
 pub_date = "2022-12-24"
 publish = false
 featured = true
+
+[[article]]
+file = "minilsm.md"
+title = "MiniLSM: A Tutorial of Building Storage Engine in a Week using Rust"
+author = "skyzh"
+topic = ["tutorial"]
+pub_date = "2022-12-30"
+publish = false
+featured = true
