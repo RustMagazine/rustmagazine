@@ -26,13 +26,13 @@ buf.resize(5, 20);
 assert_eq!(buf, [5, 10, 20, 20, 20]);
 ```
 
-The `VecDeque::resize()` API is simple to use. It takes two arguments: the new length to which the `VecDeque` should be resized, and a default value to use for any new elements that are added to the `VecDeque` when it expands.
+The `VecDeque::resize()` API is simple to use. It takes two arguments: the new length to which the `VecDeque` should be resized, and a value to use for any new elements that are added to the `VecDeque` when it expands.
 
 ## The problem
 
 However, if we don't look at the implementation details of this function, we might not realize that there is room for optimization. As the PR's author [@scottmcm] pointed out, the old version did not reuse the value that was passed in as the default, resulting in unnecessary cloning of values.
 
-```rs
+```rust
 use std::collections::VecDeque;
 
 let mut buf = VecDeque::new();
@@ -41,7 +41,7 @@ buf.resize(5, String::from("rust"));
 
  For example, the string "rust" was cloned five times, even though only four were needed, because the `VecDeque::resize()` function used `VecDeque::resize_with()` underneath, which passed a closure to the `repeat_with().take()`.
 
-```rs
+```rust
 pub fn resize(&mut self, new_len: usize, value: T) {
     self.resize_with(new_len, || value.clone());
 }
@@ -59,7 +59,7 @@ pub fn resize_with(&mut self, new_len: usize, generator: impl FnMut() -> T) {
 
 This closure was called repeatedly until it reached the `take` limit, causing unnecessary cloning. 
 
-```rs
+```rust
 pub fn repeat_with<A, F: FnMut() -> A>(repeater: F) -> RepeatWith<F> {
     RepeatWith { repeater }
 }
@@ -108,7 +108,7 @@ We can learn more about `repeat_n` from [ACP: Uplift iter::repeat_n from itertoo
 
 How does `repeat_n()` avoid the unnecessary cloning? Let’s dive into the code:
 
-```rs
+```rust
 pub fn repeat_n<T: Clone>(element: T, count: usize) -> RepeatN<T> {
     let mut element = ManuallyDrop::new(element);
 
@@ -160,7 +160,7 @@ The two most important APIs that can help us avoid unnecessary cloning are:
 
 - `ManuallyDrop::take()`
 
-```rs
+```rust
 pub unsafe fn take(slot: &mut ManuallyDrop<T>) -> T {
     // SAFETY: we are reading from a reference, which is guaranteed
     // to be valid for reads.
@@ -174,7 +174,7 @@ In the `Iterator` implementation of `RepeatN`, the `next()` method clones the el
 
 Wait, but why does `A::clone(&mut self.element)` will get an instance of `A`? The type of `&mut self.element` is `&mut ManuallyDrop`, not `&mut A`. Well, the use of `ManuallyDrop` may seem obscure at first, but it becomes clearer when we consider the `Deref` and `DerefMut` traits that it implements. These traits allow for a type like `&mut ManuallyDrop<A>` to be treated as if it were a type like `&mut A`. This is known as [Deref coercion](https://doc.rust-lang.org/std/ops/trait.DerefMut.html#more-on-deref-coercion). As an example, consider the following code:
 
-```rs
+```rust
 fn main() {
     let mut a = String::from("A");
     test(&mut a);
@@ -189,7 +189,7 @@ Here, we are able to pass a `&mut String` value to the `test()` function, even t
 
 Similarly, `ManuallyDrop<A>` also implements `DerefMut`, allowing it to be treated as if it were an `&mut A` value.
 
-```rs
+```rust
 impl<T: ?Sized> const DerefMut for ManuallyDrop<T> {
     #[inline(always)]
     fn deref_mut(&mut self) -> &mut T {
@@ -200,7 +200,7 @@ impl<T: ?Sized> const DerefMut for ManuallyDrop<T> {
 
 It's important to note that the `Deref` trait also has a implementation for `&mut T`:
 
-```rs
+```rust
 impl<T: ?Sized> const Deref for &mut T {
     type Target = T;
 
@@ -212,10 +212,53 @@ impl<T: ?Sized> const Deref for &mut T {
 
 So `A::clone(&mut self.element)` works because `&mut ManuallyDrop<A>` can convert to `&mut A` due to **Deref coercion**, then `&mut A` can convert to `&A` also due to **Deref coercion**.
 
+> Thanks to [@scottmcm]'s kindful reminder, we can change `A::clone(&mut self.element)` to `A::clone(&self.element)`. So I submitted a PR([#106564]) to fix it.
+
+## Alternative?
+
+When [@XeCycle] review my article, he thought `Option<(NonZeroUsize, T)>` might be able to do the same without introducing *unsafe*, here is his [playground example](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=fd82d81d0f485acd769c3b0aaeeb5a3b). Then [@scottmcm] commented on why `ManuallyDrop` is still a properer approach when considering *niche-filling*.
+
+```rust
+use core::mem::MaybeUninit;
+use core::mem::ManuallyDrop;
+use core::num::NonZeroUsize;
+use core::alloc::Layout;
+
+fn main() {
+    dbg!(Layout::new::<Option<Option<(NonZeroUsize, String)>>>());
+    dbg!(Layout::new::<Option<(usize, MaybeUninit<String>)>>());
+    dbg!(Layout::new::<Option<(usize, ManuallyDrop<String>)>>());
+}
+```
+
+One of the benefits we using `ManuallyDrop` is that `Option<RepeatN<String>>` will be the same size as `RepeatN<String>`.
+
+```
+[src/main.rs:6] Layout::new::<Option<Option<(NonZeroUsize, String)>>>() = Layout {
+    size: 40,
+    align: 8 (1 << 3),
+}
+[src/main.rs:7] Layout::new::<Option<(usize, MaybeUninit<String>)>>() = Layout {
+    size: 40,
+    align: 8 (1 << 3),
+}
+[src/main.rs:8] Layout::new::<Option<(usize, ManuallyDrop<String>)>>() = Layout {
+    size: 32,
+    align: 8 (1 << 3),
+}
+```
+
+You can check [this PR](https://github.com/RustMagazine/rustmagazine.github.io/pull/7) to learn more.
+
 ## Conclusion
 
 As a Rust developer, I am often most concerned with the changes listed in the stable release notes. However, this does not mean that I should not be interested in the individual pull requests (PRs) that are being merged into the project. There are hundreds of PRs merged each week, and each one has a story and an author behind it. That's why I propose the creation of a topic called [#pr-demystifying], where we can share articles about interesting or educational PRs in the Rust community. The PR [#104435], for example, may not be a major optimization, but it allowed me to learn a lot. I would like to thank the author [@scottmcm] for their work on this PR. I hope that this article and others like it will be helpful to others in the community.
 
+> Thanks to [@scottmcm], [@XeCycle], [@zhanghandong] for proof reading this post!
+
 [#pr-demystifying]: /topic/pr-demystifying
 [#104435]: https://github.com/rust-lang/rust/pull/104435
+[#106564]: https://github.com/rust-lang/rust/pull/106564
 [@scottmcm]: https://github.com/scottmcm
+[@XeCycle]: https://github.com/XeCycle
+[@zhanghandong]: https://github.com/zhanghandong
