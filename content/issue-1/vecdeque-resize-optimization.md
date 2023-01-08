@@ -216,7 +216,9 @@ So `A::clone(&mut self.element)` works because `&mut ManuallyDrop<A>` can conver
 
 ## Alternative?
 
-When [@XeCycle] review my article, he thought `Option<(NonZeroUsize, T)>` might be able to do the same without introducing *unsafe*, here is his [playground example](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=fd82d81d0f485acd769c3b0aaeeb5a3b). Then [@scottmcm] commented on why `ManuallyDrop` is still a properer approach when considering *niche-filling*.
+During the review of this article, [@XeCycle] suggested that it might be possible to achieve the same result without using *unsafe* code by using `Option<(NonZeroUsize, T)>` instead. [@XeCycle] provided a [playground example](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=fd82d81d0f485acd769c3b0aaeeb5a3b) to demonstrate this idea.
+
+However, [@scottmcm] also commented on this issue, explaining that `ManuallyDrop` is a more appropriate choice for this case because it is designed for *niche-filling*. As an example, consider the following code:
 
 ```rust
 use core::mem::MaybeUninit;
@@ -231,7 +233,7 @@ fn main() {
 }
 ```
 
-One of the benefits we using `ManuallyDrop` is that `Option<RepeatN<String>>` will be the same size as `RepeatN<String>`.
+The output of this code is:
 
 ```
 [src/main.rs:6] Layout::new::<Option<Option<(NonZeroUsize, String)>>>() = Layout {
@@ -248,7 +250,9 @@ One of the benefits we using `ManuallyDrop` is that `Option<RepeatN<String>>` wi
 }
 ```
 
-You can check [this PR](https://github.com/RustMagazine/rustmagazine.github.io/pull/7) to learn more.
+As we can see, using `Option<(usize, ManuallyDrop<String>)>` results in a smaller size than the other options. Using `ManuallyDrop` allows `Option<RepeatN<String>>` to have the same size as `RepeatN<String>`, which is not the case with the other options.
+
+> For more information on this topic, you can check out the article PR [#104435].
 
 ## Conclusion
 
