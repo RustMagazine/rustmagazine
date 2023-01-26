@@ -8,6 +8,7 @@ Rust Magazine is maintained by Rustaceans from all around the world, currently c
 
 - [@folyd](/@folyd)
 - [@LCrossman](/@lcrossman)
+- [@macko76](/@macko76)
 
 > We still need 4 ~ 5 Rustaceans to join us as the editor team. If you have interested, don’t hesitate to let us know.
 
