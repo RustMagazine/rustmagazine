@@ -1,6 +1,3 @@
-# I Learn Rust By Contributing To Rust Compiler
-
----
 
 I spent a lot of my spare time contributing to the Rust compiler in the second half of 2022, and I learned a lot from such a friendly and vibrant community, not only about Rust, but about the core skills of software engineering and, most importantly, the I got a lot of fun from programming in Rust.
 
@@ -57,7 +54,7 @@ You need to spend a lot of time communicating and discussing with others, so wri
 
 ## How to begin
 
-Start with the [Guide to Rustc Development](https://rustc-dev-guide.rust-lang.org/getting-started.html), this document may not be up to date, but it is very helpful to get an overview of the various topics of the compiler.
+Start with the [Guide to Rustc Development](https://rustc-dev-guide.rust-lang.org/getting-started.html), this document may not be up to date, but it is indispensable to get an overview of the various topics of the Rust compiler.
 
 At first, you can find some relatively simple issues to solve from labels like [E-mentor](https://github.com/rust-lang/rust/issues?q=is%3Aissue+is%3Aopen+label%3AE-mentor), [E-easy](https://github.com/rust-lang/rust/issues?q=is%3Aissue+is%3Aopen+label%3AE-easy), [E-help-wanted](https://github.com/rust-lang/rust/issues?q=is%3Aissue+is%3Aopen+label%3AE-help-wanted). But if you can't find the right one, you can also find random problems that you can understand and try to solve them.
 
@@ -69,7 +66,7 @@ To solve such kind of issue, we need to understand the AST, infer the user's cod
 
 Some [ICE](https://github.com/rust-lang/rust/issues?q=is%3Aissue+is%3Aopen+label%3AI-ICE) issues are also relatively easy to solve, such as some corner cases that have not been covered, usually there is a simple and direct solution, but choosing the best one from various fixing solutions is also an art.
 
-An important shift in doing compiler development is to move from being a user of a language to being a contributor.
+An important viewpoint shift in doing compiler development is to move from being a user of a language to being a contributor.
 
 I saw this on Twitter the other day, and my first question was why the compiler would have two suggestions at the same time, the first one apparently only for cases that care about returning result:
 
