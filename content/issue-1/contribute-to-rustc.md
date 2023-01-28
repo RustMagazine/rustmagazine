@@ -91,7 +91,7 @@ Reading Rust code is easy with `rust-analyzer`, and the `show call hierarchy` is
 
 If you run into trouble in development, you can post a topic at [t-compiler/help](https://rust-lang.zulipchat.com/#narrow/stream/182449-t-compiler.2Fhelp). `zulip` is a discussion tool used by Rust compiler developers, and the Rust experts are friendly for newcomers.
 
-Another great way to learn is to review other's PRs. It's okay if you can't understand every change at first, but you can try to grasp the general idea. If I'm interested in an issue but don't have time to work on it, or I would like to learn something in that topic, I'll subscribe to notifications so if the issue is closed I'll get an email and I'll probably go to have a look at the PR.
+Another great way to learn is to review other's PRs. It's okay if you can't understand every change at first, but you can try to grasp the general idea. If I'm interested in an issue but don't have time to work on it, or I would like to learn something in that topic, I'll subscribe to notifications so if the issue is closed I'll get an Email and I'll probably go to have a look at the PR.
 
 ## Summary
 
@@ -101,5 +101,5 @@ I'm not an expert on Rust, but I've found that contributing to the Rust compiler
 
 And contributing to Rust is not limited to programming, reporting issues, improving the documentation and translations, and joining discussions are all community contributions.
 
-Hope my sharing can help you, Happy Rust Coding🦀!
+Hope my sharing can help you, Happy Coding🦀!
 
