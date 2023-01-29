@@ -38,4 +38,5 @@ highlight_theme = "ayu-light"
 
 [topics]
 announcement = {}
+interview = {}
 game = { name = "Game development", description = "Topic of rust game development." }
