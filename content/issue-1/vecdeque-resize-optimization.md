@@ -256,7 +256,7 @@ As we can see, using `Option<(usize, ManuallyDrop<String>)>` results in a smalle
 
 ## Conclusion
 
-As a Rust developer, I am often most concerned with the changes listed in the stable release notes. However, this does not mean that I should not be interested in the individual pull requests (PRs) that are being merged into the project. There are hundreds of PRs merged each week, and each one has a story and an author behind it. That's why I propose the creation of a topic called [#pr-demystifying], where we can share articles about interesting or educational PRs in the Rust community. The PR [#104435], for example, may not be a major optimization, but it allowed me to learn a lot. I would like to thank the author [@scottmcm] for their work on this PR. I hope that this article and others like it will be helpful to others in the community.
+As a Rust developer, I am often most concerned with the changes listed in the stable [release notes](https://github.com/rust-lang/rust/blob/master/RELEASES.md). However, this does not mean that I should not be interested in the individual pull requests (PRs) that are being merged into the project. There are hundreds of PRs merged each week, and each one has a story and an author behind it. That's why I propose the creation of a topic called [#pr-demystifying], where we can share articles about interesting or educational PRs in the Rust community. The PR [#104435], for example, may not be a major optimization, but it allowed me to learn a lot. I would like to thank the author [@scottmcm] for their work on this PR. I hope that this article and others like it will be helpful to others in the community.
 
 > Thanks to [@scottmcm], [@XeCycle], [@zhanghandong] for proof reading this post!
 
