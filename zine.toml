@@ -20,6 +20,7 @@ The author of [Rust Search Extension](https://github.com/huhu/rust-search-extens
 """ }
 lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
+zhanghandong = { editor = true }
 
 [theme]
 primary_color = "#f8e9b8"
