@@ -24,7 +24,7 @@ featured = true
 
 [[article]]
 file = "contribute-to-rustc.md"
-title = "I Learn Rust By Contributing To Rust Compiler"
+title = "How I contribute to Rust Compiler"
 author = "yukang"
 topic = ["tutorial"]
 pub_date = "2023-01-29"
