@@ -28,6 +28,10 @@ main, footer {
     font-family: "Alfa Slab One", serif; 
 }
 
+.prose {
+  font-size: 1.05rem !important;
+}
+
 .prose, .max-w-prose {
   max-width: 80ch !important;
 }
