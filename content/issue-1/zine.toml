@@ -14,6 +14,15 @@ featured = true
 i18n.zh = { path = "/announcing-zh", file = "announcing-zh.md", title = "宣布 Rust 杂志", author = ["folyd", "rust-magazine"] }
 
 [[article]]
+file = "vecdeque-resize-optimization.md"
+title = "VecDeque::resize() optimization"
+author = "folyd"
+topic = ["pr-demystifying", "optimization"]
+pub_date = "2022-12-24"
+publish = false
+featured = true
+
+[[article]]
 file = "rust-for-linux-brief-introduction.md"
 title = "Rust for Linux Brief Introduction"
 author = "shijicheng"
