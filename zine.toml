@@ -44,3 +44,5 @@ highlight_theme = "ayu-light"
 [topics]
 announcement = {}
 game = { name = "Game development", description = "Topic of rust game development." }
+pr-demystifying = { name = "PR Demystifying", description = "Topic of PR demystifying in Rust community."}
+optimization = {}

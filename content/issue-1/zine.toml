@@ -13,9 +13,16 @@ publish = true
 featured = true
 i18n.zh = { path = "/announcing-zh", file = "announcing-zh.md", title = "宣布 Rust 杂志", author = ["folyd", "rust-magazine"] }
 
+[[article]]
+file = "vecdeque-resize-optimization.md"
+title = "VecDeque::resize() optimization"
+author = "folyd"
+topic = ["pr-demystifying", "optimization"]
+pub_date = "2022-12-24"
+publish = false
+featured = true
 
 [[article]]
-path = "/contribute-to-rustc"
 file = "contribute-to-rustc.md"
 title = "I Learn Rust By Contributing To Rust Compiler"
 author = "yukang"
