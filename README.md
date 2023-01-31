@@ -6,11 +6,11 @@ https://rustmagazine.org
 
 ## Call for editors
 
-See [#4](https://github.com/RustMagazine/rustmagazine.github.io/issues/4).
+See [#4](https://github.com/RustMagazine/rustmagazine/issues/4).
 
 ## Call for articles
 
-See [#5](https://github.com/RustMagazine/rustmagazine.github.io/issues/5).
+See [#5](https://github.com/RustMagazine/rustmagazine/issues/5).
 
 ## Contribute to magazine
 
