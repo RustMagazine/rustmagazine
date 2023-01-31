@@ -173,7 +173,7 @@ exitprint(2).await
 
 # Runtime Behavior
 
-## Market Trait
+## Marker Trait
 首先，我们自然希望 runtime 不要无条件地取消我的 task，而是尝试通过类型系统来变得更友好，比如借助类似 `CancelSafe` 的 marker trait 。对于 cancellation safety 这个词，tokio 在它的[文档](https://docs.rs/tokio/latest/tokio/macro.select.html#cancellation-safety)中有提到：
 
 > To determine whether your own methods are cancellation safe, look for the location of uses of  `.await` . This is because when an asynchronous method is cancelled, that always happens at an  `.await`. If your function behaves correctly even if it is restarted while waiting at an  `.await`, then it is cancellation safe.
