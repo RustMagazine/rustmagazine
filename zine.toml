@@ -21,6 +21,18 @@ The author of [Rust Search Extension](https://github.com/huhu/rust-search-extens
 lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
 zhanghandong = { editor = true }
+waynexia = {name = "Xia Ruihang", bio = """
+Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
+
+- [GitHub](https://github.com/waynexia)
+- [Blog](https://blog.waynest.com)
+"""}
+greptime-team = {name = "Greptime Team", bio = """
+Greptime provides fast and efficient industrial services for time-series data.
+
+- [GitHub](https://github.com/greptimeteam)
+- [Website](https://greptime.com)
+"""}
 
 [theme]
 primary_color = "#f8e9b8"

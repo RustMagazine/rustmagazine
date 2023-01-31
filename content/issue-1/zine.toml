@@ -21,3 +21,13 @@ topic = ["pr-demystifying", "optimization"]
 pub_date = "2022-12-24"
 publish = false
 featured = true
+
+[[article]]
+file = "hidden-control-flow.md"
+title = "The Hidden Control Flow — Some Insights on an Async Cancellation Problem in Rust "
+author = ["waynexia", "greptime-team"]
+topic = ["rust", "async", "database"]
+pub_date = "2023-01-12"
+publish = true
+featured = true
+i18n.zh = { path = "/hidden-control-flow-zh", file = "hidden-control-flow-zh.md", title = "看不见的控制流 — Rust 异步取消问题的几点思考", author = ["waynexia", "greptime-team"]}
