@@ -77,7 +77,50 @@ The whole module consists of three parts, call back functions definition, module
 
 Now let's take a look of a Rust kernel module:
 
-![r4l_example](/static/issue-1/rust_example.jpg)
+```rust
+module! {
+    type: RustChrdev,
+    name: b"rust_chrdev",
+    author: b"Rust for Linux Contributors",
+    description: b"Rust character device sample",
+    license: b"GPL",
+}
+
+struct RustFile;
+
+#[vtable]
+impl file::Operations for RustFile {
+    fn open(_shared: &(), _file: &file::File) -> Result {
+        Ok(())
+    }
+}
+
+struct RustChrdev {
+    _dev: Pin<Box<chrdev::Registration<2>>>,
+}
+
+impl kernel::Module for RustChrdev {
+    fn init(name: &'static CStr, module: &'static ThisModule) -> Result<Self> {
+        pr_info!("Rust character device sample (init)\n");
+
+        let mut chrdev_reg = chrdev::Registration::new_pinned(name, 0, module)?;
+
+        // Register the same kind of device twice, we'ree just demonstrating
+        // that you can use multiple minors. There anre two minors in this case
+        // because its type is `chrdev::Registration<2>`
+        chrdev_reg.as_mut().register::<RustFile>()?;
+        chrdev_reg.as_mut().register::<RustFile>()?;
+
+        Ok(RustChrdev { _dev: chrdev_reg })
+    }
+}
+
+impl Drop for RustChrdev {
+    fn drop(&mut self) {
+        pr_info!("Rust character device sample (exit)\n");
+    }
+}
+```
 
 The code in the red rectangles are the three most important parts like the C version. It's easy to tell that these two versions are very similar, so migrating a driver from C to Rust should not be too hard. Let's dive into the code behind the kernel, we'll find out how they help simplify the module build.
 
@@ -85,7 +128,42 @@ The code in the red rectangles are the three most important parts like the C ver
 
 First let's talk about the macro used in the first few lines `module`. That macro seems simple and only declare some property of the module. If we jump to the definition of the macro, we'll find some interesting work there, such as C language interface and some utilities to initialize and destroy the module from C code, which is shown bellow.
 
-![macro](/static/issue-1/macro.jpg)
+```rust
+#[cfg(not(MODULE))]
+#[doc(hidden)]
+#[no_mangle]
+pub extern "C" fn __{name}_init() -> core::ffi::c_int {{
+    __init()
+}}
+
+#[cfg(not(MODULE))]
+#[doc(hidden)]
+#[no_mangle]
+pub extern "C" fn __{name}_exit() {
+    __exit()
+}}
+
+fn __init() -> core::ffi::c_int {{
+    match <{type_} as kernel::Module>::init(kernel::c_str!("{name}"), &THIS_MODULE) {{
+        Ok(m) => {{
+            unsafe {{
+                __MOD = Some(m);
+            }}
+            return 0;
+        }}
+        Err(e) => {{
+            return e.to_kernel_errno();
+        }}
+    }}
+}}
+
+fn __exit() {{
+    unsafe {{
+        // Invokes `drop()` on `__MOD`, which should be used for cleanup.
+        __MOD = None;
+    }}
+}}
+```
 
 Then there's another macro named `vtable`. How does it work? It add a bool constant for each function like `HAS_XXX`. If function `A` is defined, `HAS_A` is true, otherwise it's false. The caller can tell if the function is defined by checking these constants. Besides that `vtable` also generate some FFI part, which is called by the C code.
 
