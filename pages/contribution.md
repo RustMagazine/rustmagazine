@@ -9,7 +9,7 @@ cargo install zine
 ## Clone the magazine
 
 ```
-$ git clone https://github.com/rustmagazine/rustmagazine.github.io
+$ git clone https://github.com/rustmagazine/rustmagazine
 
 $ cd rustmagazine
 
