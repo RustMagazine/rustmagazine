@@ -2,6 +2,8 @@
 
 A publication dedicated to the Rust programming language.
 
+https://rustmagazine.org
+
 ## Call for editors
 
 See [#4](https://github.com/RustMagazine/rustmagazine.github.io/issues/4).
@@ -12,4 +14,4 @@ See [#5](https://github.com/RustMagazine/rustmagazine.github.io/issues/5).
 
 ## Contribute to magazine
 
-https://rustmagazine.github.io/contribution/
+https://rustmagazine.org/contribution/

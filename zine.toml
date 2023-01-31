@@ -1,6 +1,6 @@
 
 [site]
-url = "https://rustmagazine.github.io"
+url = "https://rustmagazine.org"
 name = "Rust Magazine"
 description = "A publication dedicated to the Rust programming language."
 edit_url = "https://github.com/rustmagazine/rustmagazine.github.io/edit/main"
