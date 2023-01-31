@@ -27,8 +27,8 @@ featured = true
 file = "2022-review-the-adoption-of-rust-in-business.md"
 title = "2022 Review | The adoption of Rust in Business"
 author = "Alex Zhang"
-topic = ["Rust Ecosystem"]
-pub_date = "2023-1-31"
-publish = false
+topic = ["bussiness"]
+pub_date = "2023-01-31"
+publish = true
 featured = true
 i18n.zh = {file = "2022-review-the-adoption-of-rust-in-business-zh.md", title = "Rust 2022 全球商业化应用盘点", author = ["Alex Zhang"] }
