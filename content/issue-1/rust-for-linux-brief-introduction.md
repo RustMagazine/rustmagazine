@@ -1,12 +1,17 @@
-Rust is popular among programmers for a quite long time. It won the favorite programming language on Stackoverflow in the last several years. Rust language community is active and more and more tools are built with Rust, such as block chains and databases. Even some OSs are built with Rust, though most of them are prototypes for education or demos. Of course besides these toy OSes, Rust is used to build real world OS, Linux.
+Rust is popular among programmers for a quite long time. It won the favorite programming language on Stackoverflow in the last several years. Rust language community is active and more and more tools are built with Rust, such as block chains and databases. Even some OSes are built with Rust, though most of them are prototypes for education or demos. Of course besides these toy OSes, Rust is used to build real world OS, Linux.
 
-Rust for Linux, short for r4l later, is announced in 2020, which try to reduce the number of bugs in Linux with the help of Rust. After two years of development, r4l is accepted by the Linux community, got merged in Linux 6.1.
+```urlpreview
+https://github.com/Rust-for-Linux/linux
+```
 
-## Rust for Linux Definition
+[Rust for Linux], short for **r4l** later, is announced in 2020, which try to reduce the number of bugs in Linux with the help of Rust. After two years of development, **r4l** is accepted by the Linux community, got [merged in Linux 6.1](https://lkml.org/lkml/2022/12/11/206).
 
-Before diving into r4l, we must anwser the question "What's is Rust for Linux". It's not about rewriting Linux with Rust or translating all the drivers in Linux from C to Rust. R4l is just a tool, helping kernel developers use Rust in Linux. Though r4l contains some drivers, they are demos for teaching Rust driver development.
 
-Here we list the main components of the r4l project:
+# Rust for Linux Definition
+
+Before diving into **r4l**, we must anwser the question "What's is Rust for Linux". It's not about rewriting Linux with Rust or translating all the drivers in Linux from C to Rust. **r4l** is just a tool, helping kernel developers use Rust in Linux. Though **r4l** contains some drivers, they are demos for teaching Rust driver development.
+
+Here we list the main components of the **r4l** project:
 
 - Bindings of kernel functions and data structures, which are automatic generated.
 - Memory management module.
@@ -15,15 +20,15 @@ Here we list the main components of the r4l project:
 - Sample code.
 - Modified Makefile
 
-## Get Hands Dirty
+# Get Hands Dirty
 
 It's time to get our hands dirty. Let's write a Rust kernel module and analyze it.
 
-### Compile
+## Compile
 
 You can download the Linux kernel code from [torvalds/linux](https://github.com/torvalds/linux), usually it's a `git clone`. Rust compiler is a little different from what we use daily. The project depends on some nightly features of the compiler so that a specific version is requried. Let's follow the instruction in the file [Documentation/rust/quick-start.rst](https://github.com/torvalds/linux/blob/master/Documentation/rust/quick-start.rst), in which the way to turn on the Rust functions is also covered. Then we can compile the kernel as usual.
 
-### Linux kernel module in C
+## Linux kernel module in C
 
 Let's take a look of a C kernel module, which is shown bellow:
 
@@ -73,7 +78,7 @@ void cleanup_module(void)
 
 The whole module consists of three parts, call back functions definition, module initialization and module destruction.
 
-### Linux kernel module in Rust
+## Linux kernel module in Rust
 
 Now let's take a look of a Rust kernel module:
 
@@ -122,9 +127,9 @@ impl Drop for RustChrdev {
 }
 ```
 
-The code in the red rectangles are the three most important parts like the C version. It's easy to tell that these two versions are very similar, so migrating a driver from C to Rust should not be too hard. Let's dive into the code behind the kernel, we'll find out how they help simplify the module build.
+It's easy to tell that these two versions are very similar, so migrating a driver from C to Rust should not be too hard. Let's dive into the code behind the kernel, we'll find out how they help simplify the module build.
 
-## Rust for Linux Deep Dive
+# Rust for Linux Deep Dive
 
 First let's talk about the macro used in the first few lines `module`. That macro seems simple and only declare some property of the module. If we jump to the definition of the macro, we'll find some interesting work there, such as C language interface and some utilities to initialize and destroy the module from C code, which is shown bellow.
 
@@ -167,8 +172,10 @@ fn __exit() {{
 
 Then there's another macro named `vtable`. How does it work? It add a bool constant for each function like `HAS_XXX`. If function `A` is defined, `HAS_A` is true, otherwise it's false. The caller can tell if the function is defined by checking these constants. Besides that `vtable` also generate some FFI part, which is called by the C code.
 
-In this example, it's not hard to find out that r4l is kind of "glue", building a bridge between Rust and C. It make the module developers focus on the functionality instead of the language related dirty work.
+In this example, it's not hard to find out that **r4l** is kind of "glue", building a bridge between Rust and C. It make the module developers focus on the functionality instead of the language related dirty work.
 
-## Summary
+# Summary
 
 Rust for Linux is a utility project to help write Linux kernel module in Rust. By using it, the developers write the pure Rust code dealing with the module's function instead of handling the gap between C and Rust. Though the project is in the early stage, many important components are still missing, we believe they'll be ready in the near future with the help of the whole community.
+
+[rust for linux]: https://github.com/Rust-for-Linux/linux
