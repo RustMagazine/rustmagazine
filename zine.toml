@@ -12,7 +12,7 @@ social_image = "/static/bg.jpeg"
 
 [authors]
 rust-magazine = { name = "The Editor Team", editor = true, bio = "The magazine editor team" }
-folyd = { editor = true, bio = """
+folyd = { editor = true, avatar = "/static/avatar/folyd.jpeg", bio = """
 The author of [Rust Search Extension](https://github.com/huhu/rust-search-extension) and [zine](https://github.com/zineland/zine).
 
 - [Github](https://github.com/folyd)
