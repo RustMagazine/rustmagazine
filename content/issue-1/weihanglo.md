@@ -9,9 +9,9 @@ Let's get started.
 ```quote
 author = "Weihang Lo"
 content = """
-Hello, people. I am [Weihang Lo](https://github.com/weihanglo). You might come across me online if you ever tried to search something about Cargo in the rust-lang/Cargo repository. And yes, my profile image is a green rabbit. Oh it is not actually a green rabbit. It is a white rabbit with a green background. Besides my public-known identity — a Cargo team member — I am also an active member of our local Rust community in Taiwan. 
+Hello, people. I am [Weihang Lo](https://github.com/weihanglo). You might come across me online if you ever tried to search something about Cargo in the rust-lang/Cargo repository. And yes, my profile image is a green rabbit. Oh it is not actually a green rabbit. It is a white rabbit with a green background. Besides my public-known identity — a Cargo team member — I am also an active member of our local Rust community in Taiwan.
 
-Back to the day I really loves of the concept behind open source communities. It is not really the classic "free as freedom" open source idea. It's more like "sharing is caring". I love one people sharing their ideas their knowledge and everything. Without thinking too much like "I give this out and wait for returns", the generosity did make me feel wholesome. I have received a lot of helps from the community when I started my career as a software engineer, so I want to give it back to the community and let sharing continue. 
+Back to the day I really loves of the concept behind open source communities. It is not really the classic "free as freedom" open source idea. It's more like "sharing is caring". I love one people sharing their ideas their knowledge and everything. Without thinking too much like "I give this out and wait for returns", the generosity did make me feel wholesome. I have received a lot of helps from the community when I started my career as a software engineer, so I want to give it back to the community and let sharing continue.
 
 I was a web frontend developer in 2017, seeking opportunities to sharpen my skills outside web development. I'd like to learn more on system programming and compiled languages. There were a couple of choice: Golang from Google and Rust from Mozilla. I took a glimpse at Golang, though the development of Golang itself was not really open-source minded at that time. Instead, I bet on Rust, not because its safety guarantee, but the openness of the community. And I trust Mozilla as well, regarding how they operation open source communities.
 
@@ -40,7 +40,7 @@ I feel happier and fulfilled than ever since I became a part of the team, even m
 """
 ```
 
-# About Cargo team
+# How does the Cargo team works
 
 **How does the Cargo team work on a day-to-day basis? Do you have weekly meetings or a specific workflow that you follow?**
 
@@ -55,7 +55,7 @@ Decisions are usually done during the meetings. The team would post a thread on 
 """
 ```
 
-# Most proud of accomplishements past year in the Cargo team
+# Proudest accomplishements
 
 **As a member of the Cargo team for nearly a year, can you share some of the tasks that you have worked on and the accomplishments that you are most proud of?**
 
@@ -70,39 +70,26 @@ It's extremely hard to revive stagnated and unstable features. Authors were disa
 """
 ```
 
-### How do you balance your daily job with working on Cargo in your free time? Do you have any tips for others who are interested in contributing to open source projects while also managing a full-time job or other responsibilities?
-
-```quote
-author = "Weihang Lo"
-content = """
-It is challenging to continuously contribute to open source projects when your interest wanes over time. This can also be further compounded by negative feedback from other contributors. To overcome this, it is important to set aside dedicated time for your owncontributions and to have a clear plan and goal for what kind of contributions you want to make. Don't just sink yourself in a sea of issues. Starting with small tasks, such as improving error messages, can help build up your knowledge and skills. It is also important to remember to prioritize your own well-being, and take a break if you are feeling stressed or overwhelmed.
-
-Rememeber. Not everyone needs to be enthusiastic about open source. It's okay you don't consider programming as your hobby. It's okay you do programming only for earning a liviing. We are first human than programmer.
-"""
-```
-
-# The biggest challenges of the Cargo team
+# The challenges, and future plan of Cargo
 
 **What do you think are the biggest challenges facing the Cargo team right now? How do you plan to tackle these challenges in the future?**
 
 ```quote
 author = "Weihang Lo"
 content = """
-One of the major challanges Cargo team faces is long-term sustainability. It doesn't mean that Cargo is going to die. Just the Rust langauge itself is growing too fast that Cargo's development is a bit lagged behind. Since Alex stepped down, we are more prone to the bus factor. Only Cargo team lead has comprehensive knowledge of the code base. If one changes a module, it may affect another module and the team lead knows how they interact. Other members don't have that kind of knowledge, so the attention of the team lead become the most scarce resource. 
+One of the major challanges Cargo team faces is long-term sustainability. It doesn't mean that Cargo is going to die. Just the Rust langauge itself is growing too fast that Cargo's development is a bit lagged behind. Since Alex stepped down, we are more prone to the bus factor. Only Cargo team lead has comprehensive knowledge of the code base. If one changes a module, it may affect another module and the team lead knows how they interact. Other members don't have that kind of knowledge, so the attention of the team lead become the most scarce resource.
 
 We has aimed to spread knowledge among team members. This will help to keep the team healthy and reduce dependency on a single person. So far it goes pretty well, as more and more people participating in the review process, including some external reviewers! Cargo mau probably follow the Conway's law and align our organizational structure with our code structure. I don't mean we need to have more team leads or more different positions within the team. I mean by making the code more modular, so that each module has a designated person responsible for it. The organizational structure of the Cargo team will also need to be modularized. This will reduce the overhead for new contributors and make it easier for them to get on board in a specific area.
 
-To attract more contributors and increase chances for them to become long-term maintainers, we can improve not only the code, but also the documentation and tutorials. We can aim to be like the Rust compiler team, which has a large and active community, by share knowledge about Cargo through videos, tutorials, and workshops. This way, everyone can learn how Cargo works and interact with it, and they may even come up with new ideas and external sub-commands. In turn, the Cargo community will become more prosperous. Although these kind of social events sounds intimidating to a Eastern-Asian like me. 
+To attract more contributors and increase chances for them to become long-term maintainers, we can improve not only the code, but also the documentation and tutorials. We can aim to be like the Rust compiler team, which has a large and active community, by share knowledge about Cargo through videos, tutorials, and workshops. This way, everyone can learn how Cargo works and interact with it, and they may even come up with new ideas and external sub-commands. In turn, the Cargo community will become more prosperous. Although these kind of social events sounds intimidating to a Eastern-Asian like me.
 
-To me, the other of unresolved issue in Cargo is that its internal API is not well documented or stable enough for third-party developers to easily create their own sub-commands. Not to mention you need to add a full Cargo library as your dependency to create your own exstension. That stacks up your compile time. Some functionalities in people has already re-invented the whell outside Cargo. However, they cannot guarantee the stability as the Cargo team might change to underlying details from versions to versions. 
+To me, the other of unresolved issue in Cargo is that its internal API is not well documented or stable enough for third-party developers to easily create their own sub-commands. Not to mention you need to add a full Cargo library as your dependency to create your own exstension. That stacks up your compile time. Some functionalities in people has already re-invented the whell outside Cargo. However, they cannot guarantee the stability as the Cargo team might change to underlying details from versions to versions.
 
 On the other hand, Cargo has many subcommands, with the first-class subcommands being treated differently from the third-party subcommands. The first-class subcommands, such as Cargo build and Cargo tree, can use the internal API freely, but the third-party subcommands cannot. That leads to a situation that first-class subcommands haven't "eaten their own dog food." To address this, we need to find a way to modularize the code and improve it over time, which make the API interface more friendly and extensible.
 
 These are two of the chanllges I am aware of the Cargo team currently facing. It's like a chicken-egg problem. When open-source project grows, contributors may step down or burn out, and new contributors get in. However, the code base becomes increasingly monolithic and difficult for new contributors to understand. To address this, we need to lower the barrier for new contributors to get on board and become reviewers or maintainers. Even if not everyone wants to become a maintainer, they can still follow the trail to learn and bring values. That's the key to succeed for a open source project.
 """
 ```
-
-# Future plan of the Cargo team
 
 **Does the Cargo team have any specific plans or goals for the coming year or two? Can you give us a sneak peek into what we can expect from Cargo in the near future?**
 
@@ -119,7 +106,20 @@ To sum up, the team doesn't have a clear roadmap yet, but they are working on va
 """
 ```
 
-### In addition to your work on Cargo, do you contribute to any other open source projects, either as an individual or as part of an organization? Can you share a little bit about some of these other projects and what you enjoy?
+# Open source
+
+**How do you balance your daily job with working on Cargo in your free time? Do you have any tips for others who are interested in contributing to open source projects while also managing a full-time job or other responsibilities?**
+
+```quote
+author = "Weihang Lo"
+content = """
+It is challenging to continuously contribute to open source projects when your interest wanes over time. This can also be further compounded by negative feedback from other contributors. To overcome this, it is important to set aside dedicated time for your owncontributions and to have a clear plan and goal for what kind of contributions you want to make. Don't just sink yourself in a sea of issues. Starting with small tasks, such as improving error messages, can help build up your knowledge and skills. It is also important to remember to prioritize your own well-being, and take a break if you are feeling stressed or overwhelmed.
+
+Rememeber. Not everyone needs to be enthusiastic about open source. It's okay you don't consider programming as your hobby. It's okay you do programming only for earning a liviing. We are first human than programmer.
+"""
+```
+
+**In addition to your work on Cargo, do you contribute to any other open source projects, either as an individual or as part of an organization? Can you share a little bit about some of these other projects and what you enjoy?**
 
 ```quote
 author = "Weihang Lo"
