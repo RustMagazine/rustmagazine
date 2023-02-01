@@ -2,6 +2,8 @@ I'm thrilled to present the first interview article for Rust Magazine, featuring
 
 Let's get started.
 
+![](https://user-images.githubusercontent.com/3369694/216223523-68999f79-76ae-48ce-bd83-3a8018c35d24.jpg)
+
 # Introduction
 
 **Introduce yourself and share a bit about your background with Rust. When did you start learning Rust and what inspired you to do so?**
@@ -127,5 +129,24 @@ content = """
 I don’t regularly contribute to other open source projects apart from occasionally helping with [fish shell](https://github.com/fish-shell/fish-shell) for Rust-related completion, and translating [the Traditional Chinese version](https://github.com/rust-tw/book-tw) of the Rust Programming language book. Most of my time is occupied by Cargo. However, I still want to explore other opportunities to help the community and make the world a little bit better.
 
 I also have an interest in contributing to [rust-lang/rust](https://github.com/rust-lang/rust) repository, specifically in learning more about the codegen phase and the interaction between Cargo and Rust, such as the integration of debuggers and `libtest` tools. This will not only improve Cargo but also help me think ahead and make a long-term goal for myself. And yep, I may not have time to do so but that's totally fine.
+"""
+```
+
+# End question
+
+To end this interview, I have the last casual question.
+
+**What do you enjoy doing in your free time, outside of programming?**
+
+```quote
+author = "Weihang Lo"
+content = """
+Definitely cycling! Have you noticed that the logo for Rust is a bike chainring? 😆
+
+I've been riding my road bike for over 50,000 kilometers in the past decade. This year, I finally got the chance to try mountain biking in London. It's way more challenging than writing async Rust code. Mountain biking is like writing unsafe Rust without using miri, it's intense and always leads to injuries, but it's always a lot of fun.
+
+Rust has become intertwined with all the good things in my life.
+
+![](https://user-images.githubusercontent.com/3369694/216223312-d5593d57-abaa-43f8-b126-3f4cc77b557e.jpg)
 """
 ```
