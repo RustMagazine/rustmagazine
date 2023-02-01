@@ -1,4 +1,6 @@
+I'm thrilled to present the first interview article for Rust Magazine, featuring an insightful conversation with Weihang Lo. We first met at RustCon Asia 2019 in Beijing and have since become good friends. In March 2022, he joined the Cargo team, as announced in this [blog post](https://blog.rust-lang.org/inside-rust/2022/03/31/cargo-team-changes.html).
 
+Let's get started.
 
 # Introduction
 
