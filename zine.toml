@@ -21,6 +21,10 @@ The author of [Rust Search Extension](https://github.com/huhu/rust-search-extens
 lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
 zhanghandong = { editor = true }
+yukang = { name = "Yukang", bio = """
+- [Github](https://github.com/chenyukang)
+- [Blog](https://catcoding.me)
+"""}
 
 [theme]
 primary_color = "#f8e9b8"
