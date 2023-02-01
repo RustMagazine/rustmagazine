@@ -1,12 +1,12 @@
 
 [site]
-url = "https://rustmagazine.github.io"
+url = "https://rustmagazine.org"
 name = "Rust Magazine"
 description = "A publication dedicated to the Rust programming language."
-edit_url = "https://github.com/rustmagazine/rustmagazine.github.io/edit/main"
+edit_url = "https://github.com/rustmagazine/rustmagazine/edit/main"
 menu = [
     { name = "About", url = "/about" },
-    { name = "GitHub", url = "https://github.com/rustmagazine/rustmagazine.github.io" },
+    { name = "GitHub", url = "https://github.com/rustmagazine/rustmagazine" },
 ]
 social_image = "/static/bg.jpeg"
 
@@ -22,6 +22,10 @@ lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
 zhanghandong = { editor = true }
 skyzh = { avatar = "/static/avatar/skyzh.jpeg" }
+yukang = { name = "Yukang", bio = """
+- [Github](https://github.com/chenyukang)
+- [Blog](https://catcoding.me)
+"""}
 
 [theme]
 primary_color = "#f8e9b8"

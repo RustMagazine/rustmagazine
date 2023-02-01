@@ -30,3 +30,12 @@ topic = ["tutorial"]
 pub_date = "2022-12-30"
 publish = false
 featured = true
+
+[[article]]
+file = "contribute-to-rustc.md"
+title = "How I contribute to Rust Compiler"
+author = "yukang"
+topic = ["tutorial"]
+pub_date = "2023-01-29"
+publish = false
+featured = true
