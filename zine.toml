@@ -40,3 +40,7 @@ highlight_theme = "ayu-light"
 announcement = {}
 interview = {}
 game = { name = "Game development", description = "Topic of rust game development." }
+
+[authors.weihanglo]
+name = "Weihang Lo"
+avatar = "/static/avatar/weihanglo.png"

@@ -15,8 +15,8 @@ i18n.zh = { path = "/announcing-zh", file = "announcing-zh.md", title = "宣布 
 
 [[article]]
 file = "weihanglo.md"
-title = "Interview with @weihanglo"
-author = "folyd"
+title = "Interview with Weihang Lo"
+author = ["folyd", "weihanglo"]
 topic = ["interview"]
 pub_date = "2023-01-30"
 publish = false
