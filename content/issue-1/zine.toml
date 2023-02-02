@@ -39,3 +39,13 @@ topic = ["tutorial"]
 pub_date = "2023-01-29"
 publish = false
 featured = true
+
+[[article]]
+file = "weihanglo.md"
+title = "Interview with Weihang Lo"
+author = ["folyd", "weihanglo"]
+cover = "https://user-images.githubusercontent.com/3369694/216223523-68999f79-76ae-48ce-bd83-3a8018c35d24.jpg"
+topic = ["interview"]
+pub_date = "2023-01-30"
+publish = false
+featured = true
