@@ -21,6 +21,7 @@ The author of [Rust Search Extension](https://github.com/huhu/rust-search-extens
 lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
 zhanghandong = { editor = true }
+skyzh = { avatar = "/static/avatar/skyzh.jpeg" }
 yukang = { name = "Yukang", bio = """
 - [Github](https://github.com/chenyukang)
 - [Blog](https://catcoding.me)
@@ -47,6 +48,7 @@ interview = {}
 game = { name = "Game development", description = "Topic of rust game development." }
 pr-demystifying = { name = "PR Demystifying", description = "Topic of PR demystifying in Rust community."}
 optimization = {}
+tutorial = {}
 
 [authors.weihanglo]
 name = "Weihang Lo"
