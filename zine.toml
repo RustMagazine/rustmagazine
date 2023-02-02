@@ -31,6 +31,7 @@ interview = {}
 game = { name = "Game development", description = "Topic of rust game development." }
 pr-demystifying = { name = "PR Demystifying", description = "Topic of PR demystifying in Rust community." }
 optimization = {}
+bussiness = { description = "Rust in Bussiness" }
 tutorial = {}
 
 # Authors declare below
@@ -38,7 +39,7 @@ tutorial = {}
 rust-magazine = { name = "The Editor Team", editor = true, bio = "The magazine editor team" }
 lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
-zhanghandong = { editor = true }
+HandongZhang = { editor = true }
 skyzh = { avatar = "/static/avatar/skyzh.jpeg" }
 
 [authors.folyd]
