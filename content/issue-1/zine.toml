@@ -23,6 +23,44 @@ publish = false
 featured = true
 
 [[article]]
+file = "2022-review-the-adoption-of-rust-in-business.md"
+title = "2022 Review | The adoption of Rust in Business"
+author = "HandongZhang"
+topic = ["bussiness"]
+pub_date = "2023-01-31"
+publish = false
+featured = true
+i18n.zh = {file = "2022-review-the-adoption-of-rust-in-business-zh.md", title = "Rust 2022 全球商业化应用盘点", author = ["HandongZhang"] }
+
+[[article]]
+file = "minilsm.md"
+title = "MiniLSM: A Tutorial of Building Storage Engine in a Week using Rust"
+author = "skyzh"
+topic = ["tutorial"]
+pub_date = "2022-12-30"
+publish = false
+featured = true
+
+[[article]]
+file = "contribute-to-rustc.md"
+title = "How I contribute to Rust Compiler"
+author = "yukang"
+topic = ["tutorial"]
+pub_date = "2023-01-29"
+publish = false
+featured = true
+
+[[article]]
+file = "weihanglo.md"
+title = "Interview with Weihang Lo"
+author = ["folyd", "weihanglo"]
+cover = "https://user-images.githubusercontent.com/3369694/216223523-68999f79-76ae-48ce-bd83-3a8018c35d24.jpg"
+topic = ["interview"]
+pub_date = "2023-01-30"
+publish = false
+featured = true
+
+[[article]]
 file = "rust-for-linux-brief-introduction.md"
 title = "Rust for Linux Brief Introduction"
 author = "shijicheng"
