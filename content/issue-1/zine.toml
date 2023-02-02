@@ -59,3 +59,12 @@ topic = ["interview"]
 pub_date = "2023-01-30"
 publish = false
 featured = true
+
+[[article]]
+file = "rust-for-linux-brief-introduction.md"
+title = "Rust for Linux Brief Introduction"
+author = "shijicheng"
+topic = ["tutorial"]
+pub_date = "2023-01-30"
+publish = false
+featured = true
