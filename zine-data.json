@@ -1,8 +1,18 @@
 {
   "urlPreviews": {
+    "https://github.com/Rust-for-Linux/linux": [
+      "Rust-for-Linux/linux",
+      "Adding support for the Rust language to the Linux kernel. - GitHub",
+      "https://opengraph.githubassets.com/da51017fd78fd030005cefcdf108cc1e30c5dd9bff63a47e5970e644baf997b5/Rust-for-Linux/linux"
+    ],
+    "https://github.com/rust-lang/rust/pull/104435": [
+      "`VecDeque::resize` should re-use the buffer in the passed-in element by scottmcm · Pull Request #104435 · rust-lang/rust · GitHub",
+      "",
+      "https://opengraph.githubassets.com/bff46e9c46a3ba4c1353931657eaef937f0bbee83cbab257cbce435f5781687d/rust-lang/rust/pull/104435"
+    ],
     "https://github.com/skyzh/mini-lsm": [
-      "skyzh/mini-lsm: A tutorial of building an LSM-Tree storage engine in a week! (WIP)",
-      "A tutorial of building an LSM-Tree storage engine in a week! (WIP) - GitHub",
+      "skyzh/mini-lsm",
+      "A tutorial of building an LSM-Tree storage engine in a week!- GitHub",
       "https://opengraph.githubassets.com/83c82d82a7ab5be32dc4bf96da23f2d066f84fc56aadcfc8e3e866e1472171a9/skyzh/mini-lsm"
     ]
   }

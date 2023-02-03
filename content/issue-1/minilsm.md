@@ -9,7 +9,7 @@ The starter code is accessible on [GitHub](https://github.com/skyzh/mini-lsm), a
 https://github.com/skyzh/mini-lsm
 ```
 
-## What is LSM, and Why LSM?
+# What is LSM, and Why LSM?
 
 Log-structured merge tree is a data structure to maintain key-value pairs. This data structure is widely used in
 distributed database systems like [TiDB](https://www.pingcap.com) and [CockroachDB](https://www.cockroachlabs.com) as
@@ -46,7 +46,7 @@ This architectural design makes LSM tree easy to work with.
 
 In this tutorial, we will learn how to build an LSM-tree-based storage engine in the Rust programming language.
 
-## Overview of LSM
+# Overview of LSM
 
 An LSM storage engine generally contains 3 parts:
 
@@ -71,7 +71,7 @@ of key value pairs.
 In this tutorial, we assume the LSM tree is using leveled compaction algorithm, which is commonly used in real-world
 systems.
 
-## Write Flow
+# Write Flow
 
 ![](https://skyzh.github.io/mini-lsm/figures/lsm-tutorial/00-lsm-write-flow.svg)
 
@@ -84,7 +84,7 @@ The write flow of LSM contains 4 steps:
 4. We will compact some files in some level into lower levels to maintain a good shape for the LSM tree, so that read
    amplification is low.
 
-## Read Flow
+# Read Flow
 
 ![](https://skyzh.github.io/mini-lsm/figures/lsm-tutorial/00-lsm-read-flow.svg)
 
@@ -93,11 +93,11 @@ When we want to read a key,
 1. We will first probe all the memtables from latest to oldest.
 2. If the key is not found, we will then search the entire LSM tree containing SSTs to find the data.
 
-## Tutorial Overview
+# Tutorial Overview
 
 ![](https://skyzh.github.io/mini-lsm/figures/lsm-tutorial/00-lsm-tutorial-overview.svg)
 
-### Day 1 - Block Encoding
+## Day 1 - Block Encoding
 
 Block is the minimum read unit in LSM. It is of 4KB size in general, similar database pages. In each block, we will
 store a sequence of sorted key value pairs. In day 1, we will explore how to use the `bytes` library to do manual data
@@ -132,7 +132,7 @@ impl BlockIterator {
 }
 ```
 
-### Day 2 - Table Encoding
+## Day 2 - Table Encoding
 
 SST (sorted string table) is composed of data blocks and index blocks stored on the disk. Usually, data blocks are
 lazily loaded -- they will not be loaded into the memory until a user requests it. Index blocks can also be loaded
@@ -163,7 +163,7 @@ impl StorageIterator for SsTableIterator {
 }
 ```
 
-### Day 3 - Mem Table and Merge Iterators
+## Day 3 - Mem Table and Merge Iterators
 
 In this tutorial, we use [crossbeam-skiplist](https://docs.rs/crossbeam-skiplist) as the implementation of memtable. You
 will learn how to use self-referential struct in Rust to erase lifetime from a Rust-style iterator object, and therefore
@@ -198,7 +198,7 @@ pub struct MemTable {
 }
 ```
 
-### Day 4 - Storage Engine and Block Cache
+## Day 4 - Storage Engine and Block Cache
 
 In this part, you will need to compose everything you have implemented in previous parts to build a fully functional
 storage engine. You will explore how surprisingly easy for us to maintain object references and ownerships in a
