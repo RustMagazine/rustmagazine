@@ -1,6 +1,6 @@
 # The Issue
 
-This post discusses an "unusual" [problem](https://github.com/GreptimeTeam/greptimedb/issues/350) our team of engineers encountered with async programming when building our time series database, GreptimeDB, in Rust. We observed metadata corruption in a long-run test: a series number is duplicated but it should be increased monotonically. The update logic is very straightforward, firstly, load values from an in-memory atomic counter, then persist the new series number through an async I/O function to file, and lastly, update the in-memory counter. The entire procedure is serialized (`file` is a mutable reference):
+This article highlights a [unique issue](https://github.com/GreptimeTeam/greptimedb/issues/350) our engineering team encountered while developing [GreptimeDB](https://github.com/greptimeteam/greptimedb), our time series database built in Rust, related to asynchronous programming. During a long-running test, we noticed a discrepancy in the metadata where a series number was duplicated instead of being incrementally increased as intended. The update process involved the following straightforward steps - loading values from an in-memory atomic counter, asynchronously persisting the updated series number to a file through an I/O function, and updating the in-memory counter. The entire process is serialized (`file` being a mutable reference), as demonstrated in the code snippet below:
 
 ```rust
 async fn update_metadata(file: &mut File, counter: AtomicU64) -> Result<()> {
@@ -10,17 +10,18 @@ async fn update_metadata(file: &mut File, counter: AtomicU64) -> Result<()> {
 }
 ```
 
-Because some functions may be terminated early, `fetch_add` is not used here, instead, `load` is used. It is unnecessary to update the in-memory counter when the previous task fails halfway during execution; for example, `persist_number()` failure from function calls will result in an early return (by `?` here) to propagate errors. We know beforehand that some function calls result in similar failures; thus, we pay extra care when coding.
+Given that some functions may terminate prematurely, the `fetch_add` method is not utilized here and instead, the `load` method is employed. Updating the in-memory counter is not necessary if a previous task fails mid-execution, such as if the `persist_number()` function call results in failure. In this case, an early return (as indicated by the `?` symbol) is used to propagate the error. Our team takes extra precautions when coding as we are aware that certain function calls may result in similar failures.
+
 
 # Async Cancellation
 
 ## Async Task and Runtime
 
-If you have figured out what's causing this in the background, you may want to skip this section. Otherwise, let me try to explain with `.await` by using some pseudocodes as examples to show how it interacts with "runtime".
+This section provides an explanation of the interaction between the `async` task and the runtime environment. If you have already understood the underlying mechanics, feel free to skip this section.
 
 ### poll_future
 
-First is `poll_future` , which comes from the `Future` 's [`poll`](https://doc.rust-lang.org/std/future/trait.Future.html#tymethod.poll) function, as every `async fn` we write will be desugared to an anonymous `Future` implementation.
+Every `async fn` you write is desugared into an anonymous `Future` implementation that has a [`poll`](https://doc.rust-lang.org/std/future/trait.Future.html#tymethod.poll) method. The `poll` function is used to check the status of the task. Here is an example of a simplified `poll` function in pseudocode:
 
 ```rust
 fn poll_future() -> FutureOutput {
@@ -39,11 +40,11 @@ fn poll_future() -> FutureOutput {
 }
 ```
 
-async block usually contains other async functions, like `update_metadata` and `persist_number`. Here, we treat `persist_number` as a subtask of `update_metadata`. Each `.await` point is expanded to something like `poll_future` -- `await`ing the subtask's output and executing when the subtask is ready. Here we need to wait `persist_number` 's task returns Ready before updating the counter.
+An async block typically contains other async functions, like `update_metadata` and `persist_number`. In this example, we treat `persist_number` as a subtask of `update_metadata`. Each `.await` point expands to a call to `poll_future` to wait for the subtask's output and execute the next step only when the subtask is ready. For example, we need to wait for `persist_number` to return `Ready` before updating the counter.
 
-### runtime
+### Runtime
 
-Among many features, the most basic one for async runtime is to poll tasks, which means to keep running unfinished tasks until they are finished (but considering the points later in this article, "until" might not be very accurate). In [GreptimeDB](https://github.com/GreptimeTeam/greptimedb), we use [`tokio`](https://docs.rs/tokio/latest/tokio/) as our runtime. For simplicity, I'll use the following pseudocode to demonstrate the basic features of runtime.
+The main function of an asynchronous runtime is to poll tasks, meaning it keeps running unfinished tasks until they are completed (as described later in this article, "until" may not be an accurate description). In GreptimeDB, the [`tokio`](https://docs.rs/tokio/latest/tokio/) library is used as the runtime. The following pseudocode demonstrates the basic features of a runtime:
 
 ```rust
 fn runtime(&self) {
@@ -65,7 +66,8 @@ fn runtime(&self) {
 }
 ```
 
-Above are very simple and basic illustrations of what `future` and `runtime` do. Combining these two functions, you will find that in some aspects, it just acts as a loop (again, I've omitted lots of technical details to focus on the matter at hand, the real-world use cases of `runtime` are much more complex). The bottom line is that each `.await` implies one or more function calls (call to `poll()` or `poll_future()` ). They are what the "hidden control flow" in the title refers to and the places where "cancellation" happens.
+These are basic illustrations of what `Future` and `runtime` do. By combining these two functions, you can see that the runtime acts as a loop (note that many technical details have been omitted). The bottom line is that each `.await` results in one or more function calls (calls to `poll()` or `poll_future()`). These are what the **"hidden control flow"** in the title refers to and the places where "cancellation" occurs.
+
 
 ```rust
 fn run() -> Output {
@@ -156,15 +158,12 @@ It's comforting to know that a runtime won't cancel a task for no reason, as in 
 
 Now that everything is clear, let's fix this bug!
 
-First, we need to figure out why the future is cancelled. By looking at the function call graph, we can easily find that the entire procedure is executed in place in `tonic`'s request licensing runtime.
+First, we need to figure out why the future is cancelled. By looking at the function call graph, we can easily find that the entire procedure is executed in place in `tonic`'s request listening runtime.
 
-Since it's common for an internet request timeout, the future may be cancelled because of this. The solution is also simple: detaching the server processing logic into another runtime to prevent it from being cancelled with the request. Only [a few lines](https://github.com/GreptimeTeam/greptimedb/pull/376/files#diff-9756dcef86f5ba1d60e01e41bf73c65f72039f9aaa057ffd03f3fc2f7dadfbd0R46-R54) need to be modified here:
+Since it's common for an network request timeout, the future may be cancelled because of this. The solution is also simple: detaching the server processing logic into another runtime to prevent it from being cancelled with the request. Only [a few lines](https://github.com/GreptimeTeam/greptimedb/pull/376/files#diff-9756dcef86f5ba1d60e01e41bf73c65f72039f9aaa057ffd03f3fc2f7dadfbd0R46-R54) need to be modified here:
 
-```Rust
-@@ -30,12 +40,24 @@ impl BatchHandler {
-            }
-            batch_resp.admins.push(admin_resp);
-
+```diff
+impl BatchHandler {
 -        for db_req in batch_req.databases {
 -            for obj_expr in db_req.exprs {
 -                let object_resp = self.query_handler.do_query(obj_expr).await?;
@@ -180,7 +179,7 @@ Since it's common for an internet request timeout, the future may be cancelled b
 +
 +                    result.push(object_resp);
 +                }
-                }
+}
 ```
 
 This workaround does not fundamentally address the bug caused by async cancellation. By using runtime to avoid tasks being cancelled early due to timeouts—our asynchronous logic will still be executed nevertheless in the end. Such processing will accentuate other problems, for instance, we cannot cancel tasks that are no longer required or consume a lot of resources in advance, which will lead to a waste of system resources. These are the areas where we look to improve in the future.
@@ -191,7 +190,7 @@ For our next step, we will continue to explore this aspect, to improve the use o
 
 This section presents and discusses our expected results of a runtime.
 
-## marker trait
+## Marker Trait
 
 Instead of seeing the runtime cancel my tasks without restrictions, it will be better to check if the task can be cancelled using the type system of Rust. For example, use a marker trait in "CancelSafe" mentioned [here](https://docs.rs/tokio/latest/tokio/macro.select.html#cancellation-safety) in tokio:
 
@@ -209,7 +208,7 @@ pub fn timeout<F>(duration: Duration, future: F) -> Timeout<F> where
 {}
 ```
 
-## volunteer cancel
+## Volunteer Cancel
 
 Another approach is to make the tasks cancelled voluntarily. Like the [cooperative cancellation](https://kotlinlang.org/docs/cancellation-and-timeouts.html#cancellation-is-cooperative) in Kotlin which has an [`isActive`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/is-active.html) method for a task to check if it's cancelled.
 
@@ -235,13 +234,3 @@ println("main: Now I can quit.")
 ```
 
 In my opinion, the above expectation is not hard to achieve. Though it looks a bit different, Tokio already has the [`Cancelled bit`](https://github.com/tokio-rs/tokio/blob/00bf5ee8a855c28324fa4dff3abf11ba9f562a85/tokio/src/runtime/task/state.rs#L41) and [`CancellationToken`](https://docs.rs/tokio-util/latest/tokio_util/sync/struct.CancellationToken.html). Above all, we need runtime to give the cancellation right back to our tasks.
-
-<font color=Gray>Citation: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Introducing</font>
-
----
-
-## About Greptime
-
-Greptime is founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud. Greptime DB is an open-source, cloud-native time series database with powerful analytical features; Greptime Cloud is a SaaS solution built on GreptimeDB. We are passionate about helping users find real-time values from their time series data with our tools.
-
-If you have any insights or suggestions, please contact <info@greptime.com> or join our [Slack](https://greptime.com/slack) channel for more information and discussion.

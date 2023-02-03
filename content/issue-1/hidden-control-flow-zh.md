@@ -148,11 +148,8 @@ exitprint(2).await
 
 首先，为什么我们的 future 会被取消呢？通过函数调用链路很容易就能发现整个处理过程都是在 `tonic` 的请求执行逻辑中就地执行的，而对于一个网络请求来说有一个超时行为是很常见的。解决方案也很简单，就是将服务器处理逻辑提交到另一个 runtime 中执行，从而防止它被取消。只需要[几行代码](https://github.com/GreptimeTeam/greptimedb/pull/376/files#diff-9756dcef86f5ba1d60e01e41bf73c65f72039f9aaa057ffd03f3fc2f7dadfbd0R46-R54)就能完成。
 
-```Diff
-@@ -30,12 +40,24 @@ impl BatchHandler {
-            }
-            batch_resp.admins.push(admin_resp);
-
+```diff
+impl BatchHandler {
 -        for db_req in batch_req.databases {
 -            for obj_expr in db_req.exprs {
 -                let object_resp = self.query_handler.do_query(obj_expr).await?;
@@ -160,7 +157,7 @@ exitprint(2).await
 +        let (tx, rx) = oneshot::channel();
 +        let query_handler = self.query_handler.clone();
 +        let _ = self.runtime.spawn(async move {
-+            // execute request in another runtime to prevent the execution from being cancelled unexpected by tonic runtime.
++            // execute the request in another runtime to prevent its execution from being cancelled unexpectedly by tonic runtime.
 +            let mut result = vec![];
 +            for db_req in batch_req.databases {
 +                for obj_expr in db_req.exprs {
@@ -168,7 +165,7 @@ exitprint(2).await
 +
 +                    result.push(object_resp);
 +                }
-                }
+}
 ```
 
 这个问题到这里就修复完了，不过并不是从根本上解决 async cancellation 带来的 bug，而是采用间接手段去规避任务由于超时而被提前取消的问题，毕竟我们的这些异步逻辑还是需要被完整执行的。
@@ -221,16 +218,3 @@ println("main: Now I can quit.")
 ```
 
 并且我认为这也不难实现，Tokio 现在已经有了 `Cancelled bit` 和 `CancellationToken`，只是看起来和期望的还有点不一样。最后还是需要 runtime 把 cancellation 的权利交给 task，否则情况可能没有什么大的不同。
-
----
-
-### 关于 Greptime
-
-Greptime 格睿科技于 2022 年创立，目前正在完善和打造时序性数据库 GreptimeDB 和格睿云 Greptime Cloud 这两款产品。GreptimeDB 是款用 Rust 语言编写的时序数据库。具有分布式，开源，云原生，兼容性强等特点，帮助企业实时读写，处理和分析时序数据的同时降低长期存储的成本。
-
-- 官网: <https://greptime.com/>
-- GitHub: <https://github.com/GreptimeTeam/greptimedb>
-- 文档：<https://docs.greptime.com/>
-- Twitter: <https://twitter.com/Greptime>
-- Slack: <https://greptime.com/slack>
-- LinkedIn: <https://www.linkedin.com/company/greptime/>

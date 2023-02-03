@@ -28,7 +28,11 @@ Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
 - [Blog](https://blog.waynest.com)
 """}
 greptime-team = {name = "Greptime Team", bio = """
-Greptime provides fast and efficient industrial services for time-series data.
+Greptime is founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud. 
+- Greptime DB is an open-source, cloud-native time series database with powerful analytical features; 
+- Greptime Cloud is a SaaS solution built on GreptimeDB. 
+
+We are passionate about helping users find real-time values from their time series data with our tools.
 
 - [GitHub](https://github.com/greptimeteam)
 - [Website](https://greptime.com)
