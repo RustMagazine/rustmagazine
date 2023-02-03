@@ -68,3 +68,13 @@ topic = ["tutorial"]
 pub_date = "2023-01-30"
 publish = false
 featured = true
+
+[[article]]
+file = "hidden-control-flow.md"
+title = "The Hidden Control Flow — Some Insights on an Async Cancellation Problem in Rust"
+author = ["waynexia", "greptime-team"]
+topic = ["async", "database"]
+pub_date = "2023-01-12"
+publish = false
+featured = true
+i18n.zh = { file = "hidden-control-flow-zh.md", title = "看不见的控制流 — Rust 异步取消问题的几点思考"}
