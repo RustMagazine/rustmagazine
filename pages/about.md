@@ -10,6 +10,7 @@ Rust Magazine is maintained by Rustaceans from all around the world, currently c
 - [@LCrossman](/@lcrossman)
 - [@macko76](/@macko76)
 - [@zhanghandong](/@zhanghandong)
+- [@pau1tuck](/@pau1tuck)
 
 
 ## How to contribute?

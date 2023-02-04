@@ -42,6 +42,7 @@ rust-magazine = { name = "The Editor Team", editor = true, bio = "The magazine e
 lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
 HandongZhang = { editor = true }
+pau1tuck = { name = "Paul Tuck", editor = true }
 skyzh = { avatar = "/static/avatar/skyzh.jpeg" }
 waynexia = { name = "Xia Ruihang", bio = """
 Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
