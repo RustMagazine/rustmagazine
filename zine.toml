@@ -79,3 +79,6 @@ bio = """
 [authors.weihanglo]
 name = "Weihang Lo"
 avatar = "/static/avatar/weihanglo.png"
+
+[authors.shijicheng]
+name = "Jicheng Shi"
