@@ -16,6 +16,11 @@ h1 {
   color: var(--main-color) !important;
 }
 
+h1 {
+    font-size: 2em !important;
+    margin-top: 1.5em !important;
+}
+
 .zine-card-date {
   font-family: "Alfa Slab One", serif !important;
 }

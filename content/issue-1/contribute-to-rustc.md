@@ -5,7 +5,7 @@ I finished about [70+ PRs](https://github.com/rust-lang/rust/pulls?q=is%3Apr+aut
 
 Here, I'd like to share my Rust experience with you.
 
-## My Background and How I started
+# My Background and How I started
 
 I have more than ten years of programming experience, the book [Essentials of Programming Languages](https://github.com/chenyukang/eopl) tiggered my interests in programming languages and implementation.
 
@@ -21,7 +21,7 @@ My [first PR](https://github.com/rust-lang/rust/pull/88493) for Rust compiler wa
 
 Finishing my first PR was fulfilling, but then I went on to other things. It wasn't until August 2022 that I inadvertently clicked on the link [Rust is Beautiful #100000](https://github.com/rust-lang/rust/issues/100000), I stopped by to look at a few issues and found some issues related to the parser and error messages that seemed easy to solved, so I started contributing to the compiler again. The next two weeks were Microsoft hackthon, where we could learn new things that interested me, so I spent most of my time on Rust, and now I contribute to regularly.
 
-## You don't need to be a compiler expert
+# You don't need to be a compiler expert
 
 Contributing to a compiler is not easy, but it is not as difficult as many people think. Rust was created and developed on Github, and the design documents and all code are public, in a transparent manner. Rust was not designed by a small elite group they call a standardization committee, instead Rust was built by people from different backgrounds, and everyone can submit a PR or RFC to change it.
 
@@ -38,7 +38,7 @@ However, knowing some aspects about compilers will help you a lot, and if you ar
 - [9cc: A Small C Compiler](https://github.com/rui314/9cc)
 - [r9cc: Toy C compiler](https://github.com/utam0k/r9cc)
 
-## The Workflow
+# The Workflow
 
 The Rust compiler repository contains tens of thousands of test cases. Whether you are fixing bugs or working on some new feature, you'd better prepare some minimal test cases first, then keep modifying the code, compiling, and testing, repeat the iteration until all the cases pass.
 
@@ -52,7 +52,7 @@ The most time-consuming part of the process is probably the code review phase, P
 
 You need to spend a lot of time communicating and discussing with others, so writing skills are important.
 
-## How to begin
+# How to begin
 
 Start with the [Guide to Rustc Development](https://rustc-dev-guide.rust-lang.org/getting-started.html), this document may not be up to date, but it is indispensable to get an overview of the various topics of the Rust compiler.
 
@@ -76,7 +76,7 @@ So I created an issue to track it and subsequently landed a PR to fix it [Proper
 
 I also try to fix those issues that I encounter during development. For example, I found that if I missed a '}' in typing, the compiler may not be able to point out the delimiter mismatch in right span, and if the source file is long, it may report a lot of unrelated errors, so I made another [PR to fix it](https://github.com/rust-lang/rust/pull/104012).
 
-## Some random tips
+# Some random tips
 
 Rust has a not-quite-complete [Reference](https://doc.rust-lang.org/reference/), which is helpful if you can't understand some part of the code, probably because you don't know the terminology.
 
@@ -90,7 +90,7 @@ If you run into trouble in development, you can post a topic at [t-compiler/help
 
 Another great way to learn is to review other's PRs. It's okay if you can't understand every change at first, but you can try to grasp the general idea. If I'm interested in an issue but don't have time to work on it, or I would like to learn something in that topic, I'll subscribe to notifications so if the issue is closed I'll get an Email and I'll probably go to have a look at the PR.
 
-## Summary
+# Summary
 
 Rust is growing rapidly in Infra, WebAssembly and Web development, embedded, games, security, and more.
 
@@ -98,5 +98,5 @@ I'm not an expert on Rust, but I've found that contributing to the Rust compiler
 
 And contributing to Rust is not limited to programming, reporting issues, improving the documentation and translations, and joining discussions are all community contributions.
 
-Hope my sharing can help you, Happy Coding🦀!
+Hope my sharing can help you, Happy Coding! 🦀
 

@@ -42,23 +42,8 @@ rust-magazine = { name = "The Editor Team", editor = true, bio = "The magazine e
 lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
 HandongZhang = { editor = true }
+pau1tuck = { name = "Paul Tuck", editor = true }
 skyzh = { avatar = "/static/avatar/skyzh.jpeg" }
-waynexia = { name = "Xia Ruihang", bio = """
-Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
-
-- [GitHub](https://github.com/waynexia)
-- [Blog](https://blog.waynest.com)
-"""}
-greptime-team = { name = "Greptime Team", bio = """
-Greptime is founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud. 
-- Greptime DB is an open-source, cloud-native time series database with powerful analytical features; 
-- Greptime Cloud is a SaaS solution built on GreptimeDB. 
-
-We are passionate about helping users find real-time values from their time series data with our tools.
-
-- [GitHub](https://github.com/greptimeteam)
-- [Website](https://greptime.com)
-"""}
 
 [authors.folyd]
 editor = true
@@ -82,3 +67,25 @@ avatar = "/static/avatar/weihanglo.png"
 
 [authors.shijicheng]
 name = "Jicheng Shi"
+
+[authors.waynexia]
+name = "Xia Ruihang"
+bio = """
+Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
+
+- [GitHub](https://github.com/waynexia)
+- [Blog](https://blog.waynest.com)
+"""
+
+[authors.greptime-team]
+name = "Greptime Team"
+bio = """
+Greptime is founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud. 
+- Greptime DB is an open-source, cloud-native time series database with powerful analytical features; 
+- Greptime Cloud is a SaaS solution built on GreptimeDB. 
+
+We are passionate about helping users find real-time values from their time series data with our tools.
+
+- [GitHub](https://github.com/greptimeteam)
+- [Website](https://greptime.com)
+"""
