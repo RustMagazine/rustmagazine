@@ -1,8 +1,12 @@
 > This is the first article on **pr-demystifying** topics. Each article labeled **pr-demystifying** will attempt to demystify the details behind the PR.
 
+```urlpreview
+https://github.com/rust-lang/rust/pull/104435
+```
+
 While browsing the rust-lang repository's list of pull requests last month, I came across PR [#104435], titled `VecDeque::resize should re-use the buffer in the passed-in element`. This PR caught my attention because it seemed interesting and I wanted to understand more about it. I began to wonder why it was necessary to optimize `VecDeque::resize()` and how the old version might be lacking. I also wanted to know how the author had optimized the new version. After delving into the code in the PR, I was able to gain a deeper understanding of these issues.
 
-## VecDeque::resize()
+# VecDeque::resize()
 
 Firstly, let's get familiar with the [VecDeque::resize()](https://doc.rust-lang.org/std/collections/struct.VecDeque.html#method.resize).
 
@@ -28,7 +32,7 @@ assert_eq!(buf, [5, 10, 20, 20, 20]);
 
 The `VecDeque::resize()` API is simple to use. It takes two arguments: the new length to which the `VecDeque` should be resized, and a value to use for any new elements that are added to the `VecDeque` when it expands.
 
-## The problem
+# The problem
 
 However, if we don't look at the implementation details of this function, we might not realize that there is room for optimization. As the PR's author [@scottmcm] pointed out, the old version did not reuse the value that was passed in as the default, resulting in unnecessary cloning of values.
 
@@ -88,7 +92,7 @@ impl<A, F: FnMut() -> A> Iterator for RepeatWith<F> {
 
 Now that we have identified the problem, let's move on to how the author fixed it.
 
-## iter::repeat_n
+# iter::repeat_n
 
 The most significant change made in PR [#104435] was the replacement of `repeat_with().take()` with `repeat_n()`.
 
@@ -152,7 +156,7 @@ impl<A: Clone> Iterator for RepeatN<A> {
 
 Not too much code, we can easily grasp it. The `RepeatN` struct returned by `repeat_n()` is the point. To save a cloning, `RepeatN` declares its `element` as the `ManuallyDrop` type.
 
-## ManuallyDrop\<T\>
+# ManuallyDrop\<T\>
 
 [ManuallyDrop\<T\>](https://doc.rust-lang.org/std/mem/struct.ManuallyDrop.html) is a zero-cost wrapper to inhibit compiler from automatically calling **T**’s destructor unless you call `ManuallyDrop::drop()` method. 
 
@@ -214,7 +218,7 @@ So `A::clone(&mut self.element)` works because `&mut ManuallyDrop<A>` can conver
 
 > Thanks to [@scottmcm]'s kindful reminder, we can change `A::clone(&mut self.element)` to `A::clone(&self.element)`. So I submitted a PR([#106564]) to fix it.
 
-## Alternative?
+# Alternative?
 
 During the review of this article, [@XeCycle] suggested that it might be possible to achieve the same result without using *unsafe* code by using `Option<(NonZeroUsize, T)>` instead. [@XeCycle] provided a [playground example](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=fd82d81d0f485acd769c3b0aaeeb5a3b) to demonstrate this idea.
 
@@ -254,7 +258,7 @@ As we can see, using `Option<(usize, ManuallyDrop<String>)>` results in a smalle
 
 > For more information on this topic, you can check out the article PR [#104435].
 
-## Conclusion
+# Conclusion
 
 As a Rust developer, I am often most concerned with the changes listed in the stable [release notes](https://github.com/rust-lang/rust/blob/master/RELEASES.md). However, this does not mean that I should not be interested in the individual pull requests (PRs) that are being merged into the project. There are hundreds of PRs merged each week, and each one has a story and an author behind it. That's why I propose the creation of a topic called [#pr-demystifying], where we can share articles about interesting or educational PRs in the Rust community. The PR [#104435], for example, may not be a major optimization, but it allowed me to learn a lot. I would like to thank the author [@scottmcm] for their work on this PR. I hope that this article and others like it will be helpful to others in the community.
 
