@@ -19,7 +19,7 @@ title = "VecDeque::resize() optimization"
 author = "folyd"
 topic = ["pr-demystifying", "optimization"]
 pub_date = "2022-12-24"
-publish = false
+publish = true
 featured = true
 
 [[article]]
@@ -28,7 +28,7 @@ title = "MiniLSM: A Tutorial of Building Storage Engine in a Week using Rust"
 author = "skyzh"
 topic = ["tutorial"]
 pub_date = "2022-12-30"
-publish = false
+publish = true
 featured = true
 
 
@@ -38,7 +38,7 @@ title = "The Hidden Control Flow — Some Insights on an Async Cancellation Prob
 author = ["waynexia", "greptime-team"]
 topic = ["async", "database"]
 pub_date = "2023-01-12"
-publish = false
+publish = true
 featured = true
 i18n.zh = { file = "hidden-control-flow-zh.md", title = "看不见的控制流 — Rust 异步取消问题的几点思考"}
 
@@ -48,17 +48,16 @@ title = "How I contribute to Rust Compiler"
 author = "yukang"
 topic = ["tutorial"]
 pub_date = "2023-01-29"
-publish = false
+publish = true
 featured = true
 
 [[article]]
 file = "weihanglo.md"
 title = "Interview with Weihang Lo"
 author = ["folyd", "weihanglo"]
-cover = "https://user-images.githubusercontent.com/3369694/216223523-68999f79-76ae-48ce-bd83-3a8018c35d24.jpg"
 topic = ["interview"]
 pub_date = "2023-01-30"
-publish = false
+publish = true
 featured = true
 
 [[article]]
@@ -67,7 +66,7 @@ title = "Rust for Linux Brief Introduction"
 author = "shijicheng"
 topic = ["tutorial"]
 pub_date = "2023-01-30"
-publish = false
+publish = true
 featured = true
 
 [[article]]
@@ -76,6 +75,6 @@ title = "2022 Review | The adoption of Rust in Business"
 author = "HandongZhang"
 topic = ["bussiness"]
 pub_date = "2023-01-31"
-publish = false
+publish = true
 featured = true
 i18n.zh = {file = "2022-review-the-adoption-of-rust-in-business-zh.md", title = "Rust 2022 全球商业化应用盘点", author = ["HandongZhang"] }
