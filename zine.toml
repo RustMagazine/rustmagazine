@@ -65,6 +65,9 @@ bio = """
 name = "Weihang Lo"
 avatar = "/static/avatar/weihanglo.png"
 
+[authors.shijicheng]
+name = "Jicheng Shi"
+
 [authors.waynexia]
 name = "Xia Ruihang"
 bio = """
