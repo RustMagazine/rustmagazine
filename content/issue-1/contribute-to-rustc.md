@@ -1,5 +1,5 @@
 
-I spent a lot of my spare time contributing to the Rust compiler in the second half of 2022, and I learned a lot from such a friendly and vibrant community, not only about Rust, but about the core skills of software engineering and, most importantly, the I got a lot of fun from programming in Rust.
+I spent a lot of my spare time contributing to the Rust compiler in the second half of 2022, and I learned a lot from such a friendly and vibrant community, not only about Rust, but about the core skills of software engineering and, most importantly, I got a lot of fun from programming in Rust.
 
 I finished about [70+ PRs](https://github.com/rust-lang/rust/pulls?q=is%3Apr+author%3Achenyukang+is%3Aclosed) in this period of time, and my recent milestone was receiving a [Project Grant from the Rust Foundation](https://foundation.rust-lang.org/news/community-grants-program-awards-announcement-introducing-our-latest-project-grantees/).
 
