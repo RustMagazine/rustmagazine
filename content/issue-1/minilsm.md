@@ -179,7 +179,7 @@ system in Rust.
 
 ```rust
 /// Merge multiple iterators of the same type. If the same key occurs multiple times in some
-/// iterators, perfer the one with smaller index.
+/// iterators, prefer the one with smaller index.
 pub struct MergeIterator<I: StorageIterator> {
     iters: BinaryHeap<HeapWrapper<I>>,
     current: HeapWrapper<I>,

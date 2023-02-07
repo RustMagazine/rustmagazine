@@ -9,7 +9,7 @@ https://github.com/Rust-for-Linux/linux
 
 # Rust for Linux Definition
 
-Before diving into **r4l**, we must anwser the question "What's is Rust for Linux". It's not about rewriting Linux with Rust or translating all the drivers in Linux from C to Rust. **r4l** is just a tool, helping kernel developers use Rust in Linux. Though **r4l** contains some drivers, they are demos for teaching Rust driver development.
+Before diving into **r4l**, we must answer the question "What's is Rust for Linux". It's not about rewriting Linux with Rust or translating all the drivers in Linux from C to Rust. **r4l** is just a tool, helping kernel developers use Rust in Linux. Though **r4l** contains some drivers, they are demos for teaching Rust driver development.
 
 Here we list the main components of the **r4l** project:
 
@@ -26,11 +26,11 @@ It's time to get our hands dirty. Let's write a Rust kernel module and analyze i
 
 ## Compile
 
-You can download the Linux kernel code from [torvalds/linux](https://github.com/torvalds/linux), usually it's a `git clone`. Rust compiler is a little different from what we use daily. The project depends on some nightly features of the compiler so that a specific version is requried. Let's follow the instruction in the file [Documentation/rust/quick-start.rst](https://github.com/torvalds/linux/blob/master/Documentation/rust/quick-start.rst), in which the way to turn on the Rust functions is also covered. Then we can compile the kernel as usual.
+You can download the Linux kernel code from [torvalds/linux](https://github.com/torvalds/linux), usually it's a `git clone`. Rust compiler is a little different from what we use daily. The project depends on some nightly features of the compiler so that a specific version is required. Let's follow the instruction in the file [Documentation/rust/quick-start.rst](https://github.com/torvalds/linux/blob/master/Documentation/rust/quick-start.rst), in which the way to turn on the Rust functions is also covered. Then we can compile the kernel as usual.
 
 ## Linux kernel module in C
 
-Let's take a look of a C kernel module, which is shown bellow:
+Let's take a look of a C kernel module, which is shown below:
 
 ```c
 static struct file_operations fops = {
@@ -55,7 +55,7 @@ int init_module(void)
     printk(KERN_INFO "I was assigned major number %d. To taalk to\n", Major);
     printk(KERN_INFO "the driver, create a dev file with\n");
     printk(KERN_INFO " mknod/dev/%s c%d 0'. N", DEVICE NAME, Major);
-    printk(KERN_INFO "Try various minor numbers. Try to cat annd echo to\n");
+    printk(KERN_INFO "Try various minor numbers. Try to cat and echo to\n");
     printk(KERN INFO "the device file. \n");
     printk(KERN_INFO "Remove the device file and module when done. \n");
 
@@ -131,7 +131,7 @@ It's easy to tell that these two versions are very similar, so migrating a drive
 
 # Rust for Linux Deep Dive
 
-First let's talk about the macro used in the first few lines `module`. That macro seems simple and only declare some property of the module. If we jump to the definition of the macro, we'll find some interesting work there, such as C language interface and some utilities to initialize and destroy the module from C code, which is shown bellow.
+First let's talk about the macro used in the first few lines `module`. That macro seems simple and only declare some property of the module. If we jump to the definition of the macro, we'll find some interesting work there, such as C language interface and some utilities to initialize and destroy the module from C code, which is shown below.
 
 ```rust
 #[cfg(not(MODULE))]

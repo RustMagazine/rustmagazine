@@ -33,7 +33,7 @@ pr-demystifying = { name = "PR Demystifying", description = "Topic of PR demysti
 optimization = {}
 async = {}
 database = {}
-bussiness = { description = "Rust in Bussiness" }
+business = { description = "Rust in Business" }
 tutorial = {}
 
 # Authors declare below
