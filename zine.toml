@@ -51,13 +51,13 @@ avatar = "/static/avatar/folyd.jpeg"
 bio = """
 The author of [Rust Search Extension](https://github.com/huhu/rust-search-extension) and [zine](https://github.com/zineland/zine).
 
-- [Github](https://github.com/folyd)
+- [GitHub](https://github.com/folyd)
 - [Blog](https://folyd.com)
 """
 
 [authors.yukang]
 bio = """
-- [Github](https://github.com/chenyukang)
+- [GitHub](https://github.com/chenyukang)
 - [Blog](https://catcoding.me)
 """
 

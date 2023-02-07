@@ -76,7 +76,7 @@ Warp 选择使用 Rust 语言来实现。使用 Rust 技术栈（包括 WebAssem
 
 ## 流媒体服务
 
-实时事件流媒体公司 InfinyOn 筹集了 500 万美元的种子资金，由 Gradient Ventures 和 Fly Ventures 领投，Bessemer Venture Partners、TSVC 等参投。InfinyOn 使用由 Rust 开发的动态数据可编程平台 [Fluvio](https://github.com/infinyon/fluvio) 。Fluvio 拥有超过 1,000 个 Github star，在开发人员和开源社区中越来越受欢迎。
+实时事件流媒体公司 InfinyOn 筹集了 500 万美元的种子资金，由 Gradient Ventures 和 Fly Ventures 领投，Bessemer Venture Partners、TSVC 等参投。InfinyOn 使用由 Rust 开发的动态数据可编程平台 [Fluvio](https://github.com/infinyon/fluvio) 。Fluvio 拥有超过 1,000 个 GitHub star，在开发人员和开源社区中越来越受欢迎。
 
 “在 Java 时代构建的遗留数据平台会生成大型二进制文件，需要大量内存，并且从边缘到核心的操作具有挑战性。这些也缺乏实时决策的在线处理能力，”InfinyOn 的联合创始人兼首席技术官 Sehyo Chang 说。“我们通过消除对 ETL 工具的需求来简化数据架构，提供更具成本效益的平台，内存减少高达 80 倍，并通过内存安全解决方案提供最大的安全性。”
 
