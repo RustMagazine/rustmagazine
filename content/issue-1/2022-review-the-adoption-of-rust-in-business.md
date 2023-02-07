@@ -58,7 +58,7 @@ Fermyon's CEO, Matt Butcher, stated that with Fermyon Spin and Fermyon Cloud, de
 
 This year has seen an influx of startups in the database field.
 
-In April 2022, Jon Gjengset, a well-known developer in the Rust community, was announced as a co-founder of [ReadySet, Inc.](https://readyset.io/). He aimed to bring his PhD thesis on Noria databases to life as ReadySet, a SQL caching engine for databases that helps developers build high-performance and real-time applications without having to change code or switch databases. Currently, the company is [raising $2.9 million in Series A funding](https://techcrunch.com/2022/04/05/readyset-raises-29m-to-expedite-access-to-enterprise-scale-app-data/).
+In April 2022, Jon Gjengset, a well-known developer in the Rust community, was announced as a co-founder of [ReadySet, Inc.](https://readyset.io/). He aimed to bring his PhD thesis on Noria databases to life as ReadySet, a SQL caching engine for databases that helps developers build high-performance and real-time applications without having to change code or switch databases. Currently, the company is [raising $29 million in Series A funding](https://techcrunch.com/2022/04/05/readyset-raises-29m-to-expedite-access-to-enterprise-scale-app-data/).
 
 In April 2022, [Singularity Data](https://36kr.com/project/1713086132758785)(Singularity Unlimited), a database startup that raised $10 million, announced the open source Rust implementation of its cloud-native SQL-enabled streaming database called RisingWave. Originally created in C++ in early 2021, the database was rewritten in Rust seven months later. This was a bold move for an early-stage startup, particularly in a competitive industry where time is a critical factor for technology startups.
 
