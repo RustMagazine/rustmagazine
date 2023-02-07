@@ -256,7 +256,7 @@ The output of this code is:
 
 As we can see, using `Option<(usize, ManuallyDrop<String>)>` results in a smaller size than the other options. Using `ManuallyDrop` allows `Option<RepeatN<String>>` to have the same size as `RepeatN<String>`, which is not the case with the other options.
 
-> For more information on this topic, you can check out the article PR [#104435].
+> For more information on this topic, you can check out the [article PR](https://github.com/RustMagazine/rustmagazine/pull/7).
 
 # Conclusion
 
