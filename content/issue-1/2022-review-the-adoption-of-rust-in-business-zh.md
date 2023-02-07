@@ -114,13 +114,13 @@ InfinyOn 可以轻松地从多个来源提取、整形和转换数据，并实�
 
 1Password [很早就使用 Rust 来构建其 Windows 客户端](https://serokell.io/blog/rust-in-production-1password)。在 2019 年将其支持浏览器扩展的逻辑引擎从 Go 移植到了 Rust ，然后就开始了 Rust 跨平台的应用实践。直到 2022 年 11 月，1Password 也开源了其[跨多种语言生成一致的类型模式](https://blog.1password.com/typeshare-for-rust/) 的 [Typeshare](https://github.com/1Password/typeshare) 库。Typeshare 可以帮助开发者实现跨语言无缝同步共享数据类型，这是跨平台安全开发的利器。
 
-## GUI ：目标取代 Qt
+## GUI ：目标指向 Qt 市场
 
 > 关键字： Qt、GUI
 
 全球知名 Qt 咨询和 UI/UX 设计服务公司 tQCS 的合作伙伴有两家都加入了 Rust 基金会银牌会员。分别是：
 
-- [KDBA](https://www.kdab.com/) ：在嵌入式系统、3D 图形以及跨桌面、嵌入式和移动平台的工作方面拥有多年经验， KDAB 是 Qt 项目的主要贡献者。
+- [KDAB](https://www.kdab.com/) ：在嵌入式系统、3D 图形以及跨桌面、嵌入式和移动平台的工作方面拥有多年经验， KDAB 是 Qt 项目的主要贡献者。他们正在研究[cxx-qt](https://github.com/KDAB/cxx-qt)以使 Qt 和 Rust 更容易地一起使用。
 - [Slint](https://slint-ui.com/): 极大地简化了取代 Qt 需求的嵌入式平台的 GUI 开发。支持 Rust/Cpp/Javascript ，有设计友好的 UI 标记语言。其创始人同样来自 Qt 项目主要贡献者，QtQml 引擎的主要开发者。
 
 ## 云存储： Dropbox
