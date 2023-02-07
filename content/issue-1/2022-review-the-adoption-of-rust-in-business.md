@@ -96,11 +96,13 @@ Among the Silver members of the Rust Foundation is [ARM](https://www.arm.com/), 
 
 [1Password](https://1password.com), an instant messaging tool, adopted Rust early on to build its Windows client. In 2019, [the company ported its logic engine with browser extension support from Go to Rust](https://serokell.io/blog/rust-in-production-1password), marking the start of its cross-platform adoption of Rust. By November 2022, 1Password had also open-sourced its [Typeshare](https://github.com/1Password) library, which [helps developers generate consistent data types across multiple languages](https://blog.1password.com/typeshare-for-rust/) and facilitates secure cross-platform development.
 
-## GUI : Target to replace Qt
+## GUI : Targeting the QT market
 
 The two partners of tQCS, a world-leading company in Qt consulting and UI/UX design services, have become Silver members of the Rust Foundation.
 
-They are [KDBA](https://www.kdab.com/), with expertise in embedded systems, 3D graphics, and cross-platform development, and [Slint](https://slint-ui.com/), which simplifies GUI development for embedded platforms and supports various programming languages including Rust and JavaScript. Both companies are significant contributors to the Qt project, with Slint's founder being the main developer of the QtQml engine.
+They are [KDAB](https://www.kdab.com/), with expertise in embedded systems, 3D graphics, and cross-platform development, They're working on [cxx-qt](https://github.com/KDAB/cxx-qt) to make using Qt and Rust together much easier. 
+
+[Slint](https://slint-ui.com/), which simplifies GUI development for embedded platforms and supports various programming languages including Rust and JavaScript. Both companies are significant contributors to the Qt project, with Slint's founder being the main developer of the QtQml engine.
 
 ## Cloud storage: Dropbox
 
