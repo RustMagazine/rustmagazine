@@ -103,4 +103,4 @@ Before publishing an issue, all articles should have `publish = false` set in th
 [zine]: https://github.com/zineland/zine
 [#4]: https://github.com/RustMagazine/rustmagazine/issue/4/
 [#31]: https://github.com/RustMagazine/rustmagazine/pull/31/
-[issue-1 tag]: https://github.com/RustMagazine/rustmagazine/releases/tag/issue-1
+[`issue-1` tag]: https://github.com/RustMagazine/rustmagazine/releases/tag/issue-1
