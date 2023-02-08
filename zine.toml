@@ -43,6 +43,8 @@ lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
 HandongZhang = { editor = true }
 pau1tuck = { name = "Paul Tuck", editor = true }
+mfrw = { editor = true }
+malagant = { name = "Michael Johann", editor = true }
 skyzh = { avatar = "/static/avatar/skyzh.jpeg" }
 
 [authors.folyd]
