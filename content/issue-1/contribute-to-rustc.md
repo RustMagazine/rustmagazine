@@ -9,7 +9,7 @@ Here, I'd like to share my Rust experience with you.
 
 I have more than ten years of programming experience, the book [Essentials of Programming Languages](https://github.com/chenyukang/eopl) triggered my interests in programming languages and implementation.
 
-In 2014, I found Rust in Github, in that period of time, I was interested in OCaml, and Rust compiler was initially implemented in OCaml.
+In 2014, I found Rust in GitHub, in that period of time, I was interested in OCaml, and Rust compiler was initially implemented in OCaml.
 
 I spent some time to play with it, and then I begin to write some simple programs in Rust. I remember my first impression of Rust was that the language was too complex, with several kinds of pointers!
 
