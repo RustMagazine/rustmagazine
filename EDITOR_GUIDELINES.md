@@ -42,10 +42,65 @@ We are grateful for your contributions to Rust Magazine and would like to take t
 
 ### Zine
 
+Rust Magazine is powered by [zine], a user-friendly static site generator designed specifically for magazines. Familiarity with zine is a valuable asset in maintaining the magazine as it offers built-in code blocks, such as the `urlpreview` to display an OGP preview of a URL, and `quote` to highlight someone's sentence, this is a good use case for an interview article. The repository and accompanying [documentation](https://zineland.github.io/) are great resources for getting started with zine.
+
 ### Tracking issue
+
+For each magazine issue, it is recommended to create a dedicated GitHub tracking issue, such as [#4]. This gives us a bird-eye on the progress of the current issue, and can be closed after the latest issue has been published.
 
 ### Topic
 
-### Article 
+Each article can have zero, one, or multiple topics. Each topic should be declared in the root `zine.toml` in advance. As an editor, we should provide a description to the topic, and help the authors categorize their articles.
 
-### Others
+### Article
+
+- **path**
+
+We prefer to maintain control over article paths and do not generally allow authors to set their own `path` in the article metadata. This helps to keep the article paths organized under the issue slug.
+
+```toml
+[[article]]
+path = "/cool-article"
+file = "cool-article.md"
+...
+```
+
+For example, the article above will render to `https://rustmagazine.org/cool-article` instead of `https://rustmagazine.org/issue-1/cool-article`. We should suggest the author remove the `path` property.
+
+In some significant circumstances, such as the announcing article: `https://rustmagazine.org/announcing/`, customizing the path may be permitted.
+
+```toml
+[[article]]
+path = "/announcing"
+file = "announcing.md"
+title = "Announcing Rust Magazine"
+author = "rust-magazine"
+topic = ["announcement"]
+...
+```
+
+- **canonical**
+
+When articles are reposted from their original source, it is important to include a `canonical` property to help prevent duplicate content issues for search engines.
+
+```toml
+[[article]]
+file = "hidden-control-flow.md"
+title = "The Hidden Control Flow — Some Insights on an Async Cancellation Problem in Rust"
+canonical = "https://greptime.com/blogs/2023-01-12-hidden-control-flow.html"
+...
+```
+
+> For more information, please refer to the [Canonical link element
+> ](https://en.wikipedia.org/wiki/Canonical_link_element) on Wikipedia.
+
+### Issue publish
+
+Before publishing an issue, all articles should have `publish = false` set in their metadata. A dedicated PR can be submitted to publish all articles at once, as seen in [#31]. After the issue has been published, a git tag (such as the [`issue-1` tag]) should be created for the last commit of the issue.
+
+> Pro Tip: It's not uncommon to receive typo-fixing PRs a few days after an issue has been published, so waiting a day or two before creating a tag may be a good strategy to catch any last minute updates.
+
+[zine]: https://github.com/zineland/zine
+[#4]: https://github.com/RustMagazine/rustmagazine/issue/4/
+[#31]: https://github.com/RustMagazine/rustmagazine/pull/31/
+[issue-1 tag]: https://github.com/RustMagazine/rustmagazine/releases/tag/issue-1
