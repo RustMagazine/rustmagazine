@@ -46,7 +46,7 @@ Rust Magazine is powered by [zine], a user-friendly static site generator design
 
 ### Tracking issue
 
-For each magazine issue, it is recommended to create a dedicated GitHub tracking issue, such as [#4]. This gives us a bird-eye on the progress of the current issue, and can be closed after the latest issue has been published.
+For each magazine issue, it is recommended to create a dedicated GitHub tracking issue, such as [#4]. This gives us a birds-eye view on the progress of the current issue, and can be closed after the latest issue has been published.
 
 ### Topic
 
