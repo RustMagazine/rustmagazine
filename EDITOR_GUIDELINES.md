@@ -19,7 +19,7 @@ As an editor for Rust Magazine, your responsibilities will include:
 - Writing articles for the issue if you have an idea
 - Reviewing and editing articles submitted by authors
 - Assisting authors with improving the quality and clarity of their content
-- Ensuring that all articles are accurate, informative, and engaging
+- Ensuring as far as reasonably possible that all articles are accurate, informative, and engaging
 - Collaborating with other editors and the Rust Magazine team to plan and execute editorial initiatives
 - Promoting Rust Magazine and its content on social media and other channels (prefer)
 - Staying up-to-date with the Rust community (prefer)
