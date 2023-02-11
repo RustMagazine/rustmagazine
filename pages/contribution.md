@@ -20,7 +20,7 @@ listening on http://127.0.0.1:3000
 ## Add your article
 
 ```
-$ tree content/issue-1 
+$ tree content/issue-1
 content/issue-1
 ├── announcing-zh.md
 ├── announcing.md
@@ -29,7 +29,7 @@ content/issue-1
 0 directories, 3 files
 ```
 
-Add your markdown file to `content/issue-1` directory.
+Add your markdown file to the `content/issue-1` directory.
 
 ## Update zine.toml
 
@@ -38,9 +38,9 @@ Add your markdown file to `content/issue-1` directory.
 path = "/your-article-path"
 file = "your-article.md"
 title = "Your article title"
-author = "your-name"
+author = "Your-name"
 topic = ["optional-topic"]
-pub_date = "2022-12-10"
+pub_date = "e.g. 2022-12-10"
 publish = true
 featured = true
 ```
@@ -51,8 +51,8 @@ If this is your first time contributing to the magazine, you should also add you
 
 ```diff
 [authors]
-rust-magazine = { name = "The Editor Team", editor = true, bio = "The magazine editor team" }
+rust-magazine = { name = "The Editorial Team", editor = true, bio = "The magazine editorial team" }
 + yourname = {}
 ```
 
-Finally, `git commit`, `git push` and submit your PR!
+Finally, run `git commit`, `git push`, and submit your PR!
