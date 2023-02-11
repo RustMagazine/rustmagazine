@@ -72,7 +72,7 @@ Chris Brucker, CEO of Nammu, mentions that InfinyOn makes it easier for teams to
 
 Early adopters of InfinyOn are already seeing significant advantages over other solutions, including ease of use, faster development, and a lower total cost of ownership. Despite being in Beta, InfinyOn is already proving its worth in its proof-of-concept stage.
 
-# How the industry adopted the Rust
+# How the industry adopted Rust
 
 ## Software Defined Vehicles: The Critical Role of Rust
 
