@@ -41,7 +41,7 @@ tutorial = {}
 rust-magazine = { name = "The Editorial Team", editor = true, bio = "The magazine editorial team" }
 lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
-HandongZhang = { editor = true }
+HandongZhang = { name = "Handong Zhang", editor = true }
 pau1tuck = { name = "Paul Tuck", editor = true }
 mfrw = { editor = true }
 malagant = { name = "Michael Johann", editor = true, avatar = '/static/avatar/malagant.png' }
