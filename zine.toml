@@ -38,7 +38,7 @@ tutorial = {}
 
 # Authors declare below
 [authors]
-rust-magazine = { name = "The Editor Team", editor = true, bio = "The magazine editor team" }
+rust-magazine = { name = "The Editorial Team", editor = true, bio = "The magazine editorial team" }
 lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
 HandongZhang = { editor = true }

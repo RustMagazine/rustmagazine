@@ -33,7 +33,7 @@ The frequency of issue release is one issue per month, with each issue consistin
 
 ## Does the author get paid?
 
-Although are a non-profit community magazine and do not pay our authors, we deeply appreciate and value their contributions. We recognize the time and effort that goes into creating high-quality content, and we are grateful for the opportunity to feature the work of talented Rustaceans in our magazine.
+Although we are a non-profit community magazine and do not pay our authors, we deeply appreciate and value their contributions. We recognize the time and effort that goes into creating high-quality content, and we are grateful for the opportunity to feature the work of talented Rustaceans in our magazine.
 
 ## Disclaimer
 
