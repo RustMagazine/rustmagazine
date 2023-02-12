@@ -19,6 +19,7 @@ h1 {
 h1 {
     font-size: 2em !important;
     margin-top: 1.5em !important;
+    overflow-wrap: anywhere;
 }
 
 .zine-card-date {
@@ -30,7 +31,7 @@ main, footer {
 }
 
 .zine-brand-bottom {
-    font-family: "Alfa Slab One", serif; 
+    font-family: "Alfa Slab One", serif;
 }
 
 .prose {
