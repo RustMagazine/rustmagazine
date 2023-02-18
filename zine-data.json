@@ -10,10 +10,20 @@
       "",
       "https://opengraph.githubassets.com/bff46e9c46a3ba4c1353931657eaef937f0bbee83cbab257cbce435f5781687d/rust-lang/rust/pull/104435"
     ],
+    "https://github.com/rust-lang/rust/pull/74024": [
+      "Improve slice.binary_search_by()'s best-case performance to O(1) by Folyd · Pull Request #74024 · rust-lang/rust · GitHub",
+      "This PR aimed to improve the slice.binary_search_by()'s best-case performance to O(1).\nNoticed\nI don't know why the docs of binary_search_by said \"If there are multiple matches, then any one of the ma",
+      "https://opengraph.githubassets.com/d65ab523be84a75f559441723a6b9725d967c3cb76c9c28c6f33b1c9619363bc/rust-lang/rust/pull/74024"
+    ],
     "https://github.com/skyzh/mini-lsm": [
       "skyzh/mini-lsm",
       "A tutorial of building an LSM-Tree storage engine in a week!- GitHub",
       "https://opengraph.githubassets.com/83c82d82a7ab5be32dc4bf96da23f2d066f84fc56aadcfc8e3e866e1472171a9/skyzh/mini-lsm"
+    ],
+    "https://polkadot.network/blog/a-polkadot-postmortem-24-05-2021": [
+      "A Polkadot Postmortem - 24.05.2021",
+      "On 24 May 2021, Polkadot nodes failed with an out of memory (OOM) error on block 5,202,216. This block contained an on-chain solution to the validator election, which is normally computed off-chain an",
+      "https://cms.polkadot.network/content/images/2021/05/image1.png"
     ]
   }
 }

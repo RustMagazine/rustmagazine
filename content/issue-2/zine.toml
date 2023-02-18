@@ -1,0 +1,14 @@
+
+slug = "issue-2"
+number = 2
+title = "Issue 2"
+pub_date = "2023-02-28"
+
+[[article]]
+file = "optimize-binary-search.md"
+title = "Optimize Binary Search of Rust"
+author = "folyd"
+pub_date = "2023-02-11"
+topic = ["pr-demystifying", "optimization"]
+publish = true
+featured = true
