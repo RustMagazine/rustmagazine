@@ -91,3 +91,11 @@ We are passionate about helping users find real-time values from their time seri
 - [GitHub](https://github.com/greptimeteam)
 - [Website](https://greptime.com)
 """
+
+[authors.xxchan]
+name = "xxchan"
+avatar = "/static/avatar/xxchan.png"
+bio = """
+- [GitHub](https://github.com/xxchan)
+- [Blog](https://xxchan.github.io)
+"""
