@@ -1,4 +1,4 @@
-> This is the second article on **pr-demystifying** topics. Each article labeled **pr-demystifying** will attempt to demystify the details behind the PR
+> This is the second article on **pr-demystifying** topics. Each article labeled **pr-demystifying** will attempt to demystify the details behind the PR.
 
 In this article, I'll share my experience of making my first contribution [(#74024)](https://github.com/rust-lang/rust/pull/74024) to rust by optimizing the best-case complexity of the `slice::binary_search_by()` function to **O(1)**. Despite the fact that this optimization was already included in Rust 1.52, which was released on May 6, 2021, I believe it's worth revisiting and shedding light on what went into making this improvement. Interestingly, this PR turned out to have a surprising connection with the Polkadot network downtime that occurred on May 24, 2021, half a month after Rust 1.52 has been released. If you're curious to learn more, keep reading.
 
@@ -24,11 +24,7 @@ let r = s.binary_search_by(|probe| probe.cmp(&seek));
 assert!(match r { Ok(1..=4) => true, _ => false, });
 ```
 
-<!-- If it is found, return `Ok(pos)` , `pos` is the position of the target value. If not, it returns `Err(pos)`, where the position of `pos` can be used to insert the `seek` into the slice and remain in order. The other `slice::binary_search()` and `slice::binary_search_by_key()` methods all call this `slice::binary_search_by()` underneath, so I won’t repeat them here. -->
-
 If the target value is found, the method returns `Ok(pos)`, where `pos` is the position of the target value in the slice. If not found, the method returns `Err(pos)`, where `pos` is the position where the target value can be inserted to maintain the order of the slice. The other `slice::binary_search()` and `slice::binary_search_by_key()` methods all use `slice::binary_search_by()` internally.
-
-<!-- However, the implementation before 1.52 has a small problem. If there are multiple consecutive target values in the slice, it will always find the last one before returning, so the best time complexity is also `O(log n)` instead of `O(1)` , That is, return immediately if you find it. This is the code before 1.52: -->
 
 Before the optimization in Rust 1.52, there was a small issue with the implementation of `slice::binary_search_by()`. If there were multiple consecutive target values in the slice, it would always find the last one before returning. This meant that the best-case time complexity was **O(log n)** instead of **O(1)**. In other words, the function would return immediately if the target value was found.
 
@@ -86,7 +82,7 @@ while size > 1 {
 
 > For the sake of brevity, repeated code will be omitted.
 
-Well, it seems logically correct, the unit tests also passed, we will call it **optimization(1)**. Within a few days, [dtolnay](https://github.com/dtolnay) reviewed my PR and replied: _Would you be able to put together a benchmark assessing the worst case impact? The new implementation does potentially 50% more conditional branches in the hot loop_.
+Well, it seems logically correct, the unit tests also passed, we will call it **optimization(1)**. Within a few days, [dtolnay] reviewed my PR and replied: _Would you be able to put together a benchmark assessing the worst case impact? The new implementation does potentially 50% more conditional branches in the hot loop_.
 
 Ok, let's do a benchmark:
 
@@ -110,15 +106,17 @@ test slice::binary_search_l3           ... bench:         200 ns/iter (+/- 30)
 test slice::binary_search_l3_with_dups ... bench:         157 ns/iter (+/- 6)
 ```
 
-It can be seen that in the `with_dups` mode (aka, there are more repeated elements), the new implementation has a significant improvement, but the performance of the normal mode at the `l3` level is much worse. The possible reason is as **dtolnay** said _potentially 50% more conditional branches in the hot loop_. What exactly are the `conditional branches`? Why is it so critical in the hot loop? To answer this question, we must know the **branch prediction**.
+Based on benchmark data, it is evident that the new implementation showed significant improvements in the `with_dups` mode, where there are more repeated elements. However, the normal mode's performance at the `l3` level is much worse than the previous version. The possible reason behind this could be the 50% increase in conditional branches in the hot loop, as pointed out by [@dtolnay]. To understand the significance of conditional branches in the hot loop, we need to delve into the concept of branch prediction.
 
 # Branch prediction
 
-[Branch prediction] is a technique that modern CPUs use to predict the next possible branch in advance when a branch is encountered in order to speed up the parallelization of instructions. A dedicated branch predictor is generally built into the CPU. It is highly recommended to read Stackoverflow's answer to [Why is processing a sorted array faster than processing an unsorted array?](https://stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array) Which has a good explanation of what is branch prediction and how its impacts performance.
+[Branch prediction] is a technique used by modern CPUs to predict the next possible branch in advance when encountering a branch in order to speed up the parallelization of instructions. A dedicated branch predictor is typically built into the CPU to support this functionality.
+
+For more information on branch prediction and how it affects performance, we recommend reading Stackoverflow's answer to ["Why is processing a sorted array faster than processing an unsorted array?"](https://stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array) This answer provides a clear explanation of branch prediction and its impact on performance.
 
 ## Branch
 
-First of all, we need to understand what exactly the `branch` meant. At the high-level programming language, it is obvious that branches are statements such as `if/else/else if` , `goto,` or `switch/match`. They will be converted into `jump` instructions in assembly code. For example, `jump` instructions starting with `j` in x86 assembly:
+Before delving into branch prediction, it's important to understand what a `branch` is. At the high-level programming language, branches are statements such as `if/else/else` if, `goto`, or `switch/match`. However, these statements are ultimately converted into `jump` instructions in assembly code. In x86 assembly, `jump` instructions start with `j` and include:
 
 | instruction | effect                                                           |
 | ----------- | ---------------------------------------------------------------- |
@@ -137,7 +135,7 @@ First of all, we need to understand what exactly the `branch` meant. At the high
 | jc          | Jump if carry: used for unsigned overflow, or multiprecision add |
 | jo          | Jump if there was signed overflow                                |
 
-To keep the assembly code as simple as possible, we can contrive to write a piece of code that contains the `if/else`:
+To illustrate, we can write a Rust program that uses `if/else` statements, and look at the corresponding assembly code. For example:
 
 ```rust
 #![allow(unused_assignments)]
@@ -151,7 +149,7 @@ pub fn main() {
 }
 ```
 
-Here is the corresponding assembly code, only the parts related to `if/else` is retained. The complete code is here: <https://rust.godbolt.org/z/ahcKcK1Er>.
+Here's the relevant portion of the resulting assembly code:
 
 ```asm
 .LBB99_7:
@@ -166,38 +164,38 @@ Here is the corresponding assembly code, only the parts related to `if/else` is 
         ret
 ```
 
-I added a few comments to indicate the Rust code corresponding to this instruction. It can be seen that the `jbe` instruction will determine whether to jump to `.LBB99_10` or not to continue to execute the following `mov` .
+Here, the `cmp` instruction compares the value in register `a` to the value `42`, and the `jbe` instruction decides whether to jump to the _.LBB99_10_ label or not. If the jump is taken, the instruction at _.LBB99_10_ is executed, which sets `a` to `0`. If not, the instruction at _.LBB99_11_ is executed, which sets `a` to `1`.
 
-After understanding what a branch is, we need to know why the CPU needs to do branch prediction. Then we introduce the next topic: **instruction pipeline** .
+Now that we understand what branches are, we can discuss why CPU need to predict branches, which leads us to the next topic: **instruction pipelines**.
 
 ## Instruction pipelining
 
-[Instruction pipeline] is a technique for implementing instruction-level parallelism within a single processor. This technology began in earnest in the late 1970s.
+[Instruction pipeline] is a technique used in modern processors to increase instruction throughput by overlapping the execution of multiple instructions. This technology began in earnest in the late 1970s.
 
-The CPU generally processes an instruction in several steps:
+The CPU generally processes an instruction in several stages:
 
 - Instruction Fetch
 - Instruction Decode
 - Execute
 - Register write back
 
-This is very similar to a factory producing an item that requires multiple processes. Imagine how slow a factory would be if it were to produce the first item in its entirety each time and then produce the next item in the same steps! So in the 19th century, mankind created the industrial assembly line to break down all these processes in parallel. When the first item is in the process (2), it does not affect in any way the second item in the process (1). The CPU can pipeline the instruction execution process and divide the different instruction execution steps into different [logic gates], when the first instruction enters the **decode** stage, the second instruction can enter the **fetch** stage.
+This is similar to a factory producing an item that requires multiple processes. Imagine how slow a factory would be if it were to produce the first item in its entirety each time before moving on to produce the next item. So, like the industrial assembly line of the 19th century, CPUs can break down the instruction execution process into different stages and execute them in parallel. When the first instruction enters the **decode** stage, the second instruction can enter the **fetch** stage without waiting for the first instruction to complete all stages.
 
 This picture on Wikipedia can help you understand.
 
 ![instruction-pipeline.png](https://tech-proxy.bytedance.net/tos/images/1619425151814_f7494ad0023bab63d978e0c30cc5d13b.png)
 
-After understanding these previous concepts, let's look at why CPUs need to do branch prediction.
+However, this can cause issues when a conditional branch instruction is encountered, which can change the flow of execution and invalidate the instructions already in the pipeline. This leads us to the next topic: **branch prediction**.
 
-## Why we need branch prediction?
+## Why Branch Prediction is Important
 
-The **instruction pipeline** executes instructions like the factory pipeline, including the `jump` instruction mentioned earlier. One problem with the `jump` instruction is that it needs to know whether to jump or not in the next clock cycle, and this can only be known after the preceding judgment logic has been executed. In the above example, after the `cmp` judgment is completed, the `jump` instruction can decide whether to jump to the `.LBB99_10` part or not and continue. But the CPU instruction pipeline will not wait, otherwise, a clock cycle is wasted. So a way has been invented to avoid this problem, which is **branch prediction**.
+The **instruction pipeline** executes instructions like a factory assembly line, including the `jump` instruction mentioned earlier. However, a problem with the `jump` instruction is that the CPU needs to know whether to `jump` or not in the next clock cycle, and this can only be determined after the preceding logic has been executed. In the example given earlier, the `jump` instruction can decide whether to `jump` to the _.LBB99_10_ part or not only after the `cmp` judgment is completed. However, the CPU's instruction pipeline cannot wait, as doing so would waste a clock cycle. To avoid this problem, **branch prediction** was invented.
 
-The CPU's branch predictor will predict in advance which branch the jump instruction will jump to, and then put the predicted branch into the pipeline for execution. If the prediction is correct, the CPU can continue to execute the subsequent instructions; if the prediction fails (branch misprediction), it can only discard the result of the branch just executed and switch to the correct branch again. As you can see, if there are too many prediction failures, branch prediction will affect performance. But now the CPU branch predictor has become more and more advanced after so many years of development, people will continue to use various ways to improve the branch predictor prediction accuracy.
+The CPU's branch predictor predicts in advance which branch the jump instruction will jump to, and then puts the predicted branch into the pipeline for execution. If the prediction is correct, the CPU can continue to execute the subsequent instructions. However, if the prediction fails (branch misprediction), the CPU must discard the result of the branch just executed and switch to the correct branch again. While too many prediction failures can affect performance, branch prediction is an essential technique for improving processor performance. Over the years, CPU branch predictors have become more advanced, and people continue to use various methods to improve the accuracy of branch prediction.
 
 ## Avoid branch predictions in hot loop
 
-Although modern CPUs have branch predictors, we still need to avoid branch prediction at the software level, especially in hot loops. The most common optimization is to avoid writing `if/else` statements in loops, i.e. **branchless code**. There are many examples of such **branchless code** in the standard library to optimize performance, such as the `count()` method of [std::iter::Filter].
+Although modern CPUs have advanced branch predictors, it is still important to avoid branch predictions at the software level, especially in hot loops. One common optimization is to use branchless code and avoid writing `if/else` statements in loops. There are many examples of **branchless code** in the standard library that are designed to optimize performance, such as the `count()` method of [std::iter::Filter].
 
 ```rust
 pub struct Filter<I, P> {
@@ -234,7 +232,8 @@ where
 }
 ```
 
-The `Filter` type of the standard library overrides the `count()` method when implementing `Iterator.` Think about it if we were not aware of the problem of branch prediction, we might implement it like this:
+The `Filter` type of the standard library overrides the `count()` method when implementing `Iterator.`
+If we were not aware of the problem of branch prediction, we might implement it like this:
 
 ```rust
 // Bad
@@ -252,17 +251,21 @@ fn count(self) -> usize {
 }
 ```
 
-However, this implementation has an `if` statement in the loop, which causes the CPU to perform a large number of branch predictions, and these branch predictions are almost random. It is difficult for the CPU to improve the prediction accuracy based on history, resulting in lower performance. The implementation of the standard library is completely branchless, which not only has much better performance but also makes it easier for LLVM to do more optimizations.
+However, this implementation has an `if` statement in the loop, which causes the CPU to perform a large number of branch predictions, and these branch predictions are almost random. This makes it difficult for the CPU to improve its prediction accuracy based on history, resulting in lower performance. Instead, the implementation of the standard library is completely branchless, which not only has much better performance but also makes it easier for LLVM to do more optimizations.
 
-> - How to write good `branchless code` to optimize performance is another topic worth discussing, and there is plenty of information available on the web. However, `branchless code` will sacrifice a lot of code readability, and it is not recommended to use it blindly.
->
-> - The additional benefit of `branchless code` is that it can also help avoid **side-channel attacks** (or **timing attacks**). Reference: <https://en.wikipedia.org/wiki/Timing_attack> .
+```callout, theme: orange
+**Notice:**
 
-Going back to our PR. Our version is lower in performance than the old version of the standard library in some cases. It is indeed related to branch prediction because our code has one more branch to predict.
+Writing good branchless code to optimize performance is an important topic, and there is plenty of information available on the web on how to do so. However, it's worth noting that branchless code can sacrifice code readability and should be used judiciously.
+```
 
-In order to facilitate your comparison, I posted the screenshots of the assembly code below, here is the Godbolt link: <https://rust.godbolt.org/z/8dGbY8Pe1>. It is easy to see that the new version implements an extra `jne` jump instruction, which causes the CPU to do one more branch prediction.
+## Comparison
 
-> Notice: the `jmp` is a direct jump and does not require branch prediction.
+As we mentioned earlier, our new implementation of `slice::binary_search_by()` may be slower than the original version of the standard library in some cases. This can be attributed to the additional branch that our code requires.
+
+To help you compare the two versions, we've included screenshots of their corresponding assembly code, available at this Godbolt link: <https://rust.godbolt.org/z/8dGbY8Pe1>. As you can see, the new version includes an extra `jne` instruction, which adds another branch that the CPU has to predict.
+
+> Note that the `jmp` instruction is a direct jump and does not require branch prediction.
 
 - Before **optimization(1)**
 
@@ -272,13 +275,11 @@ In order to facilitate your comparison, I posted the screenshots of the assembly
 
 ![branch-compare2.png](/static/issue-2/opt1.png)
 
-So I guess one of the possible reasons why the original authors implemented `slice::binary_search_by()` without considering the best time complexity of **O(1)** is to avoid redundant branch prediction. Because you can't avoid an early return if you want **O(1)**, and you can't avoid branching if you want an early return.
+It's possible that the original authors of `slice::binary_search_by()` did not prioritize achieving the best time complexity of **O(1)** because they wanted to avoid redundant branch prediction. This is because an early return cannot be achieved without branching, and avoiding branches can help reduce the number of branch predictions made by the CPU.
 
 # Optimization(2)
 
-So we need to optimize further. Thanks to [@tesuji], he provided a repo [tesuji/rust-bench-binsearch](https://github.com/tesuji/rust-bench-binsearch) to benchmark the performance between current Rust `slice::binary_search` (v1.46.0) and his implementations. It turns out that [@tesuji]'s version is faster in most cases and also more readable than the standard library version, although it introduces an extra branch.
-
- <!-- : *since we can't avoid branch prediction, let's try to help the CPU do better branch prediction*.  -->
+In our pursuit of optimization, we must go further. Thanks to [@tesuji], who provided a repo [tesuji/rust-bench-binsearch](https://github.com/tesuji/rust-bench-binsearch) to benchmark the performance of current Rust `slice::binary_search` (v1.46.0) and their implementations. It turns out that [@tesuji]'s version is faster in most cases and also more readable than the standard library version, despite introducing an extra branch.
 
 ```quote
 author = "@tesuji"
@@ -286,7 +287,7 @@ bio = "From the PR [comment](https://github.com/rust-lang/rust/pull/74024#issuec
 content = "I guess the new implementation let CPU guessing branch more precisely. Related info could be found in [#53823](https://github.com/rust-lang/rust/issues/53823)."
 ```
 
-Here is the new version by [@tesuji], let's call it **optimization(2)**:
+Here is [@tesuji]'s new version, which we will call **optimization(2)**:
 
 ```rust
 pub fn binary_search_by<'a, F>(&'a self, mut f: F) -> Result<usize, usize>
@@ -318,9 +319,9 @@ Let's take a look at its generated [assembly code](https://rust.godbolt.org/z/GG
 
 ![branch-compare3.png](/static/issue-2/opt2.png)
 
-It can be seen that there are still two `jne` instructions, so the performance in non-`with_dups` mode may not be as high as that of the standard library, but it is indeed much better than the performance of **optimization(1)**.
+It can be seen that there are still two `jne` instructions, so the performance in non-`with_dups` mode may not be as high as that of the standard library. However, it is much better than the performance of **optimization(1)**.
 
-A few days later [@m-ou-se] from the libs team replied with a [comment](https://github.com/rust-lang/rust/pull/74024#issuecomment-713818146). She also did a benchmark and found that primitive types like `u32` with `l1` level data are still slower than the standard library, but for those types that require more time to compare (like `String`), the new implementation outperforms the standard library implementation in all cases.
+A few days later [@m-ou-se] from the libs team replied with a [comment](https://github.com/rust-lang/rust/pull/74024#issuecomment-713818146). She also benchmarked and found that primitive types like `u32` with `l1` level data are still slower than the standard library. However, for types that require more time to compare (like `String`), the new implementation outperforms the standard library implementation in all cases.
 
 ```quote
 author = "@m-ou-se"
@@ -328,7 +329,7 @@ bio = "From the PR [comment](https://github.com/rust-lang/rust/pull/74024#issuec
 content = "Important to note here is that almost all benchmarks on this page are about slices of usizes. Slices of types that take more time to compare (e.g. `[String]`) seem faster with this new implementation in all cases."
 ```
 
-After much discussion, [@m-ou-se] decided to run a `crater` test to see if the PR has a significant impact on all crates on [crates.io](https://crates.io). In the end, the library team agreed to merge this PR.
+After much discussion, [@m-ou-se] decided to run a `crater` test to see if the PR has a significant impact on all crates on [crates.io](https://crates.io). In the end, the Rust library team agreed to merge this PR.
 
 ```quote
 author = "@m-ou-se"
@@ -353,11 +354,11 @@ let mid = (left + right) / 2;
 
 This line of code may overflow under _Zero Sized Type_ (_ZST_) ! Let’s analyze why.
 
-The return value of [slice::len()](https://doc.rust-lang.org/std/primitive.slice.html#method.len) is the `usize`, but for _non-zero size types_ (_non-ZST_), the maximum value of `slice::len()` can only be `isize::MAX`. So as written in the comment `(isize::MAX + isize::MAX) / 2` is not possible to exceed `usize::MAX`, so there will be no overflow. But if all the elements in the slice are zero-sized (such as `()` ), then the length of the slice can reach `usize::MAX`. Although in the case of `[(); usize::MAX].binary_search(&())` we will find the result in `O(1)` and return it immediately, but if we write `b.binary_search_by(|_| Ordering::Less)`, it causes an integer overflow.
+The return value of [slice::len()](https://doc.rust-lang.org/std/primitive.slice.html#method.len) is the `usize`, but for _non-zero size types_ (_non-ZST_), the maximum value of `slice::len()` can only be `isize::MAX`. Therefore, as written in the comment, `(isize::MAX + isize::MAX) / 2` will not exceed `usize::MAX`, and there will be no overflow. However, if all the elements in the slice are zero-sized (such as `()` ), then the length of the slice can reach `usize::MAX`. Although in the case of `[(); usize::MAX].binary_search(&())`, we will find the result in `O(1)` and return it immediately, but if we write `b.binary_search_by(|_| Ordering::Less)`, it causes an integer overflow.
 
 ## Why the maximum length of non-ZST slice is `isize`?
 
-The simplest reason is that we cannot construct an array or slice with all elements _non-ZST_ and the length is `usize::MAX`, it doesn't compile. For example, taking the simplest type of `bool` that only occupies 1 byte, the size of `[bool; usize::MAX]` will be equal to `std::mem::size_of::<bool>() * usize::MAX`, this is a big number, and the memory of ordinary computers is simply not enough.
+The simplest reason is that we cannot construct an array or slice with all elements _non-ZST_ and the length of `usize::MAX`, which would not compile. For example, even taking the simplest type of `bool` that only occupies 1 byte, the size of `[bool; usize::MAX]` will be equal to `std::mem::size_of::<bool>() * usize::MAX`, which is a huge number, and the memory of ordinary computers is simply not enough.
 
 ```rust
 fn main() {
@@ -368,7 +369,7 @@ fn main() {
 }
 ```
 
-But it is possible for ZST because `std::mem::size_of::<()>() * usize::MAX` is still zero.
+But it is possible for ZSTs because `std::mem::size_of::<()>() * usize::MAX` is still zero.
 
 ```rust
 fn main() {
@@ -378,7 +379,7 @@ fn main() {
 }
 ```
 
-However, the above explanation is still not rigorous enough, such as `std::mem::size_of::<bool>() * isize::MAX` is still a big number. Why is `isize::MAX` ok? The fundamental reason is that the maximum offset of Rust pointer addressing only allows `isize::MAX`. See the documentation of [std::pointer::offset()] and [std::slice::from_raw_parts()](https://doc.rust-lang.org/std/slice/fn.from_raw_parts.html) to learn more. For the _ZST_ type, the compiler will optimize it, it does not need addressing at all, so the maximum size can be `usize::MAX`.
+However, the above explanation is still not rigorous enough, such as `std::mem::size_of::<bool>() * isize::MAX` is still a big number. Why is `isize::MAX` ok? The fundamental reason is that the maximum offset of Rust pointer addressing only allows `isize::MAX`. See the documentation of [std::pointer::offset()] and [std::slice::from_raw_parts()](https://doc.rust-lang.org/std/slice/fn.from_raw_parts.html) to learn more. For the _ZST_ type, the compiler will optimize it, and does not need addressing at all, so the maximum size can be `usize::MAX`.
 
 # The final version
 
@@ -425,25 +426,23 @@ fn test_binary_search_by_overflow() {
 }
 ```
 
-We really should try to avoid writing `let mid = (left + right) / 2` code that is prone to integer overflow, and replace it with `let mid = left + size / 2 to` avoid overflow.
+It's best to avoid using the `let mid = (left + right) / 2` code, which can be prone to integer overflow, and instead use `let mid = left + size / 2` to to prevent overflow.
 
-In addition, someone asked why `if/else` is used instead of `match` here. After checking the assembly code of the two versions, we found that the assembly code generated by the `match` version not only has more instructions but also rearranged the order of `cmp` instructions, and the performance seems to be worse. Near two years later after this PR has been merged, there is another PR ([#106969]) that tried to replace `if` with `match` in binary search, but it didn't get merged due to regression.
-
-<!-- Theoretically, the assembly instructions generated by these two versions should be consistent. I haven't delved into the reason why the assembly of the `match` version is worse. Other readers can study it if they are interested. -->
+We also received a question about why we used `if/else` instead of `match`. We investigated this by examining the assembly code generated by both versions and found that the `match` version had more instructions and a different order of `cmp` instructions, resulting in lower performance. Even after almost two years of this pull request being merged, another pull request ([#106969]) attempted to replace if with match in the binary search function, but it couldn't be merged due to regression.
 
 # The story after this PR merged
 
 ## Polkadot's network downtime
 
-The story of this PR is still not over. Yes, it has a surprising connection with the Polkadot network downtime that occurred on May 24, 2021, half a month after Rust 1.52 has been released.
+This PR has an interesting connection to the Polkadot network downtime that occurred on May 24, 2021, half a month after Rust 1.52 was released.
 
 ```urlpreview
 https://polkadot.network/blog/a-polkadot-postmortem-24-05-2021
 ```
 
-Clarity first, this PR isn't the culprit to their network downtime, the out-of-memory (OOM) is. You can learn more about the detail of their postmortem. Their network recovered after an hour and ten minutes of downtime by fixing the OOM. However, this PR did cause another error again: _several nodes failed with a “storage root mismatch”_, due to them using a different Rust compiler version before and after the fixing. One is prior to Rust 1.52 which is without optimization of this PR, and one is after 1.52 with it.
+It is important to note that this PR was not responsible for the network downtime. The culprit was an out-of-memory (OOM) error, as detailed in the Polkadot postmortem report. The network recovered after an hour and ten minutes of downtime by fixing the OOM. However, this PR did cause another error, where several nodes failed with a "storage root mismatch" error, as they were using a different Rust compiler version before and after the fix. One version was prior to Rust 1.52, which did not have the optimization from this PR, and the other was after 1.52, with the optimization.
 
-Why did it happen? The answer is that the Polkadot team **deterministically** relied on the returned position of `slice::binary_search_by()` regardless of the docs said _If there are multiple matches, then any one of the matches could be returned_. Prior to Rust 1.52, it always returns the **last one** if multiple matches are found, however, it does not violate the docs said "any one". After this optimization, it is not the **last one** anymore, here is the demonstration:
+The reason for this error was that the Polkadot team relied on the returned position of `slice::binary_search_by()` **deterministically**, despite the docs stating that "_if there are multiple matches, then any one of the matches could be returned_". Prior to Rust 1.52, `binary_search_by()` always returned the **last one** if multiple matches are found. After this optimization, it no longer always returns the **last one**. Here is a demonstration:
 
 ```rust
 let mut s = vec![0, 1, 1, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55];
@@ -457,8 +456,6 @@ assert_eq!(idx, 4);
 assert_eq!(idx, 3);
 ```
 
-So, what is **deterministic**?
-
 ## Deterministic v.s Non-deterministic
 
 In computer science, a [deterministic algorithm](https://en.wikipedia.org/wiki/Deterministic_algorithm) is an algorithm that always produces the same output given the same input. This means that if the same input is provided to the algorithm multiple times, it will always produce the same result. This is important for many applications, as it allows for reliable and predictable behavior. Binary search is a classic example of a deterministic algorithm. While the [non-deterministic algorithm](https://en.wikipedia.org/wiki/Nondeterministic_algorithm) is an algorithm that, even for the same input, can exhibit different behaviors on different runs, as opposed to a deterministic algorithm.
@@ -470,7 +467,7 @@ bio="The docs of `slice::binary_search_by()`"
 content="If there are multiple matches, then any one of the matches could be returned. **The index is chosen deterministically, but is subject to change in future versions of Rust.**"
 ```
 
-Another method I must mention is [slice::partition_point()], which calls `binary_search_by()` underneath, however, it is deterministic. Which method is prefer is depending on your use cases.
+Another important method to mention is [slice::partition_point()], which also uses `binary_search_by()` underneath but is deterministic in nature. The choice between `binary_search_by()` and `partition_point()` depends on your specific use case.
 
 ```rust
 pub fn partition_point<P>(&self, mut pred: P) -> usize
@@ -483,22 +480,21 @@ where
 
 ## Hyrum's Law: It’s Murphy’s Law for APIs
 
-If we recall this network accident of Polkadot, it is just [Hyrum's Law] in practice.
-
-Hyrum’s Law is named after Google software engineer Hyrum Wright and states that as the number of users of an API increases, so does the likelihood that someone will depend on any behavior of the system, even those that are not explicitly documented or guaranteed by the API contract. This can lead to unintended consequences and compatibility issues when changes are made to the API or underlying system. Here is what Hyrum’s law says:
+The Polkadot network accident is a real-life example of [Hyrum's Law] in practice. Named after Google software engineer Hyrum Wright, Hyrum’s Law states that as the number of users of an API increases, so does the likelihood that someone will depend on any behavior of the system, even those that are not explicitly documented or guaranteed by the API contract. This can lead to unintended consequences and compatibility issues when changes are made to the API or underlying system. Here is what Hyrum’s law says:
 
 ```quote
 author="Hyrum's Law"
 content="With a sufficient number of users of an API, it does not matter what you promise in the contract: all observable behaviors of your system will be depended on by somebody."
 ```
 
-In our example, deterministically depending on a non-deterministic API inevitably catch Hyrum's Law as long as you have enough users or enough times, no matter how we improve the docs, no matter how we run testings like `crater` in this PR.
+In our example, deterministically depending on a non-deterministic API inevitably falls prey to Hyrum's Law, no matter how much we improve the documentation or how rigorously we test it, such as using `crater` in this PR.
 
 # Conclusion
 
-This is a long article. We talked about how we optimize the Rust binary search's best-case performance to **O(1)**, how we avoid branch prediction in the hot loop, and the story after the PR has been merged. Also, this is the second article of [#pr-demystifying], I hope this can inspire more people to share more stories behind their PRs. Thanks for reading, if you have any questions feel free to comment below.
+In conclusion, we have delved into the intricacies of optimizing Rust's binary search algorithm, discussing how we managed to achieve a best-case performance of O(1) while avoiding branch prediction in the hot loop. Additionally, we explored the aftermath of the PR, including the Polkadot network downtime and the application of Hyrum's Law. This article is the second installment in the [#pr-demystifying] series, and we hope that it has inspired more people to share their PR stories. Thank you for reading, and if you have any questions, please feel free to leave a comment below.
 
 [slice::binary_search_by()]: https://doc.rust-lang.org/std/primitive.slice.html#method.binary_search_by
+[@dtolnay]: https://github.com/dtolnay
 [branch prediction]: https://en.wikipedia.org/wiki/Branch_predictor
 [instruction pipeline]: https://en.wikipedia.org/wiki/Instruction_pipeline
 [logic gates]: https://en.wikipedia.org/wiki/Logic_gate
