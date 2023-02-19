@@ -13,7 +13,7 @@ P.S. I highly recommend [matklad](https://github.com/matklad)'s blog (He is the 
 - [Fast Rust Builds](https://matklad.github.io/2021/09/04/fast-rust-builds.html)
 - [Delete Cargo Integration Tests](https://matklad.github.io/2021/02/27/delete-cargo-integration-tests.html)
 
-Most of the methods I used are discussed here, and he explains them clearly. If not otherwise indicated, all quotes in this article come from here.
+Most of the methods I used are discussed there, and he explains them clearly. If not otherwise indicated, all quotes in this article come from there.
 
 Although there are quite some articles talking about how to optimize Rust compilation speed (e.g., [Tips for Faster Rust Compile Times](https://endler.dev/2020/rust-compile-times/)), I still want to write another one to share my step-by-step process. Each optimization point comes with a corresponding PR, and you can combine the [commit history](https://github.com/risingwavelabs/risingwave/commits/main?after=d8198fa138003e1f1431053f4f5f09e4a5fa8fd8+69&branch=main&qualified_name=refs%2Fheads%2Fmain) to see the effect of each optimization point by comparing the CI pages before and after its PR.
 
