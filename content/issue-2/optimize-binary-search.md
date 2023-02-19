@@ -149,7 +149,7 @@ pub fn main() {
 }
 ```
 
-Here's the relevant portion of the resulting assembly code:
+Here's the relevant portion of the resulting [assembly code](https://rust.godbolt.org/z/ahcKcK1Er):
 
 ```asm
 .LBB99_7:
