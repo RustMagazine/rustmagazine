@@ -39,7 +39,7 @@ Buildkite has two very useful hidden pages, located at `/waterfall` and `/dag`, 
 
 ![buildkite-dag.png](https://xxchan.github.io/assets/img/comptime/buildkite-dag.png)
 
-From the graphs, we can see clearly that the biggest bottleneck is in the path of simulation build -> recovery test.
+From the waferfall graph, we can see recovery test finishes last. Two large steps finish before it: build (deterministic simulation) and check. The DAG graph shows that recovery test depends only on simulation build, so we can forget about the check step for now, and conclude the biggest bottleneck is in the path of simulation build -> recovery test.
 
 ## `cargo build --timings`
 
@@ -185,6 +185,7 @@ opt-level = 2
 incremental = false
 ```
 
+For more optimization techniques, you may refer to other posts like [Tips for Faster Rust Compile Times](https://endler.dev/2020/rust-compile-times/).
 
 # Conclusion
 

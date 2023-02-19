@@ -24,7 +24,7 @@ P.P.S. 优化完的结果：main 最快 27min，PR 最快 16min，大多在 17-1
 
 > Build times are a fairly easy optimization problem: it’s trivial to get direct feedback (just time the build), there are a bunch of tools for profiling, and you don’t even need to come up with a representative benchmark.
 
-前两天在研究 [profiling]({% post_url 2023-02-08-profiling-101 %})，那现在提到要优化，当然应该看看有没有什么数据、图表看看，找到瓶颈在哪里再来优化。
+前两天在研究 [profiling](https://xxchan.github.io/cs/2023/02/08/profiling-101.html)，那现在提到要优化，当然应该看看有没有什么数据、图表看看，找到瓶颈在哪里再来优化。
 
 ## CI waterfall & dag graph
 
