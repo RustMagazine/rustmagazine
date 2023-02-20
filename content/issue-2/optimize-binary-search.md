@@ -166,7 +166,7 @@ Here's the relevant portion of the resulting [assembly code](https://rust.godbol
 
 Here, the `cmp` instruction compares the value in register `a` to the value `42`, and the `jbe` instruction decides whether to jump to the _.LBB99_10_ label or not. If the jump is taken, the instruction at _.LBB99_10_ is executed, which sets `a` to `0`. If not, the instruction continue to execute, which sets `a` to `1`.
 
-Now that we understand what branches are, we can discuss why CPU need to predict branches, which leads us to the next topic: **instruction pipelines**.
+Now that we understand what branches are, we can discuss why the CPU needs to predict branches, which leads us to the next topic: **instruction pipelines**.
 
 ## Instruction pipelining
 
@@ -179,7 +179,7 @@ The CPU generally processes an instruction in several stages:
 - Execute
 - Register write back
 
-This is similar to a factory producing an item that requires multiple processes. Imagine how slow a factory would be if it were to produce the first item in its entirety each time before moving on to produce the next item. So, like the industrial assembly line of the 19th century, CPUs can break down the instruction execution process into different stages and execute them in parallel. When the first instruction enters the **decode** stage, the second instruction can enter the **fetch** stage without waiting for the first instruction to complete all stages.
+This is similar to a factory producing an item that requires multiple processes. Imagine how slow a factory would be if it were to produce the first item in its entirety each time before moving on to produce the next item. So, similar to the industrial assembly line of the 19th century, CPUs can break down the instruction execution process into different stages and execute them in parallel. When the first instruction enters the **decode** stage, the second instruction can enter the **fetch** stage without waiting for the first instruction to complete all stages.
 
 This picture from Wikipedia can help you understand.
 
