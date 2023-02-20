@@ -36,6 +36,7 @@ async = {}
 database = {}
 business = { description = "Rust in Business" }
 tutorial = {}
+build = { name = "Build", description = "Tools and techniques related to distributing Rust applications to end users." }
 
 # Authors declare below
 [authors]
@@ -47,6 +48,7 @@ pau1tuck = { name = "Paul Tuck", editor = true }
 mfrw = { editor = true }
 malagant = { name = "Michael Johann", editor = true, avatar = '/static/avatar/malagant.png' }
 skyzh = { avatar = "/static/avatar/skyzh.jpeg" }
+dmosc = { name = "dmosc", editor = true }
 
 [authors.folyd]
 editor = true
@@ -83,12 +85,20 @@ Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
 [authors.greptime-team]
 name = "Greptime Team"
 bio = """
-Greptime is founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud. 
-- Greptime DB is an open-source, cloud-native time series database with powerful analytical features; 
-- Greptime Cloud is a SaaS solution built on GreptimeDB. 
+Greptime is founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud.
+- Greptime DB is an open-source, cloud-native time series database with powerful analytical features;
+- Greptime Cloud is a SaaS solution built on GreptimeDB.
 
 We are passionate about helping users find real-time values from their time series data with our tools.
 
 - [GitHub](https://github.com/greptimeteam)
 - [Website](https://greptime.com)
+"""
+
+[authors.dmosc]
+name = "dmosc"
+bio = """
+I enjoy hacking stuff and share thoughts with my fellow engineers.
+
+- [GitHub](https://github.com/dmosc)
 """
