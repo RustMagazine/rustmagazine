@@ -1,6 +1,6 @@
 > This is the second article on **pr-demystifying** topics. Each article labeled **pr-demystifying** will attempt to demystify the details behind the PR.
 
-In this article, I'll share my experience of making my first contribution ([#74024])(https://github.com/rust-lang/rust/pull/74024) to rust by optimizing the best-case complexity of the `slice::binary_search_by()` function to **O(1)**. Despite the fact that this optimization was already included in Rust 1.52, which was released on May 6, 2021, I believe it's worth revisiting and shedding light on what went into making this improvement. Interestingly, this PR turned out to have a surprising connection with the Polkadot network downtime that occurred on May 24, 2021, half a month after Rust 1.52 has been released. If you're curious to learn more, keep reading.
+In this article, I'll share my experience of making my first contribution ([#74024]) to rust by optimizing the best-case complexity of the `slice::binary_search_by()` function to **O(1)**. Despite the fact that this optimization was already included in Rust 1.52, which was released on May 6, 2021, I believe it's worth revisiting and shedding light on what went into making this improvement. Interestingly, this PR turned out to have a surprising connection with the Polkadot network downtime that occurred on May 24, 2021, half a month after Rust 1.52 has been released. If you're curious to learn more, keep reading.
 
 ```urlpreview
 https://github.com/rust-lang/rust/pull/74024
@@ -493,6 +493,7 @@ In our example, deterministically depending on a non-deterministic API inevitabl
 
 In conclusion, we have delved into the intricacies of optimizing Rust's binary search algorithm, discussing how we managed to achieve a best-case performance of **O(1)** while avoiding branch prediction in the hot loop. Additionally, we explored the aftermath of the PR, including the Polkadot network downtime and the application of Hyrum's Law. This article is the second installment in the [#pr-demystifying] series, and we hope that it has inspired more people to share their PR stories. Thank you for reading, and if you have any questions, please feel free to leave a comment below.
 
+[#74024]: https://github.com/rust-lang/rust/pull/74024
 [slice::binary_search_by()]: https://doc.rust-lang.org/std/primitive.slice.html#method.binary_search_by
 [@dtolnay]: https://github.com/dtolnay
 [branch prediction]: https://en.wikipedia.org/wiki/Branch_predictor
