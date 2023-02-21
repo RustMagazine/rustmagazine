@@ -6,6 +6,7 @@ description = "A publication dedicated to the Rust programming language."
 edit_url = "https://github.com/rustmagazine/rustmagazine/edit/main"
 menu = [
     { name = "About", url = "/about" },
+    { name = "FAQ", url = "/faq" },
     { name = "GitHub", url = "https://github.com/rustmagazine/rustmagazine" },
 ]
 social_image = "/static/bg.jpeg"
@@ -90,4 +91,12 @@ We are passionate about helping users find real-time values from their time seri
 
 - [GitHub](https://github.com/greptimeteam)
 - [Website](https://greptime.com)
+"""
+
+[authors.xxchan]
+name = "xxchan"
+avatar = "/static/avatar/xxchan.png"
+bio = """
+- [GitHub](https://github.com/xxchan)
+- [Blog](https://xxchan.github.io)
 """
