@@ -1,0 +1,16 @@
+
+slug = "issue-2"
+number = 2
+title = "Issue 2"
+pub_date = "2023-02-28"
+
+[[article]]
+file = "optimize-rust-comptime.md"
+title = "Stupidly effective ways to optimize Rust compile time"
+author = ["xxchan"]
+topic = []
+pub_date = "2023-02-18"
+publish = true
+featured = true
+canonical = "https://xxchan.github.io/cs/2023/02/17/optimize-rust-comptime-en.html"
+i18n.zh = { file = "optimize-rust-comptime-zh.md", title = "我如何动动小手就让 CI 时间减少了 10 分钟"}
