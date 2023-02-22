@@ -4,11 +4,12 @@
 
 于是我前两天心血来潮，决定花点时间研究一下能不能再优化一点编译速度。
 
-令我非常震惊的是，没想到存在着一些非常简单的方法，动动小手就产生了惊人的成效。感觉完全可以用 low-hanging fruits、silver bullet 甚至是 free lunch 来形容🤯。
+令我非常震惊的是，没想到存在着一些非常简单的方法，动动小手就产生了惊人的成效。感觉完全可以用 low-hanging fruits、silver bullet 甚至是 free lunch 来形容 🤯。
 
 ---
 
 P.S. 很推荐 [matklad](https://github.com/matklad)（IntelliJ Rust 和 rust-analyzer 的原作者）的 blog：
+
 - [Fast Rust Builds](https://matklad.github.io/2021/09/04/fast-rust-builds.html)
 - [Delete Cargo Integration Tests](https://matklad.github.io/2021/02/27/delete-cargo-integration-tests.html)
 
@@ -65,7 +66,7 @@ ENV RUSTC_WRAPPER=sccache
 ENV SCCACHE_BUCKET=ci-sccache-bucket
 ```
 
-（在这背后其实需要研究一下 Buildkite 和 AWS 的配置——实际上也非常傻瓜。Buildkite 可以通过 IAM Role 来获得权限，加一个 S3 bucket 的 policy 就 work 了，完全不用配置 secret key 之类的东西。我之前还在思考能不能在 CI 里把 key echo 出来，看来是完全不用担心这种事😄）
+（在这背后其实需要研究一下 Buildkite 和 AWS 的配置——实际上也非常傻瓜。Buildkite 可以通过 IAM Role 来获得权限，加一个 S3 bucket 的 policy 就 work 了，完全不用配置 secret key 之类的东西。我之前还在思考能不能在 CI 里把 key echo 出来，看来是完全不用担心这种事 😄）
 
 效果立竿见影，simulation build 减少了 2.5min，非瓶颈的 debug build 减少了 4min。虽然并没有质变，但是免费的量变何乐而不为呢？
 
@@ -75,13 +76,13 @@ ENV SCCACHE_BUCKET=ci-sccache-bucket
 
 在 `Cargo.toml` 中声明的依赖不管实际上有没有用到，都会被编译。更甚它可能会引入不必要的 syncronization point，影响编译的并行度。
 
-有个老工具 [cargo-udeps](https://github.com/est31/cargo-udeps) 就是干这个的，但是首先它并不支持自动修复，而且它很慢。另外印象中有一个毛病是它不能和 `workspace-hack` 一起用。这导致 RisingWave 中长期没有清理过 unused dependencies。典型的破窗效应🥲！
+有个老工具 [cargo-udeps](https://github.com/est31/cargo-udeps) 就是干这个的，但是首先它并不支持自动修复，而且它很慢。另外印象中有一个毛病是它不能和 `workspace-hack` 一起用。这导致 RisingWave 中长期没有清理过 unused dependencies。典型的破窗效应 🥲！
 
-在 `cargo-udeps` 里关于自动 fix 的 issue 下面看到有人提了 [ `cargo-machete` ](https://github.com/bnjbvr/cargo-machete)（这个名字是大砍刀的意思🤣），觉得是骡子是马拉出来遛遛，发现它跑的飞快，也没有几个 false postive。虽然有几个小问题（参考上面 PR 的 commit history），但是都能容易地修掉。
+在 `cargo-udeps` 里关于自动 fix 的 issue 下面看到有人提了 [ `cargo-machete` ](https://github.com/bnjbvr/cargo-machete)（这个名字是大砍刀的意思 🤣），觉得是骡子是马拉出来遛遛，发现它跑的飞快，也没有几个 false postive。虽然有几个小问题（参考上面 PR 的 commit history），但是都能容易地修掉。
 
 大砍刀的作者有一篇 [blog](https://blog.benj.me/2022/04/27/cargo-machete/) 介绍了 unused dependencies 的危害以及 `cargo-machete` 的解法。具体说来，`cargo-udeps` 是用 `cargo check` 先编译了一遍再分析的，而 `cargo-machete` 是简单粗暴的 `ripgrep`。
 
-这个 PR 一下子删掉了大几十个 udeps，也是让我大吃一惊🤯。可惜的是，CI 的时间并没有进一步缩短，感觉这侧面说明了 cache 效果很好……我本地粗略地测了一下，大概快了十几二十秒。蚊子腿也是肉嘛，anyway it's free!
+这个 PR 一下子删掉了大几十个 udeps，也是让我大吃一惊 🤯。可惜的是，CI 的时间并没有进一步缩短，感觉这侧面说明了 cache 效果很好……我本地粗略地测了一下，大概快了十几二十秒。蚊子腿也是肉嘛，anyway it's free!
 
 ---
 
@@ -93,7 +94,7 @@ P.S. 其实 `cargo-udeps` 配一下也是能和 `workspace-hack` 用的：[feat(
 
 干完上面两个小工作之后本来已经想收工了，但有点心痒痒，觉得 simulation build 还是有点慢。于是我决定 profiling 一下看看。然后就看到了一开始贴的 `--timings` 的图中的几个庞然大物，我觉得这很不 make sense。
 
-我搜了搜 sccache non-cacheable 的原因，发现 incremental compilation 是个很大的 caveat，立马尝试了一下，然后我再次震惊了，效果 *stupidly* 好：
+我搜了搜 sccache non-cacheable 的原因，发现 incremental compilation 是个很大的 caveat，立马尝试了一下，然后我再次震惊了，效果 _stupidly_ 好：
 
 ![timings-2](https://xxchan.github.io/assets/img/comptime/timings-2.png)
 
@@ -116,7 +117,7 @@ incremental = false
 
 [build: single-binary integration test #7842](https://github.com/risingwavelabs/risingwave/pull/7842)
 
-又是一个 *stupidly effective* 的优化。tl;dr:
+又是一个 _stupidly effective_ 的优化。tl;dr:
 
 Don’t do this:
 
@@ -149,8 +150,8 @@ tests/
 - 给 cargo registry 加 cache，或者使用刚刚 stablize 的 sparse index，可参考 [DCjanus](https://github.com/dcjanus) 的这篇 [blog](https://blog.dcjanus.com/posts/cargo-registry-index-in-http/)。
 - 把巨大的 crate 拆分成多个小 create。
 - link time 的优化：link 很花时间，而且是单线程的，很可能成为瓶颈
-	- 使用更快的 linker：`mold` for Linux, `zld` for macOS. `lld` is the most mature option for production use.
-	- 在 debug build 上关掉 Link Time Optimization (LTO)。
+  - 使用更快的 linker：`mold` for Linux, `zld` for macOS. `lld` is the most mature option for production use.
+  - 在 debug build 上关掉 Link Time Optimization (LTO)。
 - Trade-off between compile time and performance：CI 的总时间是编译+测试，那么编译优化（包括上面的 LTO）开不开，开多少实际上就是在前后者之间 trade-off，可以调整测试来达到一个整体最优的选择。例如 bugen gg 在我们的 build profile 上的骚操作：
 
 ```toml
@@ -188,6 +189,6 @@ CI、开发者体验这种东西很容易就会在无人照料的情况下变得
 
 最后再摘两段 matklad [blog](https://matklad.github.io/2021/09/04/fast-rust-builds.html) 里的话作结：
 
-> Compilation time is a *multiplier* for basically everything. Whether you want to ship more features, to make code faster, to adapt to a change of requirements, or to attract new contributors, build time is a factor in that.
+> Compilation time is a _multiplier_ for basically everything. Whether you want to ship more features, to make code faster, to adapt to a change of requirements, or to attract new contributors, build time is a factor in that.
 >
 > It also is a non-linear factor. Just waiting for the compiler is the smaller problem. The big one is losing the state of the flow or (worse) mental context switch to do something else while the code is compiling. One minute of work for the compiler wastes more than one minute of work for the human.

@@ -1,4 +1,3 @@
-
 Although there are often complaints saying Rust'compilation speed is notorious slow, our project [RisingWave](https://github.com/risingwavelabs/risingwave) is not very slow to compile, especially since previously contributors like ([skyzh](https://github.com/skyzh), [BugenZhao](https://github.com/bugenzhao)) have put in a lot of effort. After using an M1 MacBook Pro, compiling is not a problem at all. A full debug compilation only takes 2-3 minutes.
 
 However, over time, more and more things have been added to our CI, making it increasingly bloated. The main workflow now takes about 40 minutes, while the PR workflow takes about 25 minutes 30 seconds. Although it is still not intolerably slow, it is already noticeably slower than before.
@@ -10,6 +9,7 @@ What shocked me was that there were some very simple methods that, with just a l
 ---
 
 P.S. I highly recommend [matklad](https://github.com/matklad)'s blog (He is the original author of IntelliJ Rust and rust-analyzer):
+
 - [Fast Rust Builds](https://matklad.github.io/2021/09/04/fast-rust-builds.html)
 - [Delete Cargo Integration Tests](https://matklad.github.io/2021/02/27/delete-cargo-integration-tests.html)
 
@@ -47,8 +47,7 @@ Cargo comes with built-in support for profiling build times (it was stabilized l
 
 ![timings.png](https://xxchan.github.io/assets/img/comptime/timings.png)
 
-We can see that the compilation times for some dependencies such as `zstd-sys` and `protobuf-src` are very long, so we should try to optimize them. 
-
+We can see that the compilation times for some dependencies such as `zstd-sys` and `protobuf-src` are very long, so we should try to optimize them.
 
 # Step 1: Compilation cache
 
@@ -66,6 +65,7 @@ It's so easy to use. Just add two environment variables to start it up:
 ENV RUSTC_WRAPPER=sccache
 ENV SCCACHE_BUCKET=ci-sccache-bucket
 ```
+
 (Well, behind the scenes, you actually need to study Buildkite and AWS configurations - which are also very simple. Buildkite can obtain permissions through IAM roles, so I just need to a policy for the role to access an S3 bucket, without the need to configure things like secret keys. I had been thinking about whether I could echo the key out in CI before, but it seems there's no need to worry about that. 😄)
 
 The effect was immediately apparent, reducing the simulation build time by 2.5 minutes and the non-bottleneck debug build time by 4 minutes. Although it didn't bring about a qualitative change, why not make use of the (almost free) quantitative change?
@@ -121,7 +121,7 @@ ENV CARGO_INCREMENTAL=0
 
 [build: single-binary integration test #7842](https://github.com/risingwavelabs/risingwave/pull/7842)
 
-It's another *stupidly effective* optimization. tl;dr:
+It's another _stupidly effective_ optimization. tl;dr:
 
 Don’t do this:
 
@@ -193,8 +193,8 @@ Things like CI and DX are easy to become messy if they are not taken care of reg
 
 Finally I'd like to quote matklad's [blog](https://matklad.github.io/2021/09/04/fast-rust-builds.html) again as a conclusion:
 
-> Compilation time is a *multiplier* for basically everything. Whether you want to ship more features, to make code faster, to adapt to a change of requirements, or to attract new contributors, build time is a factor in that.
+> Compilation time is a _multiplier_ for basically everything. Whether you want to ship more features, to make code faster, to adapt to a change of requirements, or to attract new contributors, build time is a factor in that.
 >
 > It also is a non-linear factor. Just waiting for the compiler is the smaller problem. The big one is losing the state of the flow or (worse) mental context switch to do something else while the code is compiling. One minute of work for the compiler wastes more than one minute of work for the human.
 
-Let's take some time to prevent "*broken windows*". The effort would pay off!
+Let's take some time to prevent "_broken windows_". The effort would pay off!
