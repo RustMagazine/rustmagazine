@@ -295,13 +295,14 @@ app --nick Bob
 app --fullname "Bob the Magnificent"
 ```
 
-and work with whatever way user prefers. For this style of composition Category theory offers an
-abstraction from Category Theory called
+and work with whatever version user prefers. For this style of composition Category theory offers an
+abstraction called
 [`Alternative Functor`](https://en.wikibooks.org/wiki/Haskell/Alternative_and_MonadPlus).
 
-It extends the parser with a single function that takes two magical contexts and picks one
+It extends the parser with a single function that takes two values in contexts and picks one
 that succeeds:
-```
+
+```rust
 impl<T> Magic<T> {
     /// if first computation fails - pick the second one
     fn alt(self, other: Self) -> Self {
@@ -415,7 +416,7 @@ impl<T> Magic<T> {
 ```
 
 Those seven operations serve as a base for the parser. They allow to compose primitive argument
-parsers in many ways to create very wide range of computations and there's no mutations in the
+parsers in many ways to create a very wide range of computations and there's no mutations in the
 API itself so it fits perfectly with a functional programming style.
 
 There's a few examples of useful operations implemented in terms of this base API
@@ -458,8 +459,8 @@ struct Arg(&'static str);
 ```
 
 One way to represent all the arguments given by user is to store them in a `BTreeMap<String,
-String>` or (`BTreeMap<String, Vec<String>>` to be able to handle multiple arguments with the
-same name, but for simplicity this parser uses the former version).
+String>`  or `BTreeMap<String, Vec<String>>` to be able to handle multiple arguments with the
+same name, but for simplicity this parser uses the former version.
 
 User invocation
 
@@ -603,7 +604,7 @@ set of changes to `args` should come from the succeeding branch:
 ```
 
 With all those methods in place all that's missing is a wrapper to take care of getting
-arguments from `std::env::args`, placing them into a `BTreeMap` and invoking `run`. One of the
+arguments from `std::env::args()`, placing them into a `BTreeMap` and invoking `run`. One of the
 ways would involve adding a method to the `Parser` trait to perform those steps.
 
 
@@ -613,7 +614,7 @@ ways would involve adding a method to the `Parser` trait to perform those steps.
         let argv = std::env::args::collect::<Vec<_>>();
         let mut args = BTreeMap::new();
         for i in 0..argv.len() / 2 {
-            args.insert(argv[i*2], argv[i*2+1]);
+            args.insert(&argv[i*2], &argv[i*2+1]);
         }
         self.run(&mut args)
     }
@@ -639,7 +640,8 @@ in the same project. For example if your apps contain a notion of data input fro
 types of sources (local file, remote data base, live network feed) it might be convenient to
 have a single datatype representing it, possibly with `enum`, and a single shared parser that
 lets users to specify it. Such parser can contain all the help messages, validations, possible
-dynamic shell completion functions and so on.
+dynamic shell completion functions and so on and can be easily reused across all the binaries
+in the project.
 
 Typical steps consists of
 
