@@ -83,9 +83,9 @@ Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
 [authors.greptime-team]
 name = "Greptime Team"
 bio = """
-Greptime is founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud. 
-- Greptime DB is an open-source, cloud-native time series database with powerful analytical features; 
-- Greptime Cloud is a SaaS solution built on GreptimeDB. 
+Greptime is founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud.
+- Greptime DB is an open-source, cloud-native time series database with powerful analytical features;
+- Greptime Cloud is a SaaS solution built on GreptimeDB.
 
 We are passionate about helping users find real-time values from their time series data with our tools.
 
@@ -99,4 +99,14 @@ avatar = "/static/avatar/xxchan.png"
 bio = """
 - [GitHub](https://github.com/xxchan)
 - [Blog](https://xxchan.github.io)
+"""
+
+
+[authors.manpacket]
+name = "Michael Baykov"
+bio = """
+As an experienced Haskell programmer and contributor, I want to introduce Category Theory and
+bring a new flexible and practical development approach to Rust.
+
+- [GitHub](https://github.com/pacak)
 """
