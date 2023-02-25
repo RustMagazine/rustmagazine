@@ -150,7 +150,7 @@ At this point parser can represent arguments of any type and provides a way to m
 ## Handling failures
 
 Supporting mapping that can't fail is easy with just the `Functor` abstraction but it can't
-handle failures well such as parsing numeric information:
+handle failures well - consider parsing numeric information:
 
 ```
 $ app --answer 42
@@ -202,8 +202,8 @@ fn sample() {
 }
 ```
 
-At this point parser can represent arguments of any type and failures too. Function `parse` an
-ad hoc thing and not coming from Category Theory.
+At this point parser can represent arguments of any type and failures too. Function `parse` is an
+ad hoc thing and isn't coming from Category Theory.
 
 ## Composing failing computations
 
@@ -259,8 +259,8 @@ impl<T> Magic<T> {
 }
 ```
 
-This helps to combine two independent computations for name and answer into a single
-computation for command line arguments:
+This helps to combine two independent computations for *name* and *answer* into a single
+computation for both arguments:
 
 ```rust
 let args = name.zip(answer);
@@ -287,7 +287,7 @@ present and valid.
 ## Composing failing computations in a different way
 
 For some arguments there can be more than one way to represent some information and for as long
-as one of the representation is valid the alternatives may fail. To give an example an app
+as one of the representations is valid the alternatives may fail. To give an example an app
 might expect user to specify either their nick name or a full name:
 
 ```console
