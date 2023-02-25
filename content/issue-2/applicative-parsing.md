@@ -14,7 +14,7 @@ functions and using those functions to pass values around instead imperative sty
 to perform to mutate some data.
 
 Rust supports both functional and imperative approaches well and parts of its standard library
-implemented with functional use in mind. Following examples show the difference between two
+are implemented with functional use in mind. Following examples show the difference between two
 approaches:
 
 Imperative approach describes exact steps program needs to take to calculate a sum of vector
@@ -22,6 +22,7 @@ items:
 - initialize `sum` with 0
 - start at the first element of the array
 - multiply `i`th element of the array by two and add it to `sum`
+- proceed to the next element
 - repeat until the last element of the array
 
 ```rust
@@ -39,13 +40,16 @@ loop {
 
 While functional approach describes what the result is:
 - start from a sequence containing all the items in the array
-- change it to a new sequence by doubling all the items
-- result is a sum of all the elements of this sequence
+- make a new sequence from it by doubling all the items
+- result is a sum of all the elements of this new sequence
 
 ```rust
 let xs = vec![1,2,3,4];
 let sum = xs.iter().map(|x| x * 2).sum();
 ```
+
+Both examples compile to the same set of instructions but it is easier to make a mistake in the
+imperative one.
 
 Not all the tasks are perfect fit for functional approach, at least not in an obvious way. This
 article is going to explore ways of using purely functional approach for a problem that seems
@@ -61,14 +65,14 @@ $ cargo build --bin hello      # build a binary "hello"
 $ cargo check --package server # check if package "server" contains any issues
 ```
 
-Parsing options in general is a wide problem and to make it more manageable this tutorial is
-going to look only at option arguments with a long name: `--bin hello` and `--package server`
-parts. This approach however can parse pretty much anything,
+Parsing command line options in general is a wide problem and to make it more manageable this
+tutorial is going to look only at option arguments with a long name: `--bin hello` and
+`--package server` parts. This approach however can parse pretty much anything,
 [`bpaf`](https://crates.io/crates/bpaf) is a finished library that uses it.
 
 ## Humble beginning
 
-Tutorial starts with some magical handwavey way of taking things from `std::env::args` and placing
+Tutorial starts with some magical handwavey way of taking things from `std::env::args()` and placing
 them in variables and intoduces a simple way of taking them out of the variables.
 
 ```rust
@@ -89,13 +93,13 @@ fn sample() {
 }
 ```
 
-At this point parser can consume multiple string arguments using`Magic` and `Magic::run`.
+At this point parser can consume multiple string arguments using `Magic` and `Magic::run`.
 
 ## Adding more types
 
 Next step would be to allow to have arguments of different types. Consider filenames. While
-most of the functions would take a regular string reference as a filename - not every String is
-a valid filename and not every filename is a valid string. It's a good practice to keep
+most of the functions would take a regular string reference as a filename - not every `String` is
+a valid filename and not every filename is a valid `String`. It's a good practice to keep
 `String` for strings and `PathBuf` for filenames. Type can also serve as a documentation for
 users.
 
@@ -141,7 +145,7 @@ Every valid `Functor` implementation must satisfy a two laws - preserving identi
 preserving composition of morphisms. For as long as it only changes the values in a context
 without affecting the context itself - implementation should be valid.
 
-At this point parser can represent arguments of any type and a way to map between types
+At this point parser can represent arguments of any type and provides a way to map between types
 
 ## Handling failures
 
