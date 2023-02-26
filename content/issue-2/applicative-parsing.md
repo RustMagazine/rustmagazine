@@ -2,10 +2,10 @@
 
 If you ever wrote a program bigger than a few lines of code you probably know that the bigger
 the program gets - the harder it's to make sure it does exactly what you meant due to how
-different parts can interact with each other. Over time programmers and computer scientists
-discovered multiple ways to manage this complexity. Programming went from physically wiring
-the instructions to writing them as mnemonic instructions, to abstractions with variables,
-labels, functions, and so on.
+different parts can interact. Over time programmers and computer scientists discovered multiple
+ways to manage this complexity. Programming went from physically wiring the instructions to
+writing them as mnemonics with assembly language, to abstractions with variables, labels,
+functions, and so on.
 
 
 [Functional Programming](https://en.wikipedia.org/wiki/Functional_programming?useskin=vector)
@@ -17,8 +17,8 @@ Rust supports both functional and imperative approaches well and parts of its st
 are implemented with functional use in mind. Following examples show the difference between two
 approaches:
 
-Imperative approach describes exact steps program needs to take to calculate a sum of vector
-items:
+Imperative approach describes exact steps program needs to take, for example, to calculate a
+sum of all the vector items:
 - initialize `sum` with 0
 - start at the first element of the array
 - multiply `i`th element of the array by two and add it to `sum`
@@ -57,7 +57,7 @@ to be better suited for imperative style.
 
 # Parsing command line options
 
-The main goal for this tutorial is to implement a very simple library to parse command line options.
+The main goal for this tutorial is to implement a basic library to parse command line options.
 If you used `cargo` you probably familiar with expressions like this:
 
 ```console
@@ -73,7 +73,7 @@ tutorial is going to look only at option arguments with a long name: `--bin hell
 ## Humble beginning
 
 Tutorial starts with some magical handwavey way of taking things from `std::env::args()` and placing
-them in variables and intoduces a simple way of taking them out of the variables.
+them into variables and introduces a simple way of taking them out of the variables.
 
 ```rust
 // a magical container with a value already inside
@@ -103,7 +103,7 @@ a valid filename and not every filename is a valid `String`. It's a good practic
 `String` for strings and `PathBuf` for filenames. Type can also serve as a documentation for
 users.
 
-To be able to consume `PathBuf` from the user parser needs a way to represent it in the first
+To be able to consume `PathBuf` from user's input parser needs a way to represent it in the first
 place. One approach would be to make `Magic` a generic datatype:
 
 ```rust
@@ -117,7 +117,7 @@ impl<T> Magic<T> {
 
 This allows to represent values and get them out but since handwavy magic creates variables of
 type `Magic<&'static str>` parser still needs a way to change the type to `Magic<PathBuf>` or
-something else.
+any other type.
 
 For that Category Theory gives an abstraction called
 [`Functor`](https://en.wikipedia.org/wiki/Functor_(functional_programming)?useskin=vector).
@@ -160,7 +160,7 @@ $ app --answer Forty-two
 A parser using `map`, `FromStr::from_str` and `unwrap` can parse the first line but panics
 with a bad error message for the second one. To handle parsing failures `Magic` needs to be
 able to represent them. Usual approach for dealing with failing computations in Rust is
-`Result` type works well here.
+with help from the `Result` type works well here.
 
 ```rust
 struct Magic<T>(Result<T, String>);
@@ -178,7 +178,7 @@ impl<T> Magic<T> {
 ```
 
 Function `parse` applies a failing computation on a value inside `Magic` if one exists or keeps
-the error untouched otherwise. Change in the representation requires to change `map` and
+the error message untouched otherwise. Change in the representation requires to change `map` and
 `parse` can help with that too.
 
 ```
@@ -207,7 +207,7 @@ ad hoc thing and isn't coming from Category Theory.
 
 ## Composing failing computations
 
-`run` makes it easy to check if computation is successful and proceed only when it is, but it
+`run` makes it easy to check if computation is successful and to proceed only when it is, but it
 also adds a new corner case: consider an app that takes a name and the answer, checks
 if the answer is correct and reports to the user:
 
@@ -241,8 +241,8 @@ have a way to make sure all the arguments are validated before proceeding.
 
 An abstraction from the Category Theory called [`Applicative
 Functor`](https://en.wikipedia.org/wiki/Applicative_functor?useskin=vector) can help with this
-scenario. Applicative functors allows to run functorial computations in a sequence (unlike plain
-functors), but don't allow to use results from prior computations in the definition of
+scenario. Applicative functors allows to run functorial computations in a sequence (unlike
+plain functors), but don't allow to use results from prior computations in the definition of
 subsequent ones.
 
 Sounds scary but `Option::zip` does something similar for `Option` and a variant for `Magic` looks
@@ -286,9 +286,9 @@ present and valid.
 
 ## Composing failing computations in a different way
 
-For some arguments there can be more than one way to represent some information and for as long
-as one of the representations is valid the alternatives may fail. To give an example an app
-might expect user to specify either their nick name or a full name:
+In some cases there can be more than one way to represent some information and for as long as
+one of the representations is valid the alternatives may fail. To give an example an app might
+expect user to specify either their nick name or a full name:
 
 ```console
 app --nick Bob
@@ -326,14 +326,15 @@ Since `zip` isn't constrained by argument types for as long as they the same - i
 between whole different computation trees or different operations with multiple simple parsers
 each.
 
-At this point parser can parse any number of arguments of any types allowing to pick valid
+At this point parser can deal with any number of arguments of any types allowing to pick valid
 combinations.
 
 ## Failing intentionally and succeeding unconditionally
 
 While an app might require for user to specify some arguments, for some other arguments there
 might be a valid default value. Alternatively for some cases parser might benefit from better
-error messages than default "argument --foo is missing". Previously defined `alt` with helps with both cases when composed with either always failing or always succeeding parser:
+error messages than default "argument --foo is missing". Previously defined `alt` with helps
+with both cases when composed with either always failing or always succeeding parser:
 
 ```rust
 impl<T> Magic<T> {
@@ -364,7 +365,7 @@ let name = short.alt(pure("Anonymous"));
 ## Defined operations summary
 
 Operations defined so far are sufficient to express arbitrary computations on command line
-arguments allowing to parse structs, enums, optional arguments and so on:
+arguments:
 
 ```rust
 struct Magic<T>(Result<T, String>);
@@ -420,7 +421,6 @@ parsers in many ways to create a very wide range of computations and there's no 
 API itself so it fits perfectly with a functional programming style.
 
 There's a few examples of useful operations implemented in terms of this base API
-
 
 Optional command line arguments:
 
@@ -611,7 +611,7 @@ ways would involve adding a method to the `Parser` trait to perform those steps.
 ```rust
     ...
     fn exec(self) -> Result<T, String> {
-        let argv = std::env::args::collect::<Vec<_>>();
+        let argv = std::env::args().collect::<Vec<_>>();
         let mut args = BTreeMap::new();
         for i in 0..argv.len() / 2 {
             args.insert(&argv[i*2], &argv[i*2+1]);
@@ -625,7 +625,7 @@ ways would involve adding a method to the `Parser` trait to perform those steps.
 
 ## Using applicative parser command line parser
 
-This tutorial establishes the base components for the applicative command line parser,
+This tutorial establishes the base components for an applicative command line parser,
 [`bpaf`](https://crates.io/crates/bpaf) library extends it all the way to production ready
 state.
 
