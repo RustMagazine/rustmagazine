@@ -312,9 +312,10 @@ have a way to make sure all the arguments are validated before proceeding.
 
 An abstraction from the Category Theory called [`Applicative
 Functor`](https://en.wikipedia.org/wiki/Applicative_functor?useskin=vector) can help with this
-scenario. Applicative functors allows to run functorial computations in a sequence (unlike
-plain functors), but don't allow to use results from prior computations in the definition of
-subsequent ones.
+scenario. 
+> Applicative functors allows to run functorial computations in a sequence (unlike
+> plain functors), but don't allow to use results from prior computations in the definition of
+> subsequent ones.
 
 Sounds scary but `Option::zip` does something similar for `Option` and a variant for `Magic` looks
 like this:
