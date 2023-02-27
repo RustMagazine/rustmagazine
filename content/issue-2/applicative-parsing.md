@@ -670,6 +670,6 @@ consistent validations, etc) into performant and purely functional style code as
 external API is concerned.
 
 While designing an Applicative style API requires some specialized knowledge - mostly what kind
-of laws implementation needs to obey and how to check them, using resulting API does not. With
+of laws implementation needs to obey and how to check them, using the resulting API does not. With
 help of the Rust's type system it's easy to make sure that for as long as the user's code
 typechecks - it works and all compositions are correct.
