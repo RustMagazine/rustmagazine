@@ -652,7 +652,7 @@ Typical steps consists of
 - decorating parsers with help messages, validations and shell completion functions
 
 Derive macro supplied by` bpaf`'s `derive` feature helps to avoid writing most of the parsing
-and composition code by hands but in some cases using mix of derived and manually written code
+and composition code by hand, but in some cases using a mix of derived and manually written code
 leads to overall cleaner results.
 
 ## Using Category Theory abstractions such as Applicative Functors
