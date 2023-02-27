@@ -524,7 +524,7 @@ fn guard(magic: Magic<T>, check: impl Fn(&T) -> bool, msg: &str) -> Magic<T> {
 Now that the parser has all the basic building blocks the next step is to reimplement them
 without `Magic<T>` since current version isn't practical.
 
-An obvious way to represent specific flag would be by keeping its name around:
+An obvious way to represent a specific flag would be by keeping its name around:
 
 ```rust
 struct Arg(&'static str);
