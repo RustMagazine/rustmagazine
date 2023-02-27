@@ -293,10 +293,7 @@ let name = match name.run() {
 
 // println!("Hello {name}!") // (1)
 
-let answer = match answer.run() {
-    Ok(ok) => ok,
-    _ => panic!("You need to specify the answer"),
-}
+let answer = match answer.run().expect("You need to specify the answer");
 
 // println!("Hello {name}!") // (2)
 
