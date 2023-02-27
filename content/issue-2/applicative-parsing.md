@@ -626,7 +626,7 @@ where
 }
 ```
 
-`parse`'s implementation almost identical to `map` but instead of wrapping the result in `Ok`
+`parse`'s implementation is almost identical to `map`, but instead of wrapping the result in `Ok`
 it uses what `mapper` returns.
 
 ```rust
