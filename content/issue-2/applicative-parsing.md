@@ -255,7 +255,7 @@ Function `parse` applies a failing computation on a value inside `Magic` if one 
 the error message untouched otherwise. Change in the representation requires to change `map` and
 `parse` can help with that too.
 
-```
+```rust
 impl<T> Magic<T> {
     fn map<R, F: Fn(T) -> R>(self, f: F) -> Magic<R> {
         self.parse(|x| Ok(f(x)))
