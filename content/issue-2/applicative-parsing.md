@@ -58,7 +58,7 @@ to be better suited for imperative style.
 # Parsing command line options
 
 The main goal for this tutorial is to implement a basic library to parse command line options.
-If you used `cargo` you probably familiar with expressions like this:
+If you used `cargo` you are probably familiar with expressions like this:
 
 ```console
 $ cargo build --bin hello      # build a binary "hello"
