@@ -13,6 +13,14 @@ is one of the paradigms for managing complexity with its main idea of writing co
 functions and using those functions to pass values around instead imperative style of steps
 to perform to mutate some data.
 
+
+Main goal of this tutorial is to explain the idea of Applicative Functors, why you may want to
+use them, what each method does. Code shown here is going to be similar but slightly different
+from what you would use in a full featured command line argument parsing library - for
+production you would want  better error messages, help generation, dynamic completion and so
+on. But the main operations stay the same. Applicative Functors are not limited to arg parsing
+and you can try to follow this tutorial to get some ideas for your own problems.
+
 Imagine you want to create an argument parser that parses your arguments into a struct like this:
 
 ```rust
