@@ -77,7 +77,7 @@ to be better suited for imperative style.
 
 ---
 
-Imagine you want to create an arguemnt parser that parses your arguments into a struct like this:
+Imagine you want to create an argument parser that parses your arguments into a struct like this:
 
 ```rust
 struct Args {
@@ -312,7 +312,7 @@ have a way to make sure all the arguments are validated before proceeding.
 
 An abstraction from the Category Theory called [`Applicative
 Functor`](https://en.wikipedia.org/wiki/Applicative_functor?useskin=vector) can help with this
-scenario. 
+scenario.
 > Applicative functors allows to run functorial computations in a sequence (unlike
 > plain functors), but don't allow to use results from prior computations in the definition of
 > subsequent ones.
@@ -522,7 +522,8 @@ fn guard(magic: Magic<T>, check: impl Fn(&T) -> bool, msg: &str) -> Magic<T> {
 # Back to practical implementation
 
 Now that the parser has all the basic building blocks the next step is to reimplement them
-without `Magic<T>` since current version isn't practical.
+without `Magic<T>` since current internal representation relies on magic to get from arguments
+on a command line to variables.
 
 An obvious way to represent a specific flag would be by keeping its name around:
 
@@ -587,7 +588,7 @@ struct ParseMap<P, F, T, R> {
 ```
 
 `PhantomData` here is something required by the Rust type system to allow to implement `Parser`
-trait for `ParseMap`. Since `ParseMap` doesn't need to know what exact parser it works on. 
+trait for `ParseMap`. Since `ParseMap` doesn't need to know what exact parser it works on.
 As long as types align - `map` can go directly into the trait as a default implementation.
 
 ```rust
@@ -630,25 +631,50 @@ where
 it uses what `mapper` returns.
 
 ```rust
-    ...
+struct ParseParse<P, F, T, R> {
+    // inner parser
+    inner: P,
+    inner_type: PhantomData<T>,
+    // transformation function
+    mapper: F,
+    mapper_result: PhantomData<R>,
+}
+
+impl<F, P, R, T> Parser<T> for ParseParse<P, F, T, R>
+where
+    P: Parser<R>,
+    F: Fn(R) -> Result<T, String>,
+{
+
     fn run(self, args: &mut BTreeMap<&str, &str>) -> Result<T, String> {
         let p = self.inner.run(args)?;
         (self.mapper)(p)
     }
-    ...
+}
 ```
 
 `zip` is close too, but instead of a single inner parser it holds two of them and runs them
 sequentially, when either parser fails - whole computation fails by the power of `?` operator:
 
 ```rust
-    ...
-    fn run(self, args: &mut BTreeMap<&str, &str>) -> Result<(A, B), String> {
+struct ParseZip<L, R, A, B> {
+    left: L,
+    left_type: PhantomData<A>,
+    right: R,
+    right_type: PhantomData<B>,
+}
+
+impl<L, R, A, B> Parser<(A, B)> for ParseZip<L, R, A, B>
+where
+    L: Parser<A>,
+    R: Parser<B>,
+{
+    fn run(self, args: &mut BTreeMap<&str, String>) -> Result<(A, B), String> {
         let a = self.left.run(args)?;
         let b = self.right.run(args)?;
         Ok((a, b))
     }
-    ...
+}
 ```
 
 `pure` and `fail` simply stash the expected value or the error message and return them inside
@@ -659,8 +685,14 @@ same command line options, both branches must get exactly the same set of inputs
 set of changes to `args` should come from the succeeding branch:
 
 ```rust
-    ...
-    fn run(self, args: &mut BTreeMap<&str, &str>) -> Result<T, String> {
+struct ParseAlt<L, R, T> {
+    left: L,
+    right: R,
+    result_type: PhantomData<T>,
+}
+
+impl<L, R, T> Parser<T> for ParseAlt<L, R, T> {
+    fn run(self, args: &mut BTreeMap<&str, String>) -> Result<T, String> {
         let args_copy = args.clone();
         match self.left.run(&mut args_copy) {
             Ok(ok) => {
@@ -670,12 +702,13 @@ set of changes to `args` should come from the succeeding branch:
             _ => self.right.run(args)
         }
     }
-    ...
+}
 ```
 
 With all those methods in place, all that's missing is a wrapper to take care of getting
-arguments from `std::env::args()`, placing them into a `BTreeMap` and invoking `run`. 
-Since these steps the same for every `Parser`, it can be provided as a default implementation on the `Parser` trait.
+arguments from `std::env::args()`, placing them into a `BTreeMap` and invoking `run`. Since
+these steps the same for every `Parser`, it can be provided as a default implementation on the
+`Parser` trait.
 
 
 ```rust
