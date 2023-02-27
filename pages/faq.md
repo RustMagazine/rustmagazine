@@ -44,7 +44,7 @@ cover = "/path/to/cover.png"
 
 ## Do you have any information about your reader base, such as their size or where they are mainly from?
 
-We don't have concrete details on the distribution of our readers since we have not added analysis services like Google Analytics to track them. However, we believe that we have a considerable audience worldwide, as we have had [an article](https://news.ycombinator.com/item?id=34689870) trend on Hacker News half on Feburary, 2023. We are constantly striving to reach more readers and grow our community.
+We don't have concrete details on the distribution of our readers since we have not added analysis services like Google Analytics to track them. However, we believe that we have a considerable audience worldwide, as we have had [an article](https://news.ycombinator.com/item?id=34689870) trend on Hacker News half on February, 2023. We are constantly striving to reach more readers and grow our community.
 
 ## Does the author get paid?
 
