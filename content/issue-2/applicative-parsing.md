@@ -121,7 +121,7 @@ any other type.
 
 For that Category Theory gives an abstraction called
 [`Functor`](https://en.wikipedia.org/wiki/Functor_(functional_programming)?useskin=vector).
-Functor allows to change a value inside of a generic context to some other value with the same
+A functor allows to change a value inside of a generic context to some other value with the same
 or a different type but without changing the context. Sounds scary, but `Option::map` does more
 or less the same thing:
 
