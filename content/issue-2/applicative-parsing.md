@@ -276,7 +276,7 @@ fn sample() {
 }
 ```
 
-At this point parser can represent arguments of any type and failures too. Function `parse` is an
+At this point the parser can represent arguments of any type and failures too. Function `parse` is an
 ad hoc thing and isn't coming from Category Theory.
 
 ## Composing failing computations
