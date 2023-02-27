@@ -367,7 +367,7 @@ app --nick Bob
 app --fullname "Bob the Magnificent"
 ```
 
-and work with whatever version user prefers. For this style of composition Category theory offers an
+and work with whatever version the user prefers. For this style of composition Category Theory offers an
 abstraction called
 [`Alternative Functor`](https://en.wikibooks.org/wiki/Haskell/Alternative_and_MonadPlus).
 
