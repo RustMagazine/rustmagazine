@@ -90,8 +90,8 @@ tutorial is going to look only at option arguments with a long name: `--bin hell
 
 ## Humble beginning
 
-Tutorial starts with some magical handwavey way of taking things from `std::env::args()` and placing
-them into variables and introduces a simple way of taking them out of the variables.
+Let's start with some magical handwavey way, taking things from `std::env::args()` and placing
+them in a container, that introduces a simple way of taking them out again.
 
 ```rust
 // a magical container with a value already inside
@@ -111,18 +111,17 @@ fn sample() {
 }
 ```
 
-At this point parser can consume multiple string arguments using `Magic` and `Magic::run`.
+At this point the parser can represent single string arguments using `Magic` and extract them via `Magic::run`.
 
 ## Adding more types
 
 Next step would be to allow to have arguments of different types. Consider filenames. While
 most of the functions would take a regular string reference as a filename - not every `String` is
 a valid filename and not every filename is a valid `String`. It's a good practice to keep
-`String` for strings and `PathBuf` for filenames. Type can also serve as a documentation for
-users.
+`String` for strings and `PathBuf` for filenames. Additionally, proper specialized types also serve as an anchor for documentation.
 
-To be able to consume `PathBuf` from user's input parser needs a way to represent it in the first
-place. One approach would be to make `Magic` a generic datatype:
+To be able to consume `PathBuf` from user's input, the parser needs a way to represent it in the first
+place. This can be achieved by making `Magic` a generic datatype:
 
 ```rust
 struct Magic<T>(T);
@@ -133,9 +132,8 @@ impl<T> Magic<T> {
 }
 ```
 
-This allows to represent values and get them out but since handwavy magic creates variables of
-type `Magic<&'static str>` parser still needs a way to change the type to `Magic<PathBuf>` or
-any other type.
+Generics allow us to represent and extract values of any type, but since our handwavy magic only creates variables of
+type `Magic<&'static str>`, the parser still needs a way to change the type to another such as `Magic<PathBuf>`.
 
 For that Category Theory gives an abstraction called
 [`Functor`](https://en.wikipedia.org/wiki/Functor_(functional_programming)?useskin=vector).
@@ -163,11 +161,11 @@ Every valid `Functor` implementation must satisfy a two laws - preserving identi
 preserving composition of morphisms. For as long as it only changes the values in a context
 without affecting the context itself - implementation should be valid.
 
-At this point parser can represent arguments of any type and provides a way to map between types
+At this point the parser can represent arguments of any type and provides a way to map between types.
 
 ## Handling failures
 
-Supporting mapping that can't fail is easy with just the `Functor` abstraction but it can't
+Supporting mapping that can't fail is easy with just the `Functor` abstraction, but it can't
 handle failures well - consider parsing numeric information:
 
 ```
@@ -195,9 +193,9 @@ impl<T> Magic<T> {
     }
 ```
 
-Function `parse` applies a failing computation on a value inside `Magic` if one exists or keeps
-the error message untouched otherwise. Change in the representation requires to change `map` and
-`parse` can help with that too.
+The `parse` method applies a failing computation on a value inside `Magic` if one exists or keeps
+the error message untouched otherwise. The change in the representation of `Magic` also 
+requires to change `map`, but after that, fallible conversions are now possible:
 
 ```rust
 impl<T> Magic<T> {
@@ -220,8 +218,8 @@ fn sample() {
 }
 ```
 
-At this point the parser can represent arguments of any type and failures too. Function `parse` is an
-ad hoc thing and isn't coming from Category Theory.
+At this point the parser can represent arguments of any type and failures too.
+Alas, `parse` is an ad-hoc thing and isn't coming from Category Theory.
 
 ## Composing failing computations
 
@@ -248,10 +246,10 @@ if answer == 42 {
 }
 ```
 
-Greeting code can go in one of two position: (1) and (2), in the first position it executes
-before all the arguments are validated. In this example failure to validate all the
-arguments results in a confusing messages to user, but it's easy imagine a situation where an
-app might perform some harder to undo actions. Because of this a good argument parser needs to
+The greeting code can go in one of two position: (1) and (2). In the first position it executes
+before all the arguments are validated. In this example a failure to validate the
+first argument results in a confusing message to user, but it's easy imagine a situation where, instead of writing a message, an
+app might perform some harder to undo actions. Because of this, a good argument parser needs to
 have a way to make sure all the arguments are validated before proceeding.
 
 An abstraction from the Category Theory called [`Applicative
@@ -275,7 +273,7 @@ impl<T> Magic<T> {
 }
 ```
 
-This helps to combine two independent computations for *name* and *answer* into a single
+This helps to combine the two independent computations for *name* and *answer* into a single
 computation for both arguments:
 
 ```rust
@@ -338,7 +336,7 @@ let name = short.alt(long);
 println!("Hello {}", name.run().unwrap());
 ```
 
-Since `zip` isn't constrained by argument types for as long as they the same - it can pick
+Since `zip` isn't constrained by argument types for as long as they are the same - it can pick
 between whole different computation trees or different operations with multiple simple parsers
 each.
 
@@ -466,8 +464,8 @@ fn guard(magic: Magic<T>, check: impl Fn(&T) -> bool, msg: &str) -> Magic<T> {
 # Back to practical implementation
 
 Now that the parser has all the basic building blocks the next step is to reimplement them
-without `Magic<T>` since current internal representation relies on magic to get from arguments
-on a command line to variables.
+without `Magic<T>`, since current internal representation relies on handwavy magic to provide `Magic` containers for arguments
+on a command line.
 
 An obvious way to represent a specific flag would be by keeping its name around:
 
