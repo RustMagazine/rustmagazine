@@ -530,9 +530,9 @@ An obvious way to represent specific flag would be by keeping its name around:
 struct Arg(&'static str);
 ```
 
-One way to represent all the arguments given by user is to store them in a `BTreeMap<String,
-String>`  or `BTreeMap<String, Vec<String>>` to be able to handle multiple arguments with the
-same name, but for simplicity this parser uses the former version.
+One way to represent all name-argument-pairs is to store them in a `BTreeMap<String,
+String>` (for simplicity this parser assumes there is only a single argument per name).
+With this, an invocation of
 
 User invocation
 
