@@ -659,7 +659,7 @@ leads to overall cleaner results.
 
 Rust already supports a very limited subset of similar function compositions with unstable
 `Try` trait and `?` operator. Abstractions introduced in this tutorial can help to extend such
-composition with ability to implicitly pass information around, to try different paths though
+composition with ability to implicitly pass information around, to try different paths through
 compositions and collect information about successes and failures and make this information
 available though side channels.
 
