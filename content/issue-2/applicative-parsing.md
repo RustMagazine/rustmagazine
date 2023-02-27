@@ -403,10 +403,10 @@ combinations.
 
 ## Failing intentionally and succeeding unconditionally
 
-While an app might require for user to specify some arguments, for some other arguments there
-might be a valid default value. Alternatively for some cases parser might benefit from better
-error messages than default "argument --foo is missing". Previously defined `alt` with helps
-with both cases when composed with either always failing or always succeeding parser:
+While an app might require users to specify some arguments, for other arguments there
+might be a valid default value. Alternatively, for some cases a parser might provide better
+error messages than a generic "argument --foo is missing". The `alt` method helps
+with both cases, when composed with either an always failing (`fail`) or always succeeding (`pure`) parser:
 
 ```rust
 impl<T> Magic<T> {
