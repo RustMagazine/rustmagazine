@@ -233,8 +233,8 @@ $ app --answer Forty-two
 
 A parser using `map`, `FromStr::from_str` and `unwrap` can parse the first line but panics
 with a bad error message for the second one. To handle parsing failures `Magic` needs to be
-able to represent them. Usual approach for dealing with failing computations in Rust is
-with help from the `Result` type works well here.
+able to represent them. The usual approach for dealing with failing computations in Rust is
+with help from the `Result` type.
 
 ```rust
 struct Magic<T>(Result<T, String>);
