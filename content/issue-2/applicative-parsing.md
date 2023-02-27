@@ -353,7 +353,7 @@ While `zip` can combine only two parsers you can chain it multiple times to crea
 `Magic<(A, (B, (C, D)))>` and flatten it later with `map` to `Magic<(A, B, C, D)>` or pack into a
 struct like `Magic<Struct>`. A simple macro can take care of those transformations.
 
-At this point parser can deal with any number of arguments of any type while making sure they all
+At this point the parser can deal with any number of arguments of any type while making sure they are all
 present and valid.
 
 ## Composing failing computations in a different way
