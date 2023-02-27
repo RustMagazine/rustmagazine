@@ -13,27 +13,30 @@ is one of the paradigms for managing complexity with its main idea of writing co
 functions and using those functions to pass values around instead imperative style of steps
 to perform to mutate some data.
 
+---
+
 Rust supports both functional and imperative approaches well and parts of its standard library
 are implemented with functional use in mind. Following examples show the difference between two
 approaches:
 
-Imperative approach describes exact steps program needs to take, for example, to calculate a
-sum of all the vector items:
-Given a list `xs`
+In the imperative (from "to command") style one write precise instructions that fulfill the goal.
+E.g. to calculate the element-wise sum of all the even numbers in a vector one would:
 
 1. initialize a variable `sum` with 0
 2. initialize a counter variable `i` to 0
 3. look at the `i`th element of the array
-4. multiply `i`th element of the array by two and add it to `sum`
+4. add `i`th element to `sum` if it is even
 5. increase the counter variable `i` by one
-6. repeat 3. to 5. until `i == xs.len()`  
+6. repeat 3. to 5. until `i == xs.len()`
 
 ```rust
 let xs = vec![1,2,3,4];
 let mut sum = 0;
 let mut i = 0;
 loop {
-    sum += xs[i] * 2;
+    if xs[i] % 2 == 0 {
+       sum += xs[i];
+    }
     i += 1;
     if i == xs.len() {
         break;
@@ -41,14 +44,27 @@ loop {
 }
 ```
 
+The functional approach on the other hand is declarative.
+Instead of giving exact instructions, one describes what needs to happen to get the result:
+Given a list `xs`
+
+1. create a new sequence containing only even values from the original list (`filter`)
+2. summize all elements of this new sequence (`sum`)
+```rust
+let xs = vec![1,2,3,4];
+let sum = xs.iter()
+	.filter(|x| x % 2 == 0)
+	.sum();
+```
+
 While functional approach describes what the result is:
 - start from a sequence containing all the items in the array
-- make a new sequence from it by doubling all the items
+- make a new sequence from it by taking only even items
 - result is a sum of all the elements of this new sequence
 
 ```rust
 let xs = vec![1,2,3,4];
-let sum = xs.iter().map(|x| x * 2).sum();
+let sum = xs.iter().filter(|x| x % 2 == 0).sum();
 ```
 
 Both examples compile to the same set of instructions but it is easier to make a mistake in the
@@ -57,6 +73,61 @@ imperative one.
 Not all the tasks are perfect fit for functional approach, at least not in an obvious way. This
 article is going to explore ways of using purely functional approach for a problem that seems
 to be better suited for imperative style.
+
+
+---
+
+Imagine you want to create an arguemnt parser that parses your arguments into a struct like this:
+
+```rust
+struct Args {
+    name: String,
+    answer: i32,
+}
+```
+
+
+If you want to write an argument parser purely imperatively, look at the horrors that entails,
+think about how to scale and maintain this:
+
+
+```rust
+fn parse() -> Args {
+	let name = None;
+	let answer = None;
+
+	let args = std::env::args();
+	while let (Some(arg), Some(value)) = (args.next(), args.next()){
+		if arg == "--name" {
+			name = Some(value.to_string());
+		}
+		if arg == "--answer" {
+			answer = Some(value.parse::<i32>.unwrap()),
+		}
+	};
+
+	Args {
+		name: name.expect("'--name' not given"),
+		answer: answer.expect("'--answer' not given"),
+	}
+}
+```
+
+What if you could use functional programming to just describe what you want:
+
+```rust
+fn parse() -> Args {
+    let name = Arg("--name").parse(|n| n.to_string())
+    let answer = Arg("--answer").parse(|a| a.parse::<i32>)
+    let Args = name
+      .zip(answer)
+      .map(|name, answer| Args { name, answer })
+      .run()
+      .unwrap()
+}
+```
+
+Now lets see how we get there.
 
 # Parsing command line options
 
