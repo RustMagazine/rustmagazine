@@ -8,7 +8,7 @@ writing them as mnemonics with assembly language, to abstractions with variables
 functions, and so on.
 
 
-[Functional Programming](https://en.wikipedia.org/wiki/Functional_programming?useskin=vector)
+[Functional Programming](https://en.wikipedia.org/wiki/Functional_programming)
 is one of the paradigms for managing complexity with its main idea of writing code as a set of
 functions and using those functions to pass values around instead imperative style of steps
 to perform to mutate some data.
