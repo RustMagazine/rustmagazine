@@ -19,11 +19,14 @@ approaches:
 
 Imperative approach describes exact steps program needs to take, for example, to calculate a
 sum of all the vector items:
-- initialize `sum` with 0
-- start at the first element of the array
-- multiply `i`th element of the array by two and add it to `sum`
-- proceed to the next element
-- repeat until the last element of the array
+Given a list `xs`
+
+1. initialize a variable `sum` with 0
+2. initialize a counter variable `i` to 0
+3. look at the `i`th element of the array
+4. multiply `i`th element of the array by two and add it to `sum`
+5. increase the counter variable `i` by one
+6. repeat 3. to 5. until `i == xs.len()`  
 
 ```rust
 let xs = vec![1,2,3,4];
