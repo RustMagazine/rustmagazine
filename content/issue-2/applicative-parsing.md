@@ -534,13 +534,12 @@ One way to represent all name-argument-pairs is to store them in a `BTreeMap<Str
 String>` (for simplicity this parser assumes there is only a single argument per name).
 With this, an invocation of
 
-User invocation
 
 ```console
 $ app --name Bob --answer 42
 ```
 
-can create a map looking like this:
+would create a map looking like this:
 
 ```json
 {
@@ -550,10 +549,9 @@ can create a map looking like this:
 ```
 
 
-Since `Arg` as defined above can only represent a `String` and doesn't have a value inside
-until the execution phase parser needs to use other data types to represent remaining
-operations. A unified way to perform the same set of operations on different data types is by
-using a trait:
+Since `Arg`, as defined above, only represents a name and doesn't have a value
+until the execution phase, the parser needs to use other data types to represent remaining
+operations. In Rust, `trait`s are used to describe the same set of operations for different data types.
 
 ```rust
 struct Arg(&'static str);
@@ -589,8 +587,8 @@ struct ParseMap<P, F, T, R> {
 ```
 
 `PhantomData` here is something required by the Rust type system to allow to implement `Parser`
-trait for `ParseMap`. Since `ParseMap` doesn't need to know what exact parser it works on as
-long as types align - `map` can go directly into the trait as a default implementation.
+trait for `ParseMap`. Since `ParseMap` doesn't need to know what exact parser it works on. 
+As long as types align - `map` can go directly into the trait as a default implementation.
 
 ```rust
 trait Parser<T>
@@ -657,7 +655,7 @@ sequentially, when either parser fails - whole computation fails by the power of
 the `run` function without touching `args` at all.
 
 With `alt` picking between two alternatives and each alternatives potentially consuming the
-same command line options both branches must get exactly the same set of inputs and the final
+same command line options, both branches must get exactly the same set of inputs and the final
 set of changes to `args` should come from the succeeding branch:
 
 ```rust
@@ -675,9 +673,9 @@ set of changes to `args` should come from the succeeding branch:
     ...
 ```
 
-With all those methods in place all that's missing is a wrapper to take care of getting
-arguments from `std::env::args()`, placing them into a `BTreeMap` and invoking `run`. One of the
-ways would involve adding a method to the `Parser` trait to perform those steps.
+With all those methods in place, all that's missing is a wrapper to take care of getting
+arguments from `std::env::args()`, placing them into a `BTreeMap` and invoking `run`. 
+Since these steps the same for every `Parser`, it can be provided as a default implementation on the `Parser` trait.
 
 
 ```rust
@@ -697,33 +695,30 @@ ways would involve adding a method to the `Parser` trait to perform those steps.
 
 ## Using applicative parser command line parser
 
-This tutorial establishes the base components for an applicative command line parser,
-[`bpaf`](https://crates.io/crates/bpaf) library extends it all the way to production ready
-state.
+This tutorial establishes the base components for an applicative command line parser.
+The [`bpaf`](https://crates.io/crates/bpaf) library extends this concept all the way to
+production ready state.
 
-Unlike traditional command line interface parsers where one argument maps roughly to a single
-field and validations are limited to cases accounted for by the parser library authors using
-applicative functors lets library users to perform almost arbitrary transformations and
-validations. For example it's possible to have a single option to write to a multiple fields
+Unlike traditional command line interface parsers, where one argument maps roughly to a single
+field and validations are limited to cases accounted for by the parser library authors, using
+applicative functors lets library users perform almost arbitrary transformations and
+validations. For example, it's possible to have a single option to write to a multiple fields
 or require that fields come in groups.
 
 The fact that individual parsers compose makes it easy to share them across multiple binaries
 in the same project. For example if your apps contain a notion of data input from multiple
 types of sources (local file, remote data base, live network feed) it might be convenient to
 have a single datatype representing it, possibly with `enum`, and a single shared parser that
-lets users to specify it. Such parser can contain all the help messages, validations, possible
-dynamic shell completion functions and so on and can be easily reused across all the binaries
-in the project.
+lets users specify it. Such parser can contain all the help messages, validations, possible
+dynamic shell completion functions and so on and can be easily reused across different binaries.
 
 Typical steps consists of
 
 - figuring out a list of options your app might take and relationships between them
-- packing those options into a composition of `struct`s and `enum`s - mutually exclusive
-  options go into different enum variants, mutually required options go into `struct` fields,
-  etc.
+- packing those options into a composition of `struct`s and `enum`s (to represent mutually required and mutually exclusive combinations respectively)
 - decorating parsers with help messages, validations and shell completion functions
 
-Derive macro supplied by` bpaf`'s `derive` feature helps to avoid writing most of the parsing
+The derive macro supplied by` bpaf`'s `derive` feature helps to avoid writing most of the parsing
 and composition code by hand, but in some cases using a mix of derived and manually written code
 leads to overall cleaner results.
 
