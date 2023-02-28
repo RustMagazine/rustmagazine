@@ -25,8 +25,8 @@ Imagine you want to create an argument parser that parses your arguments into a 
 
 ```rust
 struct Args {
-    name: String,
-    answer: i32,
+    bin: String,
+    jobs: u32,
 }
 ```
 
@@ -37,22 +37,22 @@ think about how to scale and maintain this:
 
 ```rust
 fn parse() -> Args {
-	let name = None;
-	let answer = None;
+	let bin = None;
+	let jobs = None;
 
 	let args = std::env::args();
 	while let (Some(arg), Some(value)) = (args.next(), args.next()){
-		if arg == "--name" {
-			name = Some(value.to_string());
+		if arg == "--bin" {
+			bin = Some(value.to_string());
 		}
-		if arg == "--answer" {
-			answer = Some(value.parse::<i32>.unwrap()),
+		if arg == "--jobs" {
+			jobs = Some(value.parse::<u32>.unwrap()),
 		}
 	};
 
 	Args {
-		name: name.expect("'--name' not given"),
-		answer: answer.expect("'--answer' not given"),
+		name: name.expect("'--bin' not given"),
+		answer: answer.expect("'--jobs' not given"),
 	}
 }
 ```
@@ -61,11 +61,11 @@ What if you could use functional programming to just describe what you want:
 
 ```rust
 fn parse() -> Args {
-    let name = Arg("--name").parse(|n| n.to_string())
-    let answer = Arg("--answer").parse(|a| a.parse::<i32>)
+    let name = Arg("--bin").parse(|n| n.to_string());
+    let answer = Arg("--jobs").parse(|a| a.parse::<u32>);
     let Args = name
       .zip(answer)
-      .map(|name, answer| Args { name, answer })
+      .map(|(name, answer)| Args { bin, jobs })
       .run()
       .unwrap()
 }
@@ -105,9 +105,10 @@ impl Magic {
 
 #[test]
 fn sample() {
-    // --name Bob
-    let name = Magic("Bob");
-    let _result = name.run(); // "Bob"
+    // --bin hello
+    let bin = Magic("hello");
+    let result = name.run();
+    assert_eq!(result, "hello");
 }
 ```
 
@@ -152,8 +153,10 @@ impl<T> Magic<T> {
 fn sample() {
     use std::path::PathBuf;
     // --name Cargo.toml
-    let name = Magic("Cargo.toml"); // Magic<&str>
-    let _result = name.map(PathBuf::from).run(); // "Cargo.toml", PathBuf
+    let path = Magic("Cargo.toml"); // Magic<&str>
+    let path = name.map(PathBuf::from); // Magic<PathBuf>
+    let result = path.run();
+    assert_eq!(result, "Cargo.toml");
 }
 ```
 
@@ -171,8 +174,8 @@ Supporting mapping that can't fail is easy with just the `Functor` abstraction, 
 handle failures well - consider parsing numeric information:
 
 ```
-$ app --answer 42
-$ app --answer Forty-two
+$ app --jobs 42
+$ app --jobs Forty-two
 ```
 
 A parser using `map`, `FromStr::from_str` and `unwrap` can parse the first line but panics
@@ -209,14 +212,14 @@ impl<T> Magic<T> {
 #[test]
 fn sample() {
     use std::str::FromStr;
-    // --answer 42
-    let answer = Magic(Ok("42"));
+    // --jobs 42
+    let jobs = Magic(Ok("42"));
     let result = answer
         .parse(|n| u32::from_str(n).map_err(|e| e.to_string()))
         .run();
     assert_eq!(result, Ok(42));
 
-    let answer = Magic(Ok("Forty-two"));
+    let jobs = Magic(Ok("Forty-two"));
     let result = answer
         .parse(|n| u32::from_str(n).map_err(|e| e.to_string()))
         .run();
@@ -229,34 +232,28 @@ Alas, `parse` is an ad-hoc thing and isn't coming from Category Theory.
 
 ## Composing failing computations
 
-`run` makes it easy to check if computation is successful and to proceed only when it is, but it
-also adds a new corner case: consider an app that takes a name and the answer, checks
-if the answer is correct and reports to the user:
+`run` makes it easy to check if computation is successful and to proceed only when it is, but
+it also adds a new corner case: consider an app that takes a name and the answer, checks if the
+answer is correct and reports to the user:
 
 ```rust
-let name = match name.run() {
-    Ok(ok) => ok,
-    _ => panic!("You need to specify name"),
-}
+let bin = match bin.run().expect("You need to specify --bin");
 
-// println!("Hello {name}!") // (1)
+// println!("Building binary {bin}!") // (1)
 
-let answer = match answer.run().expect("You need to specify the answer");
+let jobs = match jobs.run().expect("You need to specify --jobs");
 
-// println!("Hello {name}!") // (2)
+// println!("Building binary {bin}!") // (1)
 
-if answer == 42 {
-    println!("Your answer is correct");
-} else {
-    println!("Your answer is wrong");
-}
+compile(bin, jobs);
 ```
 
 The greeting code can go in one of two position: (1) and (2). In the first position it executes
-before all the arguments are validated. In this example a failure to validate the
-first argument results in a confusing message to user, but it's easy imagine a situation where, instead of writing a message, an
-app might perform some harder to undo actions. Because of this, a good argument parser needs to
-have a way to make sure all the arguments are validated before proceeding.
+before all the arguments are validated. In this example a failure to validate the first
+argument results in a confusing message to user, but it's easy imagine a situation where,
+instead of writing a message, an app might perform some harder to undo actions. Because of
+this, a good argument parser needs to have a way to make sure all the arguments are validated
+before proceeding.
 
 An abstraction from the Category Theory called [`Applicative
 Functor`](https://en.wikipedia.org/wiki/Applicative_functor?useskin=vector) can help with this
@@ -279,22 +276,18 @@ impl<T> Magic<T> {
 }
 ```
 
-This helps to combine the two independent computations for *name* and *answer* into a single
+This helps to combine the two independent computations for *bin* and *jobs* into a single
 computation for both arguments:
 
 ```rust
-let args = name.zip(answer);
+let args = bin.zip(jobs);
 let args = match args.run() {
     Ok(ok) => ok,
     Err(err) => panic!("There's a problem with your arguments: {err}"),
 }
 
-println!("Hello {}!", args.0)
-if args.1 == 42 {
-    println!("Your answer is correct");
-} else {
-    println!("Your answer is wrong");
-}
+println!("Building binary {}!", args.0)
+compile(args.0, args.1);
 ```
 
 While `zip` can combine only two parsers you can chain it multiple times to create things like
@@ -333,13 +326,13 @@ impl<T> Magic<T> {
     }
 }
 ```
-And a program that takes either full or short name might look like this:
+And a program that takes either a full or a nick name might look like this:
 ```rust
-let short = Magic(Err("No short name given").to_string());
-let long = Magic(Ok("Bob the Magnificent"));
+let nick = Magic(Err("No nick name given").to_string());
+let fullname = Magic(Ok("Bob the Magnificent"));
 let name = short.alt(long);
 
-println!("Hello {}", name.run().unwrap());
+println!("Hello {}!", name.run().unwrap());
 ```
 
 Since `zip` isn't constrained by argument types for as long as they are the same - it can pick
@@ -351,10 +344,10 @@ combinations.
 
 ## Failing intentionally and succeeding unconditionally
 
-While an app might require users to specify some arguments, for other arguments there
-might be a valid default value. Alternatively, for some cases a parser might provide better
-error messages than a generic "argument --foo is missing". The `alt` method helps
-with both cases, when composed with either an always failing (`fail`) or always succeeding (`pure`) parser:
+While an app might require users to specify some arguments, for other arguments there might be
+a valid default value. Alternatively, for some cases a parser might provide better error
+messages than a generic "argument --foo is missing". The `alt` method helps with both cases,
+when composed with either an always failing (`fail`) or always succeeding (`pure`) parser:
 
 ```rust
 impl<T> Magic<T> {
@@ -470,8 +463,8 @@ fn guard(magic: Magic<T>, check: impl Fn(&T) -> bool, msg: &str) -> Magic<T> {
 # Back to practical implementation
 
 Now that the parser has all the basic building blocks the next step is to reimplement them
-without `Magic<T>`, since current internal representation relies on handwavy magic to provide `Magic` containers for arguments
-on a command line.
+without `Magic<T>`, since current internal representation relies on handwavy magic to provide
+`Magic` containers for arguments on a command line.
 
 An obvious way to represent a specific flag would be by keeping its name around:
 
@@ -485,15 +478,15 @@ With this, an invocation of
 
 
 ```console
-$ app --name Bob --answer 42
+$ app --bin hello --jobs 4
 ```
 
 would create a map looking like this:
 
 ```json
 {
-    "name": "Bob",
-    "answer": "42",
+    "bin": "hello",
+    "jobs": "4",
 }
 ```
 
