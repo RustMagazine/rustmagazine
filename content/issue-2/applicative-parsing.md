@@ -194,7 +194,7 @@ impl<T> Magic<T> {
 ```
 
 The `parse` method applies a failing computation on a value inside `Magic` if one exists or keeps
-the error message untouched otherwise. The change in the representation of `Magic` also 
+the error message untouched otherwise. The change in the representation of `Magic` also
 requires to change `map`, but after that, fallible conversions are now possible:
 
 ```rust
@@ -367,7 +367,7 @@ impl<T> Magic<T> {
 Customizing error messages:
 
 ```rust
-let name = short.alt(long).alt(fail("You need to pass --long or --short"));
+let name = nick.alt(fullname).alt(fail("You need to pass --nick or --fullname"));
 ```
 
 Fallback to some default value:
