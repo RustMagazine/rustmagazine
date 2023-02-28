@@ -79,13 +79,13 @@ The main goal for this tutorial is to implement a basic library to parse command
 If you used `cargo` you are probably familiar with expressions like this:
 
 ```console
-$ cargo build --bin hello      # build a binary "hello"
-$ cargo check --package server # check if package "server" contains any issues
+$ cargo build --bin hello  # build a binary "hello"
+$ cargo build --jobs 4     # build everything using 4 cpu jobs
 ```
 
 Parsing command line options in general is a wide problem and to make it more manageable this
 tutorial is going to look only at option arguments with a long name: `--bin hello` and
-`--package server` parts. This approach however can parse pretty much anything,
+`--jobs 4` parts. This approach however can parse pretty much anything,
 [`bpaf`](https://crates.io/crates/bpaf) is a finished library that uses it.
 
 ## Humble beginning
@@ -209,12 +209,16 @@ fn sample() {
     use std::str::FromStr;
     // --answer 42
     let answer = Magic(Ok("42"));
-    let _result = answer
+    let result = answer
         .parse(|n| u32::from_str(n).map_err(|e| e.to_string()))
-        .run(); // Ok(42)
-    todo!("{:?}", _result);
+        .run();
+    assert_eq!(result, Ok(42));
 
-    // --answer Forty-two => Err("invalid digit found in string")
+    let answer = Magic(Ok("Forty-two"));
+    let result = answer
+        .parse(|n| u32::from_str(n).map_err(|e| e.to_string()))
+        .run();
+    assert_eq!(result, Err("invalid digit found in string".to_owned()))
 }
 ```
 
