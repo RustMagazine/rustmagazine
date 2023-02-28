@@ -157,9 +157,11 @@ fn sample() {
 }
 ```
 
-Every valid `Functor` implementation must satisfy a two laws - preserving identity morphism and
-preserving composition of morphisms. For as long as it only changes the values in a context
-without affecting the context itself - implementation should be valid.
+Every valid `Functor` implementation must satisfy a two laws - preserving identity functions
+(Functor mapped with a function that changes nothing stays the same) and preserving composition
+of functions (functor transformed with two functions should give the same result as the same
+functor transformed with a composition of those two functions). For as long as it only changes
+the values in a context without affecting the context itself - implementation should be valid.
 
 At this point the parser can represent arguments of any type and provides a way to map between types.
 
