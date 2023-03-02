@@ -75,7 +75,7 @@ This trait involves the following type parameters:
 
 - `B: BackoffBuilder`: the backoff builder passed in by the user, which specifies different backoff parameters
 - `FutureFn: FnMut() -> Fut`: indicates that its type is a function that returns a `Fut`
-  - `FnOnce requires taking ownership and cannot be called multiple times
+  - `FnOnce` requires taking ownership and cannot be called multiple times
   - `Fn` can only get a `&self` reference, which can be limited in many scenarios
 - `Fut: Future<Output = Result<T, E>>`: represents a Future that returns a `Result<T, E>`
 
