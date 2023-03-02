@@ -6,7 +6,11 @@ https://github.com/Xuanwo/backon
 
 ## Origin
 
-When implementing the RetryLayer for [OpenDAL](https://github.com/datafuselabs/opendal), I needed to provide a backoff mechanism to implement features such as exponential backoff and jitter. Although I found [`backoff`](https://github.com/ihrwein/backoff) through a simple search, I wasn't quite satisfied. First, I noticed that the maintenance status of the library didn't seem to be good, with 4 unmerged PRs, and the main branch was last updated in 2021. Secondly, I didn't like the API it provided:
+When implementing the RetryLayer for [OpenDAL](https://github.com/datafuselabs/opendal), I needed to provide a backoff mechanism to implement features such as exponential backoff and jitter.
+
+> Backoff is a technique used in computer science and networking to handle errors or congestion in a more efficient way. The basic idea is to progressively increase the time between retries when encountering an error or congestion, so that the system has time to recover and handle the issue without overwhelming it with requests.
+
+Although I found [`backoff`](https://github.com/ihrwein/backoff) through a simple search, I wasn't quite satisfied. First, I noticed that the maintenance status of the library didn't seem to be good, with 4 unmerged PRs, and the main branch was last updated in 2021. Secondly, I didn't like the API it provided:
 
 ```rust
 async fn fetch_url(url: &str) -> Result<String, reqwest::Error> {
