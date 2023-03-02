@@ -243,7 +243,7 @@ let bin = match bin.run().expect("You need to specify --bin");
 
 let jobs = match jobs.run().expect("You need to specify --jobs");
 
-// println!("Building binary {bin}!") // (1)
+// println!("Building binary {bin}!") // (2)
 
 compile(bin, jobs);
 ```
