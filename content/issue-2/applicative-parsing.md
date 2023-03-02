@@ -1,22 +1,22 @@
 # Programming is hard, looking for better abstractions
 
 If you ever wrote a program bigger than a few lines of code you probably know that the bigger
-the program gets - the harder it's to make sure it does exactly what you meant due to how
-different parts can interact. Over time programmers and computer scientists discovered multiple
-ways to manage this complexity. Programming went from physically wiring the instructions to
-writing them as mnemonics with assembly language, to abstractions with variables, labels,
+the program gets - the harder it gets to ensure it does exactly what you meant, due to how
+different parts can interact. Over time, programmers and computer scientists discovered various
+ways to manage this complexity. Programming went from physically wiring the instructions, to
+writing them as mnemonics with assembly languages, to abstractions with variables, labels,
 functions, and so on.
 
 [Functional Programming](https://en.wikipedia.org/wiki/Functional_programming)
-is one of the paradigms for managing complexity with its main idea of writing code as a set of
-functions and using those functions to pass values around instead imperative style of steps
-to perform to mutate some data.
+is one of the paradigms for managing complexity. Its main idea is to abstract code as a set of
+functions, and using those functions to pass values around rather than imperatively
+to mutate data.
 
-Main goal of this tutorial is to explain the idea of Applicative Functors, why you may want to
-use them, what each method does. Code shown here is going to be similar but slightly different
+The main goal of this tutorial is to explain the idea of Applicative Functors, what its methods do,
+and why you may want to use them. The code shown here is going to be similar but slightly different
 from what you would use in a full featured command line argument parsing library - for
 production you would want better error messages, help generation, dynamic completion and so
-on. But the main operations stay the same. Applicative Functors are not limited to arg parsing
+on. The main operations however, stay the same. Applicative Functors are not even limited to arg parsing
 and you can try to follow this tutorial to get some ideas for your own problems.
 
 Imagine you want to create an argument parser that parses your arguments into a struct like this:
@@ -33,23 +33,23 @@ think about how to scale and maintain this:
 
 ```rust
 fn parse() -> Args {
-	let bin = None;
-	let jobs = None;
+    let bin = None;
+    let jobs = None;
 
-	let args = std::env::args();
-	while let (Some(arg), Some(value)) = (args.next(), args.next()){
-		if arg == "--bin" {
-			bin = Some(value.to_string());
-		}
-		if arg == "--jobs" {
-			jobs = Some(value.parse::<u32>.unwrap()),
-		}
-	};
+    let args = std::env::args();
+    while let (Some(arg), Some(value)) = (args.next(), args.next()){
+        if arg == "--bin" {
+            bin = Some(value.to_string());
+        }
+        if arg == "--jobs" {
+            jobs = Some(value.parse::<u32>.unwrap()),
+        }
+    };
 
-	Args {
-		name: name.expect("'--bin' not given"),
-		answer: answer.expect("'--jobs' not given"),
-	}
+    Args {
+        name: name.expect("'--bin' not given"),
+        answer: answer.expect("'--jobs' not given"),
+    }
 }
 ```
 
@@ -196,6 +196,7 @@ impl<T> Magic<T> {
             Err(err) => Magic(Err(err)),
         }
     }
+}
 ```
 
 The `parse` method applies a failing computation on a value inside `Magic` if one exists or keeps
@@ -436,7 +437,7 @@ Those seven operations serve as a base for the parser. They allow to compose pri
 parsers in many ways to create a very wide range of computations and there's no mutations in the
 API itself so it fits perfectly with a functional programming style.
 
-There's a few examples of useful operations implemented in terms of this base API.
+There are a few examples of useful operations implemented in terms of this base API.
 
 Optional command line arguments:
 
@@ -463,7 +464,7 @@ fn guard(magic: Magic<T>, check: impl Fn(&T) -> bool, msg: &str) -> Magic<T> {
 }
 ```
 
-# Back to practical implementation
+# Back to the practical implementation
 
 Now that the parser has all the basic building blocks the next step is to reimplement them
 without `Magic<T>`, since current internal representation relies on handwavy magic to provide
@@ -700,17 +701,17 @@ leads to overall cleaner results.
 
 Rust already supports a very limited subset of similar function compositions with unstable
 `Try` trait and `?` operator. Abstractions introduced in this tutorial can help to extend such
-composition with ability to implicitly pass information around, to try different paths through
+composition with the ability to implicitly pass information around, to try different paths through
 compositions and collect information about successes and failures and make this information
 available though side channels.
 
-As shown earlier Applicative Functors can help with splitting problems containing both business
+As shown earlier, Applicative Functors can help with splitting problems containing both business
 logic (what command line options to consume and what constraints they must obey) and glue logic
 (what arguments got consumed so far, how to pass consumed arguments around, how to make sure
 consistent validations, etc) into performant and purely functional style code as far as the
 external API is concerned.
 
 While designing an Applicative style API requires some specialized knowledge - mostly what kind
-of laws implementation needs to obey and how to check them, using the resulting API does not. With
+of laws implementation needs to obey and how to check them - using the resulting API does not. With
 help of the Rust's type system it's easy to make sure that for as long as the user's code
 typechecks - it works and all compositions are correct.
