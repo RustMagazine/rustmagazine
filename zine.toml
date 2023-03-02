@@ -104,7 +104,7 @@ bio = """
 
 [authors.xuanwo]
 name = "xuanwo"
-avatar = "/static/avatar/xuanwo.png"
+avatar = "/static/avatar/xuanwo.jpeg"
 bio = """
 - [GitHub](https://github.com/Xuanwo)
 - [Blog](https://xuanwo.io)
