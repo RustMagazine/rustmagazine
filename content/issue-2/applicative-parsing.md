@@ -7,17 +7,15 @@ ways to manage this complexity. Programming went from physically wiring the inst
 writing them as mnemonics with assembly language, to abstractions with variables, labels,
 functions, and so on.
 
-
 [Functional Programming](https://en.wikipedia.org/wiki/Functional_programming)
 is one of the paradigms for managing complexity with its main idea of writing code as a set of
 functions and using those functions to pass values around instead imperative style of steps
 to perform to mutate some data.
 
-
 Main goal of this tutorial is to explain the idea of Applicative Functors, why you may want to
 use them, what each method does. Code shown here is going to be similar but slightly different
 from what you would use in a full featured command line argument parsing library - for
-production you would want  better error messages, help generation, dynamic completion and so
+production you would want better error messages, help generation, dynamic completion and so
 on. But the main operations stay the same. Applicative Functors are not limited to arg parsing
 and you can try to follow this tutorial to get some ideas for your own problems.
 
@@ -30,10 +28,8 @@ struct Args {
 }
 ```
 
-
 If you want to write an argument parser purely imperatively, look at the horrors that entails,
 think about how to scale and maintain this:
-
 
 ```rust
 fn parse() -> Args {
@@ -88,6 +84,10 @@ tutorial is going to look only at option arguments with a long name: `--bin hell
 `--jobs 4` parts. This approach however can parse pretty much anything,
 [`bpaf`](https://crates.io/crates/bpaf) is a finished library that uses it.
 
+```urlpreview
+https://crates.io/crates/bpaf
+```
+
 ## Humble beginning
 
 Let's start with some magical handwavey way, taking things from `std::env::args()` and placing
@@ -136,8 +136,8 @@ impl<T> Magic<T> {
 Generics allow us to represent and extract values of any type, but since our handwavy magic only creates variables of
 type `Magic<&'static str>`, the parser still needs a way to change the type to another such as `Magic<PathBuf>`.
 
-For that Category Theory gives an abstraction called
-[`Functor`](https://en.wikipedia.org/wiki/Functor_(functional_programming)?useskin=vector).
+For that [Category Theory](https://en.wikipedia.org/wiki/Category_theory) gives an abstraction called
+[`Functor`](<https://en.wikipedia.org/wiki/Functor_(functional_programming)>).
 A functor allows to change a value inside of a generic context to some other value with the same
 or a different type but without changing the context. Sounds scary, but `Option::map` does more
 or less the same thing:
@@ -256,8 +256,9 @@ this, a good argument parser needs to have a way to make sure all the arguments 
 before proceeding.
 
 An abstraction from the Category Theory called [`Applicative
-Functor`](https://en.wikipedia.org/wiki/Applicative_functor?useskin=vector) can help with this
+Functor`](https://en.wikipedia.org/wiki/Applicative_functor) can help with this
 scenario.
+
 > Applicative functors allows to run functorial computations in a sequence (unlike
 > plain functors), but don't allow to use results from prior computations in the definition of
 > subsequent ones.
@@ -276,7 +277,7 @@ impl<T> Magic<T> {
 }
 ```
 
-This helps to combine the two independent computations for *bin* and *jobs* into a single
+This helps to combine the two independent computations for _bin_ and _jobs_ into a single
 computation for both arguments:
 
 ```rust
@@ -326,7 +327,9 @@ impl<T> Magic<T> {
     }
 }
 ```
+
 And a program that takes either a full or a nick name might look like this:
+
 ```rust
 let nick = Magic(Err("No nick name given").to_string());
 let fullname = Magic(Ok("Bob the Magnificent"));
@@ -433,7 +436,7 @@ Those seven operations serve as a base for the parser. They allow to compose pri
 parsers in many ways to create a very wide range of computations and there's no mutations in the
 API itself so it fits perfectly with a functional programming style.
 
-There's a few examples of useful operations implemented in terms of this base API
+There's a few examples of useful operations implemented in terms of this base API.
 
 Optional command line arguments:
 
@@ -476,7 +479,6 @@ One way to represent all name-argument-pairs is to store them in a `BTreeMap<Str
 String>` (for simplicity this parser assumes there is only a single argument per name).
 With this, an invocation of
 
-
 ```console
 $ app --bin hello --jobs 4
 ```
@@ -485,11 +487,10 @@ would create a map looking like this:
 
 ```json
 {
-    "bin": "hello",
-    "jobs": "4",
+  "bin": "hello",
+  "jobs": "4"
 }
 ```
-
 
 Since `Arg`, as defined above, only represents a name and doesn't have a value
 until the execution phase, the parser needs to use other data types to represent remaining
@@ -651,14 +652,13 @@ arguments from `std::env::args()`, placing them into a `BTreeMap` and invoking `
 these steps the same for every `Parser`, it can be provided as a default implementation on the
 `Parser` trait.
 
-
 ```rust
     ...
     fn exec(self) -> Result<T, String> {
         let argv = std::env::args().collect::<Vec<_>>();
         let mut args = BTreeMap::new();
         for i in 0..argv.len() / 2 {
-            args.insert(&argv[i*2], &argv[i*2+1]);
+            args.insert(&argv[i * 2], &argv[i * 2 + 1]);
         }
         self.run(&mut args)
     }
