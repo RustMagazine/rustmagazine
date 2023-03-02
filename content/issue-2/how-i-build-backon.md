@@ -4,7 +4,7 @@
 https://github.com/Xuanwo/backon
 ```
 
-## Origin
+# Origin
 
 When implementing the RetryLayer for [OpenDAL](https://github.com/datafuselabs/opendal), I needed to provide a backoff mechanism to implement features such as exponential backoff and jitter.
 
@@ -20,7 +20,7 @@ async fn fetch_url(url: &str) -> Result<String, reqwest::Error> {
 
 Backoff implementation isn't complicated, so why not make one that feels comfortable to use?
 
-## Design
+# Design
 
 My first idea was to use an `Iterator<Item = Duration>` to represent the backoff. Any iterator that can return a `Duration` type can be used as backoff. Using an iterator to represent backoff has a very direct and clear meaning, and users can easily understand and implement it without reading every function's comments. Secondly, I wanted to provide a usage experience for backoff similar to Rust's native functions:
 
@@ -32,7 +32,7 @@ async fn fetch_url(url: &str) -> Result<String, reqwest::Error> {
 
 It looks great: simple and direct, doesn't disrupt the user's reading order, and allows the user to locate the business logic position at a glance. Let's get started implementing it!
 
-## Implementation
+# Implementation
 
 First of all, what we need to understand is that async functions in Rust are essentially generators. These generators capture variables from the current environment and generate an anonymous Future. To retry an async function, we need to call the generator again to generate a brand new Future to execute.
 
@@ -83,7 +83,7 @@ This trait involves the following type parameters:
   - `Fn` can only get a `&self` reference, which can be limited in many scenarios
 - `Fut: Future<Output = Result<T, E>>`: represents a Future that returns a `Result<T, E>`
 
-The returned Retry struct wraps all of the above types:
+The returned `Retry` struct wraps all of the above types:
 
 ```rust
 pub struct Retry<B: Backoff, T, E, Fut: Future<Output = Result<T, E>>, FutureFn: FnMut() -> Fut> {
@@ -135,7 +135,7 @@ async fn main() -> Result<()> {
 
 Looks perfect!
 
-## One More Thing
+# One More Thing
 
 Oh, wait a minute, backon doesn't support synchronous functions yet! No problem, we just need to apply the same approach:
 
