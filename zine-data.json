@@ -5,6 +5,11 @@
       "Adding support for the Rust language to the Linux kernel. - GitHub",
       "https://opengraph.githubassets.com/da51017fd78fd030005cefcdf108cc1e30c5dd9bff63a47e5970e644baf997b5/Rust-for-Linux/linux"
     ],
+    "https://github.com/Xuanwo/backon": [
+      "GitHub - Xuanwo/backon: Retry with backoff without effort.",
+      "Retry with backoff without effort. Contribute to Xuanwo/backon development by creating an account on GitHub.",
+      "https://opengraph.githubassets.com/da3c5354a6e443e8d98948564e19e7f4d261d9ebe2727f3dae9881a65b05fb2f/Xuanwo/backon"
+    ],
     "https://github.com/rust-lang/rust/pull/104435": [
       "`VecDeque::resize` should re-use the buffer in the passed-in element by scottmcm · Pull Request #104435 · rust-lang/rust · GitHub",
       "",

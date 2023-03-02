@@ -84,9 +84,9 @@ Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
 [authors.greptime-team]
 name = "Greptime Team"
 bio = """
-Greptime is founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud. 
-- Greptime DB is an open-source, cloud-native time series database with powerful analytical features; 
-- Greptime Cloud is a SaaS solution built on GreptimeDB. 
+Greptime is founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud.
+- Greptime DB is an open-source, cloud-native time series database with powerful analytical features;
+- Greptime Cloud is a SaaS solution built on GreptimeDB.
 
 We are passionate about helping users find real-time values from their time series data with our tools.
 
@@ -100,4 +100,12 @@ avatar = "/static/avatar/xxchan.png"
 bio = """
 - [GitHub](https://github.com/xxchan)
 - [Blog](https://xxchan.github.io)
+"""
+
+[authors.xuanwo]
+name = "xuanwo"
+avatar = "/static/avatar/xuanwo.png"
+bio = """
+- [GitHub](https://github.com/Xuanwo)
+- [Blog](https://xuanwo.io)
 """

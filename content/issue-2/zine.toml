@@ -23,3 +23,13 @@ publish = true
 featured = true
 canonical = "https://xxchan.github.io/cs/2023/02/17/optimize-rust-comptime-en.html"
 i18n.zh = { file = "optimize-rust-comptime-zh.md", title = "我如何动动小手就让 CI 时间减少了 10 分钟" }
+
+[[article]]
+file = "how-i-build-backon.md"
+title = "How I build backon?"
+author = "xuanwo"
+topic = ["tutorial", "async"]
+pub_date = "2023-03-02"
+publish = true
+featured = true
+canonical = "https://xuanwo.io/reports/2023-09/"
