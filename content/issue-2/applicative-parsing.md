@@ -71,7 +71,6 @@ Now lets see how we get there.
 
 # Parsing command line options
 
-The main goal for this tutorial is to implement a basic library to parse command line options.
 If you used `cargo` you are probably familiar with expressions like this:
 
 ```console
