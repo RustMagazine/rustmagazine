@@ -115,13 +115,10 @@ At this point the parser can represent single string arguments using `Magic` and
 
 ## Adding more types
 
-Next step would be to allow to have arguments of different types. Consider filenames. While
-most of the functions would take a regular string reference as a filename - not every `String` is
-a valid filename and not every filename is a valid `String`. It's a good practice to keep
-`String` for strings and `PathBuf` for filenames. Additionally, proper specialized types also serve as an anchor for documentation.
-
-To be able to consume `PathBuf` from user's input, the parser needs a way to represent it in the first
-place. This can be achieved by making `Magic` a generic datatype:
+Next step would be to allow to have arguments of different types. Consider `--jobs` argument.
+For some applications passing "4" to the consumer is valid, but in most cases consumer would
+prefer to use its numeric value. To be able to pass a number like `4u32` the parser needs a way
+to represent it in the first place. This can be achieved by making `Magic` a generic datatype:
 
 ```rust
 struct Magic<T>(T);
@@ -131,9 +128,8 @@ impl<T> Magic<T> {
     }
 }
 ```
-
 Generics allow us to represent and extract values of any type, but since our handwavy magic only creates variables of
-type `Magic<&'static str>`, the parser still needs a way to change the type to another such as `Magic<PathBuf>`.
+type `Magic<&'static str>`, the parser still needs a way to change the type to another such as `Magic<u32>`.
 
 For that [Category Theory](https://en.wikipedia.org/wiki/Category_theory) gives an abstraction called
 [`Functor`](<https://en.wikipedia.org/wiki/Functor_(functional_programming)>).
@@ -151,11 +147,11 @@ impl<T> Magic<T> {
 #[test]
 fn sample() {
     use std::path::PathBuf;
-    // --name Cargo.toml
-    let path = Magic("Cargo.toml"); // Magic<&str>
-    let path = name.map(PathBuf::from); // Magic<PathBuf>
+    // --jobs 4
+    let jobs = Magic("4"); // Magic<&str>
+    let jobs = name.map(|s| u32::from_str(s).unwrap()); // Magic<u32>
     let result = path.run();
-    assert_eq!(result, "Cargo.toml");
+    assert_eq!(result, 4);
 }
 ```
 
