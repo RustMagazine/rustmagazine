@@ -688,7 +688,7 @@ Typical steps consists of
 - packing those options into a composition of `struct`s and `enum`s (to represent mutually required and mutually exclusive combinations respectively)
 - decorating parsers with help messages, validations and shell completion functions
 
-The derive macro supplied by` bpaf`'s `derive` feature helps to avoid writing most of the parsing
+The derive macro supplied by `bpaf`'s `derive` feature helps to avoid writing most of the parsing
 and composition code by hand, but in some cases using a mix of derived and manually written code
 leads to overall cleaner results.
 
