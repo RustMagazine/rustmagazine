@@ -1,4 +1,4 @@
-[backon](https://github.com/Xuanwo/backon) is a Rust error retry library, and this article aims to share some techniques I used in implementing it~
+[backon](https://github.com/Xuanwo/backon) is a Rust error retry library, and this article aims to share some techniques I used in implementing it.
 
 ```urlpreview
 https://github.com/Xuanwo/backon
