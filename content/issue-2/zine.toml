@@ -25,6 +25,15 @@ canonical = "https://xxchan.github.io/cs/2023/02/17/optimize-rust-comptime-en.ht
 i18n.zh = { file = "optimize-rust-comptime-zh.md", title = "我如何动动小手就让 CI 时间减少了 10 分钟" }
 
 [[article]]
+file = "applicative-parsing.md"
+title = "Using Category Theory to parse command line options"
+author = ["manpacket"]
+topic = ["tutorial"]
+publish = true
+featured = true
+pub_date = "2023-02-23"
+
+[[article]]
 file = "how-i-designed-the-api-for-backon-a-user-friendly-retry-crate.md"
 title = "How I Designed the API for Backon, a User-Friendly Retry Crate"
 author = "xuanwo"
