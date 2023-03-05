@@ -32,3 +32,13 @@ topic = ["tutorial"]
 publish = true
 featured = true
 pub_date = "2023-02-23"
+
+[[article]]
+file = "how-i-designed-the-api-for-backon-a-user-friendly-retry-crate.md"
+title = "How I Designed the API for Backon, a User-Friendly Retry Crate"
+author = "xuanwo"
+topic = ["tutorial", "async"]
+pub_date = "2023-03-02"
+publish = true
+featured = true
+canonical = "https://xuanwo.io/reports/2023-09/"
