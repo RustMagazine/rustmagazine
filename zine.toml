@@ -119,3 +119,10 @@ bio = """
 - [GitHub](https://github.com/Xuanwo)
 - [Blog](https://xuanwo.io)
 """
+
+[authors.wangrunji]
+name = "wangrunji"
+avatar = "/static/avatar/wangrunji.jpeg"
+bio = """
+- [GitHub](https://github.com/wangrunji0408)
+"""
