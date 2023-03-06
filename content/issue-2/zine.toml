@@ -26,7 +26,7 @@ i18n.zh = { file = "optimize-rust-comptime-zh.md", title = "我如何动动小�
 
 [[article]]
 file = "sunli.md"
-title = "Interview with Sun Li"
+title = "Interview with Sunli"
 author = ["folyd", "sunli"]
 topic = ["interview"]
 pub_date = "2023-02-25"
