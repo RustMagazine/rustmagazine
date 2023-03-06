@@ -32,6 +32,20 @@ There are several ways to contribute articles to Rust Magazine:
 
 For more information about how to contribute, please check the [how to contribute page](/contribution).
 
+## Have you considered asking for different cover images?
+
+We encourage authors to customize their cover image, however, it is not mandatory.
+
+```toml
+[[article]]
+...
+cover = "/path/to/cover.png"
+```
+
+## Do you have any information about your reader base, such as their size or where they are mainly from?
+
+We don't have concrete details on the distribution of our readers since we have not added analysis services like Google Analytics to track them. However, we believe that we have a considerable audience worldwide, as we have had [an article](https://news.ycombinator.com/item?id=34689870) trend on Hacker News on February, 2023. We are constantly striving to reach more readers and grow our community.
+
 ## Does the author get paid?
 
 Although we are a non-profit community magazine and do not pay our authors, we deeply appreciate and value their contributions. We recognize the time and effort that goes into creating high-quality content, and we are grateful for the opportunity to feature the work of talented Rustaceans in our magazine.

@@ -1,5 +1,10 @@
 {
   "urlPreviews": {
+    "https://crates.io/crates/bpaf": [
+      "bpaf - crates.io",
+      "A simple Command Line Argument Parser with parser combinators",
+      "https://crates.io/assets/og-image.png"
+    ],
     "https://github.com/Rust-for-Linux/linux": [
       "Rust-for-Linux/linux",
       "Adding support for the Rust language to the Linux kernel. - GitHub",
@@ -14,6 +19,10 @@
       "GitHub - poem-web/poem: A full-featured and easy-to-use web framework with the Rust programming language.",
       "A full-featured and easy-to-use web framework with the Rust programming language. - GitHub - poem-web/poem: A full-featured and easy-to-use web framework with the Rust programming language.",
       "https://opengraph.githubassets.com/73cca9a4b04114708a5be9cf2ba876942219bb37b2358cd01d17d44b1e6f45c3/poem-web/poem"
+    "https://github.com/Xuanwo/backon": [
+      "GitHub - Xuanwo/backon: Retry with backoff without effort.",
+      "Retry with backoff without effort. Contribute to Xuanwo/backon development by creating an account on GitHub.",
+      "https://opengraph.githubassets.com/da3c5354a6e443e8d98948564e19e7f4d261d9ebe2727f3dae9881a65b05fb2f/Xuanwo/backon"
     ],
     "https://github.com/rust-lang/rust/pull/104435": [
       "`VecDeque::resize` should re-use the buffer in the passed-in element by scottmcm · Pull Request #104435 · rust-lang/rust · GitHub",
