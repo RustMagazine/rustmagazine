@@ -42,3 +42,11 @@ pub_date = "2023-03-02"
 publish = true
 featured = true
 canonical = "https://xuanwo.io/reports/2023-09/"
+
+[[article]]
+file = "learn-rust-with-chatgpt.md"
+title = "Chat with ChatGPT for an In-Depth Rust | Lifetime"
+author = ["handongzhang"]
+pub_date = "2023-03-05"
+publish = true
+featured = true
