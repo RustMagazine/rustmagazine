@@ -13,7 +13,7 @@ topic = ["announcement"]
 pub_date = "2022-12-10"
 publish = true
 featured = true
-i18n.zh = { path = "/announcing-zh", file = "announcing-zh.md", title = "宣布 Rust 杂志", author = ["folyd", "rust-magazine"] }
+i18n.zh = { path = "/announcing-zh", file = "announcing-zh.md", title = "宣布 Rust 杂志" }
 
 [[article]]
 file = "vecdeque-resize-optimization.md"
