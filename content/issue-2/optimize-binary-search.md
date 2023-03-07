@@ -324,6 +324,7 @@ It can be seen that there are still two `jne` instructions, so the performance i
 A few days later [@m-ou-se] from the libs team replied with a [comment](https://github.com/rust-lang/rust/pull/74024#issuecomment-713818146). She also benchmarked and found that primitive types like `u32` with `l1` level data are still slower than the standard library. However, for types that require more time to compare (like `String`), the new implementation outperforms the standard library implementation in all cases.
 
 ```quote
+avatar = "/static/avatar/m-ou-se.jpeg"
 author = "@m-ou-se"
 bio = "From the PR [comment](https://github.com/rust-lang/rust/pull/74024#issuecomment-713829082)"
 content = "Important to note here is that almost all benchmarks on this page are about slices of usizes. Slices of types that take more time to compare (e.g. `[String]`) seem faster with this new implementation in all cases."
@@ -332,12 +333,14 @@ content = "Important to note here is that almost all benchmarks on this page are
 After much discussion, [@m-ou-se] decided to run a `crater` test to see if the PR has a significant impact on all crates on [crates.io](https://crates.io). In the end, the Rust library team agreed to merge this PR.
 
 ```quote
+avatar = "/static/avatar/m-ou-se.jpeg"
 author = "@m-ou-se"
 bio = "From the PR [comment](https://github.com/rust-lang/rust/pull/74024#issuecomment-771891494)"
 content = "We discussed this PR in a recent library team meeting, in which we agreed that the proposed behaviour (stopping on Equal) is preferrable over optimal efficiency in some specific niche cases. Especially considering how small most of the differences are in the benchmarks above."
 ```
 
 ```quote
+avatar = "/static/avatar/m-ou-se.jpeg"
 author = "@m-ou-se"
 bio = "From the PR [comment](https://github.com/rust-lang/rust/pull/74024#issuecomment-740129342)"
 content = "The breakage in the crater report looks reasonably small. Also, now that `partition_point` is getting stabilized, there's a good alternative for those who want the old behaviour of `binary_search_by`. So we should go ahead and start on getting this merged. :)"
