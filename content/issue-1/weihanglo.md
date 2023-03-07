@@ -9,6 +9,7 @@ Let's get started.
 **Introduce yourself and share a bit about your background with Rust. When did you start learning Rust, and what inspired you to do so?**
 
 ```quote
+avatar = "/static/avatar/weihanglo.png"
 author = "Weihang Lo"
 content = """
 Hello, people. I am [Weihang Lo](https://github.com/weihanglo). You might come across me online if you ever tried to search something about Cargo in the [rust-lang/cargo](https://github.com/rust-lang/cargo) repository. And yes, my profile image is a green rabbit. Oh, it is not actually a green rabbit. It is a white rabbit with a green background. Besides my public-known identity — a Cargo team member — I am also an active member of our local [Rust community in Taiwan](https://github.com/rust-tw).
@@ -29,6 +30,7 @@ What inspires me to stick with Rust is the community and the shared belief that 
 **Can you share the story of how you joined the Cargo team? What was the process like and what attracted you to the opportunity?**
 
 ```quote
+avatar = "/static/avatar/weihanglo.png"
 author = "Weihang Lo"
 content = """
 To be honest, there was no clear path to become an official member of the Cargo team. It's more like a long process of earning the trust of existing members. I've been contributing to the project since 2020 during the lockdown and my [first pull request](https://github.com/rust-lang/cargo/pull/8641) was simple. It was a fix related to lockfile comparison. I removed some unnecessary allocation of the comparison function and switched from string comparison to iterator comparison, which was encouraged by a kind maintainer [@Jacob](https://github.com/Eh2406). He recognized my efforts and I felt more welcomed with the project.
@@ -49,6 +51,7 @@ I feel happier and fulfilled than ever since I became a part of the team, even m
 **How does the Cargo team work on a day-to-day basis? Do you have weekly meetings or a specific workflow that you follow?**
 
 ```quote
+avatar = "/static/avatar/weihanglo.png"
 author = "Weihang Lo"
 content = """
 For Cargo, there is a weekly meeting called the Cargo triage meeting. During this meeting, various topics are discussed and added to the agenda. Each topic is discussed and solved within the hour-long meeting. If there are any remaining items that haven’t been discussed, they are carried over to the next week.
@@ -64,6 +67,7 @@ Decisions are usually made during the meetings. The team would post a thread on 
 **As a member of the Cargo team for nearly a year, can you share some of the tasks that you have worked on and the accomplishments that you are most proud of?**
 
 ```quote
+avatar = "/static/avatar/weihanglo.png"
 author = "Weihang Lo"
 content = """
 As a Cargo member, I haven't accomplished a lot of common outstanding features by myself that the users are aware of. However, I have contributed to the project by triaging issues, mentioning a couple of members. I have also been actively working to revive some old and stagnant pull requests. Since last April, [Alex](https://github.com/alexcrichton) stepped down, the Cargo team was in low review capacity. I have taken care of making everyone's pull request get a response.  This is an accomplishment I am proud of.
@@ -79,6 +83,7 @@ It's extremely hard to revive stagnated and unstable features. Authors disappear
 **What do you think are the biggest challenges facing the Cargo team right now? How do you plan to tackle these challenges in the future?**
 
 ```quote
+avatar = "/static/avatar/weihanglo.png"
 author = "Weihang Lo"
 content = """
 **One of the major challenges Cargo team faces is long-term sustainability.** It doesn't mean that Cargo is going to die. Just the Rust language itself is growing so fast that Cargo's development is a bit lagged behind. Since Alex stepped down, we are more prone to the [bus factor](https://en.wikipedia.org/wiki/Bus_factor). Only the Cargo team leader has comprehensive knowledge of the code base. If one changes a module, it may affect another module and the team leader knows how they interact. Other members don't have that kind of knowledge, so the attention of the team leader becomes the most scarce resource.
@@ -98,6 +103,7 @@ These are two of the challenges I am aware of the Cargo team currently is facing
 **Does the Cargo team have any specific plans or goals for the coming year or two? Can you give us a sneak peek into what we can expect from Cargo in the near future?**
 
 ```quote
+avatar = "/static/avatar/weihanglo.png"
 author = "Weihang Lo"
 content = """
 The Cargo team is trying to write its own roadmap, but it's challenging due to differing opinions and use cases among users. Currently, there's a lack of a clear roadmap, but the top priority for the next year is turning the sparse index registry on by default, which will help speed up CI pipelines when it becomes stable in 1.68. However, this requires more communication and collaboration with the infrastructure team and the crates.io team, so personally I don't expect it will become the default right after it hits stable.
@@ -115,6 +121,7 @@ There are many ongoing projects, such as integration of the new dependency resol
 **How do you balance your daily job with working on Cargo in your free time? Do you have any tips for others who are interested in contributing to open source projects while also managing a full-time job or other responsibilities?**
 
 ```quote
+avatar = "/static/avatar/weihanglo.png"
 author = "Weihang Lo"
 content = """
 It is challenging to continuously contribute to open source projects when your interest wanes over time. This can also be further compounded by negative feedback from other contributors. To overcome this, it is important to set aside dedicated time for your own contributions and to have a clear plan and goal for what kind of contributions you want to make. Don't just sink yourself in a sea of issues. Starting with small tasks, such as improving error messages, can help build up your knowledge and skills. It is also important to remember to prioritize your own well-being, and take a break if you are feeling stressed or overwhelmed.
@@ -126,6 +133,7 @@ Remember. Not everyone needs to be enthusiastic about open source. It's okay if 
 **In addition to your work on Cargo, do you contribute to any other open source projects, either as an individual or as part of an organization? Can you share a little bit about some of these other projects and what you enjoy?**
 
 ```quote
+avatar = "/static/avatar/weihanglo.png"
 author = "Weihang Lo"
 content = """
 I don’t regularly contribute to other open source projects apart from occasionally helping with [fish shell](https://github.com/fish-shell/fish-shell) for Rust-related completion, and translating [the Traditional Chinese version](https://github.com/rust-tw/book-tw) of the Rust Programming language book. Most of my time is occupied by Cargo. However, I still want to explore other opportunities to help the community and make the world a little bit better.
@@ -141,6 +149,7 @@ To end this interview, I have the last causal question.
 **What do you enjoy doing in your free time, outside of programming?**
 
 ```quote
+avatar = "/static/avatar/weihanglo.png"
 author = "Weihang Lo"
 content = """
 Definitely cycling! Have you noticed that the logo for Rust is a bike chainring? 😆
