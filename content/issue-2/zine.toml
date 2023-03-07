@@ -34,6 +34,15 @@ featured = true
 pub_date = "2023-02-23"
 
 [[article]]
+file = "sunli.md"
+title = "Interview with Sunli"
+author = ["folyd", "sunli"]
+topic = ["interview"]
+pub_date = "2023-02-25"
+publish = true
+featured = true
+
+[[article]]
 file = "how-i-designed-the-api-for-backon-a-user-friendly-retry-crate.md"
 title = "How I Designed the API for Backon, a User-Friendly Retry Crate"
 author = "xuanwo"
@@ -42,6 +51,14 @@ pub_date = "2023-03-02"
 publish = true
 featured = true
 canonical = "https://xuanwo.io/reports/2023-09/"
+
+[[article]]
+file = "demystifying-rust-lifetime-with-chatgpt.md"
+title = "Demystifying Rust Lifetimes: A Conversation with ChatGPT"
+author = ["handongzhang"]
+pub_date = "2023-03-05"
+publish = true
+featured = true
 
 [[article]]
 file = "write-a-sql-optimizer-using-egg.md"
