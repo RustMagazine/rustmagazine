@@ -5,6 +5,7 @@ I am pleased to introduce our second interviewee, [Sunli], the creator of two wi
 **Introduce yourself and share a bit about your background with Rust. When did you start learning Rust, and what inspired you to do so?**
 
 ```quote
+avatar="/static/avatar/sunli.jpeg"
 author="Sunli"
 content="""
 Hello everyone, I am **Sunli** (Github: [@sunli829](https://github.com/sunli829)), an older programmer who loves coding. Previously, C++ was my main programming language, and even though I have been using it for many years, I still feel like I haven't fully mastered it.
@@ -22,6 +23,7 @@ https://github.com/async-graphql/async-graphql
 **Can you explain what async-graphql is and how it differs from other GraphQL libraries?**
 
 ```quote
+avatar="/static/avatar/sunli.jpeg"
 author="Sunli"
 content="""
 [GraphQL](https://graphql.org/) is a query language for APIs that allows clients to request specific data and enables servers to respond with the corresponding data based on the request content. The flexibility and powerful querying capabilities of GraphQL have made it increasingly popular in developing modern applications.
@@ -35,6 +37,7 @@ Another library similar to **async-graphql** is [juniper](https://github.com/gra
 **What inspired you to create async-graphql, and what has the response been like from the Rust community?**
 
 ```quote
+avatar="/static/avatar/sunli.jpeg"
 author="Sunli"
 content="""
 As a Rust learner, I wanted to contribute something to the community. As I wasn't familiar with GraphQL at the time, I did some research and decided to develop the **async-graphql** project, also to learn GraphQL.
@@ -56,6 +59,7 @@ https://github.com/poem-web/poem
 **Can you tell us about Poem and its design philosophy?**
 
 ```quote
+avatar="/static/avatar/sunli.jpeg"
 author="Sunli"
 content="""
 I wanted a web framework that may not have the best performance, but would be relatively simple to use, which is why I made it.
@@ -67,6 +71,7 @@ I wanted a web framework that may not have the best performance, but would be re
 **What inspired you to develop another web framework, and how does Poem differ from other Rust web frameworks?**
 
 ```quote
+avatar="/static/avatar/sunli.jpeg"
 author="Sunli"
 content="""
 Rust has many high-quality web frameworks, some of which are better than **Poem**. However, for me personally, **Poem** is very important because it's mine and I can freely modify it, which makes me more free during the development process.
@@ -78,6 +83,7 @@ Over time, I wanted to add more features and capabilities to **Poem**, so I star
 **Can you share any exciting upcoming features or plans for Poem?**
 
 ```quote
+avatar="/static/avatar/sunli.jpeg"
 author="Sunli"
 content="There is no plan currently as the functionalities provided by **Poem** are already sufficient for my needs."
 ```
@@ -87,6 +93,7 @@ content="There is no plan currently as the functionalities provided by **Poem** 
 **What are the most challenging aspects of maintaining two popular open-source projects like async-graphql and Poem?**
 
 ```quote
+avatar="/static/avatar/sunli.jpeg"
 author="Sunli"
 content="""
 I didn't expect these two libraries to have so many users. In the early days, I would receive around 10 issue reports from users around the world every day, which required me to work for more than 12 hours a day. Although it was very hard, as time went by, I saw that the number of users of these libraries was increasing, and I felt that it was all worth it. In fact, this was my first attempt at an open-source project, so I learned a lot during this process, such as how to collaborate with other developers using Github and how to better manage and solve problems.
@@ -96,6 +103,7 @@ I didn't expect these two libraries to have so many users. In the early days, I 
 **How do you balance maintaining these projects with other commitments?**
 
 ```quote
+avatar="/static/avatar/sunli.jpeg"
 author="Sunli"
 content="Balancing maintaining projects with other commitments can be difficult and definitely requires more time."
 ```
@@ -105,6 +113,7 @@ content="Balancing maintaining projects with other commitments can be difficult 
 **Are there any other hobbies or interests that you have, and how do you balance them with your work on Rust projects?**
 
 ```quote
+avatar="/static/avatar/sunli.jpeg"
 author="Sunli"
 content="""
 I only have two hobbies, one is programming and the other is playing games. When I feel tired, I will spend some time playing games to relax my mind and body. This is also the secret to my long-term work efficiency. In this way, I can get rest and entertainment, so that I can better focus on my programming projects.
