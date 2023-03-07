@@ -1,5 +1,10 @@
 {
   "urlPreviews": {
+    "https://crates.io/crates/bpaf": [
+      "bpaf - crates.io",
+      "A simple Command Line Argument Parser with parser combinators",
+      "https://crates.io/assets/og-image.png"
+    ],
     "https://github.com/Rust-for-Linux/linux": [
       "Rust-for-Linux/linux",
       "Adding support for the Rust language to the Linux kernel. - GitHub",
