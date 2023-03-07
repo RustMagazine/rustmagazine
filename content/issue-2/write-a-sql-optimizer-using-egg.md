@@ -4,23 +4,32 @@ The SQL optimizer is an important module in relational database systems. Its pur
 
 In this article, we will briefly introduce the implementation process of this project. You can find the relevant code in the [SQL Optimizer Labs](https://github.com/risinglightdb/sql-optimizer-labs), or learn about its application in the [RisingLight](https://github.com/risinglightdb/risinglight) project.
 
+```urlpreview
+https://github.com/risinglightdb/sql-optimizer-labs
+```
+
 # The Egg Library
+
 
 Egg is a program optimizer framework written in Rust. Its core technology is based on a method called Equality Saturation. The idea behind it is to gradually rewrite expressions to find all equivalent forms and then identify the optimal solution among them. During this process, Egg uses the e-graph data structure to efficiently query and maintain equivalence classes at runtime, reducing the time and space costs of program optimization.
 
+```urlpreview
+https://github.com/egraphs-good/egg
+```
+
 The following image, taken from the [Egg official website](https://egraphs-good.github.io), shows the step-by-step process of optimizing the expression `a * 2 / 2` to simply `a`.
 
-![](../../static/issue-2/egg/egg-official.png)
+![](/static/issue-2/egg/egg-official.png)
 
 Taking the second image as an example, we can see that it consists of three layers of structure: e-graph, e-class, and e-node.
 
-![](../../static/issue-2/egg/egraph.png)
+![](/static/issue-2/egg/egraph.png)
 
 Each node in the diagram is an e-node, which can represent a variable, a constant, or an operation. Multiple e-nodes can form an e-class, which represents a group of equivalent nodes with the same semantics that can be replaced by each other. The child nodes of each e-node are e-classes, which together form an e-graph. Therefore, this data structure can represent a large number of possible combinations with compact space.
 
 The e-graph also allows for dynamic insertion of e-nodes and merging of e-classes, which enables expression rewriting. The following diagram illustrates the process of inserting a new expression `a << 1` into the graph and merging it with `a * 2`.
 
-![](../../static/issue-2/egg/rewrite.png)
+![](/static/issue-2/egg/rewrite.png)
 
 Egg supports user-defined rules using Lisp expressions. For example, the rule shown in the above figure can be expressed as `(* ?a 2) => (<< ?a 1)`. More complex rules can also be written in Rust if needed. This makes Egg highly flexible and extensible. Developers can quickly implement an optimizer for their own language based on Egg. The following sections of this article demonstrate its application in SQL.
 
@@ -138,11 +147,11 @@ Here we use the `is_not_zero` function to determine whether the variable `?a` is
 
 Egg's analysis allows us to associate arbitrary value with each e-class to describe its characteristics, such as whether it is a constant, what data type it is, or which columns are referenced. To solve the problem mentioned above, we can introduce constant analysis. It determines whether an expression is a constant and, if so, provides the specific constant value. The following figure shows the constant analysis results for an expression.
 
-![](../../static/issue-2/egg/constant-analysis.png)
+![](/static/issue-2/egg/constant-analysis.png)
 
-During the process of analysis, Egg allows us to modify the e-graph by adding e-nodes or merging e-classes. By using this mechanism, we can implement constant folding optimization: replacing expressions that are known to be constants with a single value. 
+During the process of analysis, Egg allows us to modify the e-graph by adding e-nodes or merging e-classes. By using this mechanism, we can implement constant folding optimization: replacing expressions that are known to be constants with a single value.
 
-![](../../static/issue-2/egg/constant-folding.png)
+![](/static/issue-2/egg/constant-folding.png)
 
 As shown in the left side of the figure, in constant analysis, we find that the node `(/ 2 2)` can be evaluated into the constant `1`. At this point, we create a new node `1` (which is already present in the graph) and merge it with `(/ 2 2)`. This completes the constant folding. Its characteristic is that it utilizes the side effect of expression analysis instead of being accomplished by rewriting rules.
 
@@ -157,7 +166,7 @@ The idea of predicate pushdown is to push the predicates in the Filter node down
 1. Push the Filter predicate down to the Join condition.
 2. Push the Join condition down to the left and right child nodes, and generate new Filter nodes.
 
-![](../../static/issue-2/egg/pushdown-filter.png)
+![](/static/issue-2/egg/pushdown-filter.png)
 
 The first step can be described by very simple rules:
 
@@ -211,7 +220,7 @@ In addition to optimizing join algorithms, we can also adjust the order of multi
 
 For common inner joins, they satisfy the commutative law and the associative law. From the perspective of the query plan tree, the commutative law is equivalent to swapping the left and right subtrees of a join node, and the associative law is equivalent to performing rotations on the binary tree.
 
-![](../../static/issue-2/egg/join-reordering.png)
+![](/static/issue-2/egg/join-reordering.png)
 
 Describing the associative law in Egg is also intuitive:
 
@@ -226,7 +235,7 @@ Note that we have not considered the case where the Join operator has conditions
 
 Similarly, we can also implement the commutative law:
 
-![](../../static/issue-2/egg/join-swap.png)
+![](/static/issue-2/egg/join-swap.png)
 
 ```rust
 rewrite!("join-swap";
@@ -302,7 +311,7 @@ pub fn optimize(expr: &RecExpr) -> RecExpr {
 
 However, the current runner of Egg is not very intelligent. It does not perform heuristic searches based on cost functions when expanding e-classes, but instead expands all possible representations. For more complex queries, such as multi-table joins in TPC-H, it is easy to encounter combinatorial explosion. In addition, some special rewriting rules can be applied infinitely, leading to deep nested expressions, which further exacerbates this phenomenon.
 
-![](../../static/issue-2/egg/alphago.png)
+![](/static/issue-2/egg/alphago.png)
 
 > Multi-iteration & multi-stage optimization. Source: [AlphaGo](https://www.quora.com/What-does-it-mean-that-AlphaGo-relied-on-Monte-Carlo-tree-search/answer/Kostis-Gourgoulias).
 

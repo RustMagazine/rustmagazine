@@ -4,23 +4,31 @@ SQL 优化器是关系型数据库系统中的重要模块，其作用是对 SQL
 
 本文将简单介绍这个项目的实现过程。你可以在 [SQL Optimizer Labs](https://github.com/risinglightdb/sql-optimizer-labs) 中找到相关代码，或者在 [RisingLight](https://github.com/risinglightdb/risinglight) 项目中了解它的实际应用。
 
+```urlpreview
+https://github.com/risinglightdb/sql-optimizer-labs
+```
+
 # Egg 框架
 
 Egg 是一个用 Rust 编写的程序优化器框架。其核心技术基于 Equality Saturation 方法对表达式进行重写和优化。这种方法的思想是通过逐步重写找到表达式的所有等效形式，然后在其中找到最优方案。在此过程中，egg 使用 e-graph 数据结构，能够在运行时高效地查询和维护等价类，从而减少程序优化的时间和空间成本。
 
+```urlpreview
+https://github.com/egraphs-good/egg
+```
+
 下面这张图来自 [egg 官网](https://egraphs-good.github.io)，从左到右逐步展示了将表达式 `a * 2 / 2` 优化为 `a` 的过程。
 
-![](../../static/issue-2/egg/egg-official.png)
+![](/static/issue-2/egg/egg-official.png)
 
 以其中第二幅图为例，我们可以看到它包含了 e-graph、e-class、e-node 三层结构。
 
-![](../../static/issue-2/egg/egraph.png)
+![](/static/issue-2/egg/egraph.png)
 
 图中每个节点是 e-node，可以表示变量、常量或者操作。多个 e-node 可以组成一个 e-class，代表了一组等价的节点，它们具有相同的语义并且可以互相替换。每个 e-node 的子节点都是 e-class，它们共同组成了 e-graph。因此这种数据结构可以用紧凑的空间表示大量可能的组合方式。
 
 E-graph 还支持动态地插入 e-node 以及合并 e-class，利用这些就可以实现表达式的重写。下图就展示了向图中插入新的表达式 `a << 1` ，并与 `a * 2` 合并等价类的过程。
 
-![](../../static/issue-2/egg/rewrite.png)
+![](/static/issue-2/egg/rewrite.png)
 
 Egg 支持用户使用 Lisp 表达式自定义规则，例如上图的规则可以表示为 `(<< ?a 1) => (* ?a 2)`。如有需要还可以用 Rust 编写更复杂的规则，这使得它具有高度的灵活性和扩展性。开发者可以基于 egg 快速为自己的语言实现一个优化器。本文接下来就展示了它在 SQL 语言上的应用。
 
@@ -138,11 +146,11 @@ rewrite!("div-self"; "(/ ?a ?a)" => "1" if is_not_zero("?a"))
 
 Egg 的表达式分析功能允许我们为每个等价类关联任意值来描述它的某些特性。例如：它是不是常数，它是什么数据类型，其中引用了哪些列等。比如为了解决上面的问题，我们可以引入常量分析。它会判断每个节点对应的表达式是不是常数，以及具体的常数值。下图展示了上文中表达式的常量分析结果。
 
-![](../../static/issue-2/egg/constant-analysis.png)
+![](/static/issue-2/egg/constant-analysis.png)
 
 在表达式分析的过程中，egg 还允许我们修改 e-graph，进行节点添加或合并。利用这一机制我们就可以实现常量折叠优化：将确定是常量的表达式替换为单个值。
 
-![](../../static/issue-2/egg/constant-folding.png)
+![](/static/issue-2/egg/constant-folding.png)
 
 如左图所示，在常量分析中我们发现 `(/ 2 2)` 节点等价于常数 `1`。此时我们创建一个新节点 `1` （会发现已经存在于图中）并将其与 `(/ 2 2)` 合并。这样就完成了常量折叠优化。它的特点是利用了表达式分析的副作用，而不是通过重写规则完成的。
 
@@ -157,7 +165,7 @@ Egg 的表达式分析功能允许我们为每个等价类关联任意值来描�
 1. 将 Join 上面的 Filter 谓词下推到 Join 的连接条件上
 2. 将 Join 的连接条件下推到左右子节点中，生成一个新的 Filter 算子
 
-![](../../static/issue-2/egg/pushdown-filter.png)
+![](/static/issue-2/egg/pushdown-filter.png)
 
 第一步可以用非常简单的规则描述：
 
@@ -170,9 +178,9 @@ rewrite!("pushdown-filter-join";
 
 但是第二步就比较棘手了，因为这里有三种可能情况：
 
-1. ↙️ 谓词只包含来自左侧的列，可以下推到左子树中
-2. ↘️ 谓词只包含来自右侧的列，可以下推到右子树中
-3. ⏹️ 谓词同时包含左右两边的列，无法下推
+1. ↙️  谓词只包含来自左侧的列，可以下推到左子树中
+2. ↘️  谓词只包含来自右侧的列，可以下推到右子树中
+3. ⏹️  谓词同时包含左右两边的列，无法下推
 
 此时我们需要继续使用 egg 的条件重写功能。只有当谓词中引用的列满足一定条件时，我们才能把它推下去：
 
@@ -211,7 +219,7 @@ rewrite!("hash-join-on-one-eq";
 
 对于常用的内连接，它满足交换律和结合律。从执行计划树的角度来看，交换律相当于交换 Join 节点的左右子树，结合律相当于对二叉树进行旋转。
 
-![](../../static/issue-2/egg/join-reordering.png)
+![](/static/issue-2/egg/join-reordering.png)
 
 在 egg 中描述结合律也非常直观：
 
@@ -226,7 +234,7 @@ rewrite!("join-right-rotation";
 
 类似的，我们还可以实现交换律：
 
-![](../../static/issue-2/egg/join-swap.png)
+![](/static/issue-2/egg/join-swap.png)
 
 ```rust
 rewrite!("join-swap";
@@ -302,7 +310,7 @@ pub fn optimize(expr: &RecExpr) -> RecExpr {
 
 不过，egg 的执行器现在还不太智能，它在扩展等价类的过程中并不会依据代价函数进行启发式搜索，而是暴力扩展出所有可能的表示。对于比较复杂的查询（例如 TPC-H 中常见的多表连接）很容易出现组合爆炸的情况。此外，一些特殊的重写规则可以被应用无数次，产生深度嵌套的表达式，更是助长了这种现象。
 
-![](../../static/issue-2/egg/alphago.png)
+![](/static/issue-2/egg/alphago.png)
 
 多轮迭代+分阶段优化。图源 [AlphaGo](https://www.quora.com/What-does-it-mean-that-AlphaGo-relied-on-Monte-Carlo-tree-search/answer/Kostis-Gourgoulias)。
 
