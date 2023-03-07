@@ -42,3 +42,13 @@ pub_date = "2023-03-02"
 publish = true
 featured = true
 canonical = "https://xuanwo.io/reports/2023-09/"
+
+[[article]]
+file = "write-a-sql-optimizer-using-egg.md"
+title = "Write a SQL Optimizer using Egg"
+author = "wangrunji"
+topic = ["tutorial", "database", "optimizer"]
+pub_date = "2023-03-07"
+publish = true
+featured = true
+i18n.zh = { file = "write-a-sql-optimizer-using-egg-zh.md", title = "用 Egg 实现 SQL 优化器" }

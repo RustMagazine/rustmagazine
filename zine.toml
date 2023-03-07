@@ -35,6 +35,7 @@ pr-demystifying = { name = "PR Demystifying", description = "Topic of PR demysti
 optimization = {}
 async = {}
 database = {}
+optimizer = {}
 business = { description = "Rust in Business" }
 tutorial = {}
 
