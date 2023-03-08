@@ -133,7 +133,7 @@ For example, the multiplication-to-shift rule mentioned at the beginning can be 
 rewrite!("mul2-to-shl1"; "(* ?a 2)" => "(<< ?a 1)")
 ```
 
-The strings on either side of `=>` ****represent the expression patterns before and after the transformation, where `?a` represents a variable that can be replaced with any expression. When the runner finds an expression that matches this pattern, it generates a new expression according to the pattern on the right and unions it with the original node to form an equivalence class. By the way, `=>` can also be replaced with `<=>` to indicate a bidirectional transformation.
+The strings on either side of `=>` represent the expression patterns before and after the transformation, where `?a` represents a variable that can be replaced with any expression. When the runner finds an expression that matches this pattern, it generates a new expression according to the pattern on the right and unions it with the original node to form an equivalence class. By the way, `=>` can also be replaced with `<=>` to indicate a bidirectional transformation.
 
 For some rules, they require certain conditions to be met before execution. For example, the following rule is only valid when the divisor is not zero:
 
