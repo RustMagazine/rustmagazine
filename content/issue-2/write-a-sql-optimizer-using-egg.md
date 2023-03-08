@@ -11,7 +11,7 @@ https://github.com/risinglightdb/sql-optimizer-labs
 # The Egg Library
 
 
-Egg is a program optimizer framework written in Rust. Its core technology is based on a method called Equality Saturation. The idea behind it is to gradually rewrite expressions to find all equivalent forms and then identify the optimal solution among them. During this process, Egg uses the e-graph data structure to efficiently query and maintain equivalence classes at runtime, reducing the time and space costs of program optimization.
+Egg is a program optimizer framework written in Rust. Its core technology is based on a method called Equality Saturation. The idea behind it is to gradually rewrite expressions to find all equivalent forms and then identify the optimal solution among them. During this process, Egg uses the [e-graph](https://en.wikipedia.org/wiki/E-graph) data structure to efficiently query and maintain equivalence classes at runtime, reducing the time and space costs of program optimization.
 
 ```urlpreview
 https://github.com/egraphs-good/egg
