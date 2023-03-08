@@ -35,6 +35,7 @@ pr-demystifying = { name = "PR Demystifying", description = "Topic of PR demysti
 optimization = {}
 async = {}
 database = {}
+optimizer = {}
 business = { description = "Rust in Business" }
 tutorial = {}
 
@@ -121,4 +122,11 @@ avatar = "/static/avatar/xuanwo.jpeg"
 bio = """
 - [GitHub](https://github.com/Xuanwo)
 - [Blog](https://xuanwo.io)
+"""
+
+[authors.wangrunji]
+name = "wangrunji"
+avatar = "/static/avatar/wangrunji.jpeg"
+bio = """
+- [GitHub](https://github.com/wangrunji0408)
 """
