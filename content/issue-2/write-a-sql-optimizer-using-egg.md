@@ -31,7 +31,7 @@ The e-graph also allows for dynamic insertion of e-nodes and merging of e-classe
 
 ![](/static/issue-2/egg/rewrite.png)
 
-Egg supports user-defined rules using Lisp expressions. For example, the rule shown in the above figure can be expressed as `(* ?a 2) => (<< ?a 1)`. More complex rules can also be written in Rust if needed. This makes Egg highly flexible and extensible. Developers can quickly implement an optimizer for their own language based on Egg. The following sections of this article demonstrate its application in SQL.
+Egg supports user-defined rules using [S-expressions](https://en.wikipedia.org/wiki/S-expression). For example, the rule shown in the above figure can be expressed as `(* ?a 2) => (<< ?a 1)`. More complex rules can also be written in Rust if needed. This makes Egg highly flexible and extensible. Developers can quickly implement an optimizer for their own language based on Egg. The following sections of this article demonstrate its application in SQL.
 
 Lastly, it's worth mentioning that the academic paper behind Egg has won the Distinguished Paper Award at POPL 2021. If you are interested, you can find more resources on their [website](https://egraphs-good.github.io).
 
@@ -73,7 +73,7 @@ define_language! {
 The above code is a simplified version that includes four types of nodes: value, list, operator, and plan node.
 
 1. Value: the leaf node in an expression. It can be a `Constant`, or a variable `Column` that refers to a column in a table.
-2. List: this is a special node that we introduce, representing an ordered list of several elements. It can have any number of child nodes. Note that from here on, each variant is prefixed with a string literal. It is used to identify this node in Lisp expressions. The specific representation is shown in the comment.
+2. List: this is a special node that we introduce, representing an ordered list of several elements. It can have any number of child nodes. Note that from here on, each variant is prefixed with a string literal. It is used to identify this node in S-expressions. The specific representation is shown in the comment.
 3. Operator: usually a middle node in an expression. Its associated Rust type can be either `Id`, `[Id; N]`, or `Box<[Id]>`, which respectively represent 1, N, or an indefinite number of child nodes.
 4. Plan Node: similar to an operator, but it operates on a table instead of a value. A SQL statement is transformed into a query plan tree composed of several nodes. Each plan node contains not only child nodes (`child`, `left`, `right`) which are plans, but also several parameters composed of expressions.
 
@@ -321,6 +321,6 @@ To avoid this issue, we can manually iterate the above process multiple times, a
 
 In this article, we introduced the program optimizer framework Egg and demonstrated how to use it to develop an SQL optimizer.
 
-The core principle of Egg is equality saturation. It rewrites expressions through rules and then finds the optimal solution based on a cost function. When using Egg, developers need to define the language first, then describe the rewrite rules in Lisp expressions, and finally define the cost function. The rest of the work can be automated by the framework.
+The core principle of Egg is equality saturation. It rewrites expressions through rules and then finds the optimal solution based on a cost function. When using Egg, developers need to define the language first, then describe the rewrite rules in S-expressions, and finally define the cost function. The rest of the work can be automated by the framework.
 
 Egg is a powerful and user-friendly framework that is ideal for quickly prototyping various optimizers. If you have similar requirements in your work or are interested in writing a database optimizer, you might want to try Egg!
