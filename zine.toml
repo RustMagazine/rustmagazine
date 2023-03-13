@@ -130,3 +130,12 @@ avatar = "/static/avatar/wangrunji.jpeg"
 bio = """
 - [GitHub](https://github.com/wangrunji0408)
 """
+
+[authors.Lei]
+name = "Lei Huang"
+bio = """
+Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
+
+- [GitHub](https://github.com/v0y4g3r)
+- [Blog](https://huanglei.rocks/)
+"""
