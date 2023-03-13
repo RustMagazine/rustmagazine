@@ -36,6 +36,7 @@ optimization = {}
 async = {}
 database = {}
 optimizer = {}
+tokio = { description = "A runtime for writing reliable, asynchronous, and slim applications with the Rust programming language" }
 business = { description = "Rust in Business" }
 tutorial = {}
 
