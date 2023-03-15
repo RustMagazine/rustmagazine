@@ -1,4 +1,4 @@
->在同步的 Rust 方法中调用异步代码经常会导致一些问题，特别是对于不熟悉异步 Rust runtime 底层原理的初学者。在本文中，我们将讨论我们遇到的一个特殊问题，并分享我们采取的解决方法的经验。
+> 在同步的 Rust 方法中调用异步代码经常会导致一些问题，特别是对于不熟悉异步 Rust runtime 底层原理的初学者。在本文中，我们将讨论我们遇到的一个特殊问题，并分享我们采取的解决方法的经验。
 
 ## 背景和问题
 
@@ -6,7 +6,8 @@
 
 我们的整个项目是基于 [Tokio](https://tokio.rs/) 这个异步 Rust runtime 的，它将协作式的任务运行和调度方便地封装在 `.await` 调用中，非常简洁优雅。但是这样也让不熟悉 Tokio 底层原理的用户一不小心就掉入到坑里。
 
-我们遇到的问题是，需要在一个第三方库的 trait 实现中执行一些异步代码，而这个 trait 是同步的 ``:sweat_smile:``，我们无法修改这个 trait 的定义。
+我们遇到的问题是，需要在一个第三方库的 trait 实现中执行一些异步代码，而这个 trait 是同步的 `:sweat_smile:`，我们无法修改这个 trait 的定义。
+
 ```rust
 trait Sequencer {
     fn generate(&self) -> Vec<i32>;
@@ -14,6 +15,7 @@ trait Sequencer {
 ```
 
 我们用一个`PlainSequencer` 来实现这个 trait ，而在实现 `generate` 方法的时候依赖一些异步的调用（比如这里的 `PlainSequencer::generate_async`）：
+
 ```rust
 impl PlainSequencer {
     async fn generate_async(&self)->Vec<i32>{
@@ -32,7 +34,9 @@ impl Sequencer for PlainSequencer {
     }
 }
 ```
+
 这样就会出现问题，因为 `generate` 是一个同步方法，里面是不能直接 await 的。
+
 ```latex
 error[E0728]: `await` is only allowed inside `async` functions and blocks
   --> src/common/tt.rs:32:30
@@ -43,7 +47,9 @@ error[E0728]: `await` is only allowed inside `async` functions and blocks
 33 | |     }
    | |_____- this is not `async`
 ```
+
 我们首先想到的是，Tokio 的 runtime 有一个 `Runtime::block_on` 方法，可以同步地等待一个 future 完成。
+
 ```rust
 impl Sequencer for PlainSequencer {
     fn generate(&self) -> Vec<i32> {
@@ -65,11 +71,16 @@ mod tests{
     }
 }
 ```
+
 编译可以通过，但是运行时直接报错：
+
 ```latex
-Cannot start a runtime from within a runtime. This happens because a function (like `block_on`) attempted to block the current thread while the thread is being used to drive asynchronous tasks.
-thread 'tests::test_sync_method' panicked at 'Cannot start a runtime from within a runtime. This happens because a function (like `block_on`) attempted to block the current thread while the thread is being used to drive asynchronous tasks.', /Users/lei/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-1.17.0/src/runtime/enter.rs:39:9
+thread 'tests::test_sync_method' panicked at 'Cannot start a runtime
+from within a runtime. This happens because a function (like `block_on`)
+attempted to block the current thread while the thread is being used
+to drive asynchronous tasks.'
 ```
+
 提示不能从一个执行中一个 runtime 直接启动另一个异步 runtime。看来 Tokio 为了避免这种情况特地在 `Runtime::block_on` 入口做了检查。
 既然不行那我们就再看看其他的异步库是否有类似的异步转同步的方法。果然找到一个 `futures::executor::block_on`。
 
@@ -84,6 +95,7 @@ impl Sequencer for PlainSequencer {
 ```
 
 编译同样没问题，但是运行时代码直接直接 hang 住不返回了。
+
 ```latex
 cargo test --color=always --package tokio-demo --bin tt tests::test_sync_method --no-fail-fast -- --format=json --exact -Z unstable-options --show-output
    Compiling tokio-demo v0.1.0 (/Users/lei/Workspace/Rust/learning/tokio-demo)
@@ -99,8 +111,6 @@ cargo test --color=always --package tokio-demo --bin tt tests::test_sync_method 
 
 并且吊诡的是，同样的代码，在 `tokio::test` 里面会 hang 住，但是在 `tokio::main` 中则可以正常执行完毕：
 
-
-
 ```rust
 #[tokio::main]
 pub async fn main() {
@@ -111,7 +121,9 @@ pub async fn main() {
     println!("vec: {:?}", vec);
 }
 ```
+
 执行结果：
+
 ```latex
 cargo run --color=always --package tokio-demo --bin tt
     Finished dev [unoptimized + debuginfo] target(s) in 0.05s
@@ -128,7 +140,7 @@ vec: [0, 1, 2]
 ```Rust
 #[tokio::test]
 async fn test_future() {
-    let future = async{
+    let future = async {
         println!("hello");
     };
 
@@ -160,7 +172,9 @@ match ::std::future::IntoFuture::into_future(<expr>) {
 自然地，必然存在一个组件来做这件事。这里就是 Tokio 和 [async-std](https://async.rs/) 这类异步运行时发挥作用的地方了。Rust 在设计之初就特意将异步的语法（async/await）和异步运行时的实现分开，在上述的示例代码中，poll 的操作是由 Tokio 的 executor 执行的。
 
 ## 问题分析
+
 回顾完背景知识，我们再看一眼方法的实现：
+
 ```rust
 fn generate(&self) -> Vec<i32> {
     futures::executor::block_on(async {
@@ -224,7 +238,8 @@ impl Sequencer for PlainSequencer {
 ```
 
 果然可以了。
-```rust
+
+```
 cargo test --color=always --package tokio-demo \
            --bin tt tests::test_sync_method \
            --no-fail-fast -- --format=json \
@@ -236,16 +251,20 @@ vec: [0, 1, 2]
 
 值得注意的是，在 `futures::executor::block_on` 里面，额外使用了一个 `RUNTIME` 来 spawn 我们的异步代码。其原因还是刚刚所说，这个异步任务需要一个 runtime 来驱动状态的变化。
 
-如果我们删除 `RUNTIME`，而为 `futures::executor::block_on`  生成一个新的线程，虽然死锁问题得到了解决，但 `tokio::time::sleep` 方法的调用会报错"no reactor is running"，这是因为 Tokio 的功能运作需要一个 runtime：
+如果我们删除 `RUNTIME`，而为 `futures::executor::block_on` 生成一个新的线程，虽然死锁问题得到了解决，但 `tokio::time::sleep` 方法的调用会报错"no reactor is running"，这是因为 Tokio 的功能运作需要一个 runtime：
 
-```rust
+```
 called `Result::unwrap()` on an `Err` value: Any { .. }
 thread '<unnamed>' panicked at 'there is no reactor running, must be called from the context of a Tokio 1.x runtime',
 ...
 ```
+
 ### `tokio::main` 和 `tokio::test`
+
 在分析完上面的原因之后，“为什么 `tokio::main` 中不会 hang 住而 `tokio::test` 会 hang 住”这个问题也很清楚了，他们两者所使用的的 runtime 并不一样。`tokio::main` 使用的是多线程的 runtime，而 `tokio::test` 使用的是单线程的 runtime，而在单线程的 runtime 下，当前线程被 `futures::executor::block_on` 卡死，那么用户提交的异步代码是一定没机会执行的，从而必然形成上面所说的死锁。
+
 ## Best practice
+
 经过上面的分析，结合 Rust 基于 generator 的协作式异步特性，我们可以总结出 Rust 下桥接异步代码和同步代码的一些注意事项：
 
 - 将异步代码与同步代码结合使用可能会导致阻塞，因此不是一个明智的选择。
@@ -261,4 +280,5 @@ thread '<unnamed>' panicked at 'there is no reactor running, must be called from
 - [Async and Await in Rust: a full proposal](https://news.ycombinator.com/item?id=17536441)
 - [calling futures::executor::block_on in block_in_place may hang](https://github.com/tokio-rs/tokio/issues/2603)
 - [tokio@0.2.14 + futures::executor::block_on causes hang](https://github.com/tokio-rs/tokio/issues/2376)
+
 ---

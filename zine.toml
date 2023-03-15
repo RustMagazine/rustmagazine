@@ -132,7 +132,7 @@ bio = """
 - [GitHub](https://github.com/wangrunji0408)
 """
 
-[authors.Lei]
+[authors.lei]
 name = "Lei Huang"
 bio = """
 Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
