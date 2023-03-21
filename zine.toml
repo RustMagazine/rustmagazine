@@ -49,6 +49,12 @@ pau1tuck = { name = "Paul Tuck", editor = true }
 mfrw = { editor = true }
 malagant = { name = "Michael Johann", editor = true, avatar = '/static/avatar/malagant.png' }
 skyzh = { avatar = "/static/avatar/skyzh.jpeg" }
+Peefy = { name = "Pengfei Xu", bio = """
+Working on the KCL Programming Language.
+
+- [GitHub](https://github.com/KusionStack/KCLVM)
+- [Webste](https://kcl-lang.io/)
+"""}
 
 [authors.folyd]
 editor = true

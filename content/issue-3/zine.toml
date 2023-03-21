@@ -2,3 +2,12 @@
 slug = "issue-3"
 number = 3
 title = "Issue 3"
+
+[[article]]
+file = "2023-kcl-rewrite-with-rust.md"
+title = "We Rewrote Our Project With Rust… and It's Almost 40X Faster"
+author = "Peefy"
+pub_date = "2023-03-21"
+publish = false
+featured = true
+i18n.zh = { file = "2023-kcl-rewrite-with-rust-zh.md", title = "性能提升 40 倍！我们用 Rust 重写了自己的项目" }
