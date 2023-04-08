@@ -54,6 +54,11 @@
       "A Polkadot Postmortem - 24.05.2021",
       "On 24 May 2021, Polkadot nodes failed with an out of memory (OOM) error on block 5,202,216. This block contained an on-chain solution to the validator election, which is normally computed off-chain an",
       "https://cms.polkadot.network/content/images/2021/05/image1.png"
+    ],
+    "https://rust.extension.sh": [
+      "Rust Search Extension - The ultimate search extension for Rust",
+      "Search docs, crates, builtin attributes, official books, and error codes, etc in your address bar instantly.",
+      "https://rust.extension.sh/banner.png"
     ]
   }
 }
