@@ -8,20 +8,6 @@ Moreover, some people in the community even develop PTSD towards Unsafe Rust, de
 
 So, the goal of this article is to guide readers through a systematic understanding of Unsafe Rust, truly grasping the ingenious uses of Unsafe Rust.
 
-**Table of Contents**:
-
-- Why Unsafe Rust is needed
-- What Unsafe Rust can do
-- The safety philosophy of Unsafe Rust
-  - Safe abstractions: maintaining safety invariants and validity invariants
-  - Case studies from the standard library
-  - Examples from FFI
-- Guidelines for Unsafe Rust programming
-- Hot discussion: Unsafe Rust vs Zig
-  - Introduction to the Zig language
-  - Is Zig really safer than Unsafe Rust?
-- Summary
-
 # Why Unsafe Rust is Needed
 
 **In general, Safe Rust is abstracted from Unsafe Rust. The world itself is Unsafe, so Unsafe comes first, followed by Safe. This is the basic worldview of the Rust language.**
@@ -42,14 +28,14 @@ In summary, from the perspective of Rust language design, Unsafe Rust is an inte
 
 As mentioned earlier, Unsafe Rust is a superset of Safe Rust. Therefore, Unsafe Rust also includes all compiler safety checks in Safe Rust. However, Unsafe Rust also includes operations not found in Safe Rust, i.e., operations that can only be executed in Unsafe Rust:
 
-1.  Raw pointer operations: You can create, dereference, and manipulate raw pointers (`*const T` and `*mut T`). This allows you to directly access memory addresses, perform memory allocation, deallocation, and modification, etc.
-2.  Calling Unsafe functions: Unsafe Rust can call functions marked as `unsafe`. These functions may lead to undefined behavior, so they need to be called within an `unsafe` code block. These functions are typically used to implement low-level operations, such as memory management, hardware access, etc.
-3.  Implementing Unsafe traits: You can implement traits marked as `unsafe`. These traits may contain potentially risky operations, and they need to be explicitly marked as `unsafe` when implemented.
-4.  Accessing and modifying mutable static variables: In Unsafe Rust, you can access and modify mutable static variables with a global lifetime. These variables remain active throughout the entire program execution and may lead to potential data race issues.
-5.  Working with `Union` types. Since multiple fields share the same memory location, using `union` carries certain risks. When accessing a `union` field, the compiler cannot guarantee type safety because it cannot determine which field the currently stored value belongs to. To ensure safe access to `union` fields, you need to perform operations within an `unsafe` code block.
-6.  Disabling runtime boundary checks: Unsafe Rust allows you to bypass array boundary checks. By using `get_unchecked` and `get_unchecked_mut` methods, you can access array and slice elements without performing boundary checks, thereby improving performance.
-7.  Inline assembly: In Unsafe Rust, you can use inline assembly (the `asm!` macro) to write processor instructions directly. This allows you to implement platform-specific optimizations and operations.
-8.  Foreign Function Interface (FFI): Unsafe Rust allows you to interact with code written in other programming languages (such as C/C++). This usually involves native pointer operations, type conversions, and calling unsafe functions.
+1.  **Raw pointer operations**: You can create, dereference, and manipulate raw pointers (`*const T` and `*mut T`). This allows you to directly access memory addresses, perform memory allocation, deallocation, and modification, etc.
+2.  **Calling Unsafe functions**: Unsafe Rust can call functions marked as `unsafe`. These functions may lead to undefined behavior, so they need to be called within an `unsafe` code block. These functions are typically used to implement low-level operations, such as memory management, hardware access, etc.
+3.  **Implementing Unsafe traits**: You can implement traits marked as `unsafe`. These traits may contain potentially risky operations, and they need to be explicitly marked as `unsafe` when implemented.
+4.  **Accessing and modifying mutable static variables**: In Unsafe Rust, you can access and modify mutable static variables with a global lifetime. These variables remain active throughout the entire program execution and may lead to potential data race issues.
+5.  **Working with `Union` types**: Since multiple fields share the same memory location, using `union` carries certain risks. When accessing a `union` field, the compiler cannot guarantee type safety because it cannot determine which field the currently stored value belongs to. To ensure safe access to `union` fields, you need to perform operations within an `unsafe` code block.
+6.  **Disabling runtime boundary checks**: Unsafe Rust allows you to bypass array boundary checks. By using `get_unchecked` and `get_unchecked_mut` methods, you can access array and slice elements without performing boundary checks, thereby improving performance.
+7.  **Inline assembly**: In Unsafe Rust, you can use inline assembly (the `asm!` macro) to write processor instructions directly. This allows you to implement platform-specific optimizations and operations.
+8.  **Foreign Function Interface (FFI)**: Unsafe Rust allows you to interact with code written in other programming languages (such as C/C++). This usually involves native pointer operations, type conversions, and calling unsafe functions.
 
 It is important to note that caution is needed when using Unsafe Rust. Whenever possible, prefer using Safe Rust to write code. Although it provides powerful capabilities, it can also lead to undefined behavior and memory safety issues. Therefore, Rust's official standard library source code implementation and the official [Unsafe Code Guideline](https://rust-lang.github.io/unsafe-code-guidelines/) both contain the safety philosophy of Unsafe Rust to maintain its security.
 
@@ -63,18 +49,18 @@ What does it mean for the overall code to remain safe? Unsafe Rust has a term ca
 
 Safe Rust has compiler safety checks to ensure memory safety and concurrency safety, but for those specialized operation scenarios of Unsafe Rust, the Rust compiler cannot help, so developers themselves need to ensure the memory safety and concurrency safety of the code. Unsafe Rust is the developer's safety commitment to the Rust compiler: "Leave safety to me to guard!"
 
-In order to abide by this safety commitment when writing Unsafe Rust code, developers must always maintain safety invariants. Safety invariants refer to the conditions that must be maintained throughout the entire program execution process to ensure memory safety. These conditions usually include pointer validity, data structure integrity, data access synchronization, etc. Safety invariants primarily focus on the correct execution of the program and the avoidance of undefined behavior. When using Unsafe Rust, developers are responsible for ensuring that these safety invariants are met to avoid memory safety issues.
+In order to abide by this safety commitment when writing Unsafe Rust code, developers must always maintain safety invariants. **Safety invariants refer to the conditions that must be maintained throughout the entire program execution process to ensure memory safety.** These conditions usually include pointer validity, data structure integrity, data access synchronization, etc. Safety invariants primarily focus on the correct execution of the program and the avoidance of undefined behavior. When using Unsafe Rust, developers are responsible for ensuring that these safety invariants are met to avoid memory safety issues.
 
-In the process of maintaining safety invariants, another concept to understand is the **Validity Invariant**. Validity invariants refer to the conditions that certain data types and structures must meet during their lifetime. Validity invariants mainly focus on the correctness of data types and structures. For example, for reference types, validity invariants include non-null pointers and valid memory being pointed to. When writing and using Unsafe Rust code, developers need to ensure that these validity invariants are maintained.
+In the process of maintaining safety invariants, another concept to understand is the **Validity Invariant**. **Validity invariants refer to the conditions that certain data types and structures must meet during their lifetime.** Validity invariants mainly focus on the correctness of data types and structures. For example, for reference types, validity invariants include non-null pointers and valid memory being pointed to. When writing and using Unsafe Rust code, developers need to ensure that these validity invariants are maintained.
 
 There is a certain degree of association between safety invariants and validity invariants because they both focus on the correctness and safety of the code. Maintaining validity invariants often helps ensure that safety invariants are met. For example, ensuring the validity of reference type pointers (validity invariant) can prevent null pointer dereferencing (safety invariant). Although they are related, the areas of focus for safety invariants and validity invariants are different. Safety invariants mainly focus on the memory safety of the entire program and the avoidance of undefined behavior, while validity invariants mainly focus on the correctness of specific data types and structures.
 
 The relationship between them can be summarized in the following aspects:
 
-1.  Purpose: Safety invariants mainly focus on memory safety and data integrity to prevent undefined behavior. Validity invariants focus on the conditions that type instances must meet during their lifetime for correct use.
-2.  Scope: Safety invariants typically involve the memory safety of the entire program or module, while validity invariants are specific to type constraints. To some extent, safety invariants can be regarded as global restrictions, while validity invariants are local restrictions.
-3.  Hierarchy: Safety invariants and validity invariants can interact at different levels. Generally, maintaining validity invariants is the foundation for implementing safety invariants. In other words, the validity invariants of a type are often required for implementing higher-level safety invariants.
-4.  Dependency: Safety invariants depend on validity invariants. When the validity invariants of a type are satisfied, it helps ensure the conditions required for implementing safety invariants. For example, in Rust, safe reference access depends on the underlying type's validity invariants being satisfied.
+1.  **Purpose**: Safety invariants mainly focus on memory safety and data integrity to prevent undefined behavior. Validity invariants focus on the conditions that type instances must meet during their lifetime for correct use.
+2.  **Scope**: Safety invariants typically involve the memory safety of the entire program or module, while validity invariants are specific to type constraints. To some extent, safety invariants can be regarded as global restrictions, while validity invariants are local restrictions.
+3.  **Hierarchy**: Safety invariants and validity invariants can interact at different levels. Generally, maintaining validity invariants is the foundation for implementing safety invariants. In other words, the validity invariants of a type are often required for implementing higher-level safety invariants.
+4.  **Dependency**: Safety invariants depend on validity invariants. When the validity invariants of a type are satisfied, it helps ensure the conditions required for implementing safety invariants. For example, in Rust, safe reference access depends on the underlying type's validity invariants being satisfied.
 
 Therefore, when the Unsafe Rust code violates safety invariants or validity invariants, we say the code is **unsound**. Unsound code may lead to undefined behavior, memory leaks, data races, and other issues. Rust attempts to avoid unsound situations by ensuring memory safety for most code through the compiler and type system, especially avoiding undefined behavior.
 
@@ -86,17 +72,17 @@ Therefore, when the Unsafe Rust code violates safety invariants or validity inva
 
 In Rust, pay special attention to situations that may lead to undefined behavior:
 
-1.  Data races: Data races occur when multiple threads access the same memory location simultaneously, and at least one thread is performing a write operation. Rust's ownership system and borrow checker prevent most data races at compile time, but in Unsafe Rust, developers need to be extra careful to avoid data races.
-2.  Invalid pointer dereferencing: Dereferencing an invalid pointer (e.g., a null pointer, a pointer to freed memory) leads to undefined behavior.
-3.  Integer overflow: In some cases, integer overflow (e.g., integer addition, subtraction, multiplication, etc.) may cause unexpected program situations. Rust enables integer overflow checks by default in debug mode, **but in Release mode, integer overflow behavior is defined**, see [RFC 0560](https://rust-lang.github.io/rfcs/0560-integer-overflow.html).
-4.  Accessing uninitialized memory: Accessing uninitialized memory leads to undefined behavior. This includes reading or writing uninitialized memory or passing uninitialized memory to external functions.
-5.  Incorrect type casting: Forcing a pointer of one type to be converted to a pointer of another type and then dereferencing it may lead to undefined behavior. This usually occurs in Unsafe Rust code and requires special attention to ensure type conversion is safe.
+1.  **Data races**: Data races occur when multiple threads access the same memory location simultaneously, and at least one thread is performing a write operation. Rust's ownership system and borrow checker prevent most data races at compile time, but in Unsafe Rust, developers need to be extra careful to avoid data races.
+2.  **Invalid pointer dereferencing**: Dereferencing an invalid pointer (e.g., a null pointer, a pointer to freed memory) leads to undefined behavior.
+3.  **Integer overflow**: In some cases, integer overflow (e.g., integer addition, subtraction, multiplication, etc.) may cause unexpected program situations. Rust enables integer overflow checks by default in debug mode, **but in Release mode, integer overflow behavior is defined**, see [RFC 0560](https://rust-lang.github.io/rfcs/0560-integer-overflow.html).
+4.  **Accessing uninitialized memory**: Accessing uninitialized memory leads to undefined behavior. This includes reading or writing uninitialized memory or passing uninitialized memory to external functions.
+5.  **Incorrect type casting**: Forcing a pointer of one type to be converted to a pointer of another type and then dereferencing it may lead to undefined behavior. This usually occurs in Unsafe Rust code and requires special attention to ensure type conversion is safe.
 
 In summary, when using Unsafe Rust, developers need to pay special attention to maintaining safety invariants and validity invariants to avoid Unsound and undefined behavior. We call Unsafe Rust code that strictly follows these principles **Unsafe safety abstractions**. They can be considered Safe, allowing for low-level operations and performance optimization while maintaining overall safety.
 
 ## Examples from the standard library
 
-### `Vec<T>`
+### Vec\<T\>
 
 The `push` method in the `Vec<T>` type in the standard library is a typical example of an Unsafe safety abstraction. The following code is a simplified implementation of this method:
 
@@ -124,12 +110,12 @@ impl<T> Vec<T> {
 }
 ```
 
-In this simplified version of the `Vec<T>` implementation, the `push` method uses Unsafe Rust. Now let's analyze how safety invariants and validity invariants are satisfied:
+In this simplified version of the `Vec<T>::push()` implementation. Now let's analyze how safety invariants and validity invariants are satisfied:
 
-1.  Safety invariants:
+1.  **Safety invariants**:
     - Memory allocation and deallocation: The `push` method calls the `reallocate` method (detailed implementation omitted here) when the length equals the capacity, ensuring sufficient memory is allocated. This ensures that there will be no out-of-bounds memory access.
     - Data access synchronization: In this example, the `push` method is a mutable reference (`&mut self`), ensuring that there are no other mutable or immutable references when called. This ensures that there is no data race.
-2.  Validity invariants:
+2.  **Validity invariants**:
     - Pointer validity: The `end` pointer is calculated using `self.ptr.add(self.len)`. Since `self.len < self.cap` (after `reallocate`), we can ensure that the memory address pointed to by `end` is valid.
     - Data type correctness: `std::ptr::write(end, value)` writes `value` to the memory pointed to by `end`. Since we have already ensured the validity of `end`, this operation is safe and ensures data type correctness.
 
@@ -137,7 +123,7 @@ By maintaining safety invariants and validity invariants, the `Vec<T>` type in t
 
 In conclusion, the Rust standard library uses Unsafe Rust for low-level operations and optimizations while ensuring safety invariants and validity invariants are satisfied, achieving safe and high-performance abstractions. This approach is also applied in many other standard library types and methods, such as `String`, `HashMap`, etc. This allows developers to take advantage of low-level operations and performance optimizations while writing safe, high-level code.
 
-### `String`
+### String
 
 In the standard library's `String` type, there is a pair of similar methods: `from_utf8` and `from_utf8_unchecked`. The difference is that the former is a Safe function, while the latter is an Unsafe function.
 
@@ -267,11 +253,11 @@ Please note that while this table summarizes the main differences, each language
 
 Zig language is designed with a focus on memory safety, but unlike Rust, it does not have a ownership system and borrow checker. Nevertheless, Zig enhances memory safety through some compile-time checks and language features. Here are some ways Zig language implements memory safety:
 
-1.  Compile-time checks: The Zig compiler performs many checks during compilation to catch potential memory errors, such as array out-of-bounds access, null pointer dereference, etc. When the Zig compiler detects these errors, it stops the compilation and reports the error.
-2.  Error handling: Zig improves code robustness through explicit error handling. Zig does not have exceptions; instead, it uses error return values and error union types to handle errors. This forces developers to explicitly handle potential errors, helping to reduce memory safety issues caused by unhandled errors.
-3.  Optional types: Zig provides optional types (Optionals) to represent values that may be null. By using optional types, null value cases can be explicitly handled, reducing the risk of null pointer dereferences.
-4.  Defined behavior: Zig designs defined behavior for many memory-related operations to avoid security risks posed by undefined behavior. For example, when dereferencing a null pointer, Zig ensures that a clearly defined error occurs, rather than producing undefined behavior.
-5.  Memory management: Zig offers flexible memory management options, including manual memory management, built-in allocators, and the use of user-defined allocators. Through explicit memory management, developers can better control memory usage, reducing the risks of memory leaks and memory errors.
+1. **Compile-time checks**: The Zig compiler performs many checks during compilation to catch potential memory errors, such as array out-of-bounds access, null pointer dereference, etc. When the Zig compiler detects these errors, it stops the compilation and reports the error.
+2.  **Error handling**: Zig improves code robustness through explicit error handling. Zig does not have exceptions; instead, it uses error return values and error union types to handle errors. This forces developers to explicitly handle potential errors, helping to reduce memory safety issues caused by unhandled errors.
+3.  **Optional types**: Zig provides optional types (Optionals) to represent values that may be null. By using optional types, null value cases can be explicitly handled, reducing the risk of null pointer dereferences.
+4.  **Defined behavior**: Zig designs defined behavior for many memory-related operations to avoid security risks posed by undefined behavior. For example, when dereferencing a null pointer, Zig ensures that a clearly defined error occurs, rather than producing undefined behavior.
+5.  **Memory management**: Zig offers flexible memory management options, including manual memory management, built-in allocators, and the use of user-defined allocators. Through explicit memory management, developers can better control memory usage, reducing the risks of memory leaks and memory errors.
 
 In summary, the Zig language, like C, entrusts memory management to humans, placing full trust in human development. Zig then provides some memory safety checks to ensure memory safety. However, it still lacks the strict compile-time guarantees of Rust's ownership system and borrow checker. Therefore, when writing Zig code, developers need to pay more attention to potential memory safety issues and ensure that errors and exceptional situations are handled correctly.
 
@@ -289,12 +275,12 @@ First, Unsafe Rust is indeed challenging. After understanding the content about 
 
 UB issues also exist in the Zig language, and Zig will also face the problems of Unsafe code. When writing Unsafe code in Zig, memory safety guarantees mainly depend on the developer's experience and coding practices. Although the Zig compiler provides some compile-time checks, in Unsafe code, these checks may not be enough to capture all potential memory errors. To ensure memory safety when writing Unsafe code, developers can follow these practices:
 
-1.  Reduce the use of Unsafe code: Try to minimize the use of Unsafe code without compromising performance and functionality. Limit Unsafe code to the smallest possible scope, making it easier to review and maintain.
-2.  Use the type system: Make the most of Zig's type system to represent different types of data and constraints. The type system can help developers capture potential errors at compile-time, reducing the risk of memory errors.
-3.  Explicit error handling: Ensure that potential errors are explicitly handled in Unsafe code, using error return values and error union types to represent possible error situations. This helps improve code robustness and reduce memory safety issues caused by unhandled errors.
-4.  Proper encapsulation and abstraction: For parts that require the use of Unsafe code, consider encapsulating them into safe abstractions, isolating Unsafe code. This ensures that other parts of the code do not touch potential memory errors when called.
-5.  Code review: Conduct a detailed code review for parts involving Unsafe code, ensuring that developers understand potential memory risks and take appropriate measures to prevent errors.
-6.  Testing: Write test cases for Unsafe code, ensuring that it works correctly under different scenarios. Testing can help discover potential memory errors and verify the effectiveness of fixes.
+1.  **Reduce the use of Unsafe code**: Try to minimize the use of Unsafe code without compromising performance and functionality. Limit Unsafe code to the smallest possible scope, making it easier to review and maintain.
+2.  **Use the type system**: Make the most of Zig's type system to represent different types of data and constraints. The type system can help developers capture potential errors at compile-time, reducing the risk of memory errors.
+3.  **Explicit error handling**: Ensure that potential errors are explicitly handled in Unsafe code, using error return values and error union types to represent possible error situations. This helps improve code robustness and reduce memory safety issues caused by unhandled errors.
+4.  **Proper encapsulation and abstraction**: For parts that require the use of Unsafe code, consider encapsulating them into safe abstractions, isolating Unsafe code. This ensures that other parts of the code do not touch potential memory errors when called.
+5.  **Code review**: Conduct a detailed code review for parts involving Unsafe code, ensuring that developers understand potential memory risks and take appropriate measures to prevent errors.
+6.  **Testing**: Write test cases for Unsafe code, ensuring that it works correctly under different scenarios. Testing can help discover potential memory errors and verify the effectiveness of fixes.
 
 When writing Unsafe code in Zig, it is also necessary to perform safety abstractions like Unsafe Rust and pay attention to maintaining safety invariants and validity invariants.
 
