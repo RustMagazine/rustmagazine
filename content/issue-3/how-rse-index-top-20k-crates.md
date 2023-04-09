@@ -1,4 +1,4 @@
-[Rust Search Extension] is a handy browser extension to help Rustaceans search docs and crates. One of most powerful feature is search top 20K crates in the address bar instantly. How I achieve this? Why it is so fast? In this article, let's dive into the details.
+[Rust Search Extension] is an indispensable browser extension for Rustaceans looking to search for docs and crates. One of its most powerful features is its ability to instantly search the top 20K crates in the address bar. But how is this achieved, and why is it so fast? In this article, we will dive into the details.
 
 ```urlpreview
 https://rust.extension.sh
@@ -6,19 +6,21 @@ https://rust.extension.sh
 
 # Quick demo
 
-In case some of you are not familiar with the extension, here is a quick demonstration of searching top 20K crates in the address bar.
+If you are not familiar with the extension, here is a quick demonstration of how to search the top 20K crates in the address bar.
 
-![](/issue-3/rse-demo.gif)
+![](/static/issue-3/rust-search-extension.png)
 
-You can input `rs` in the address bar to activate the extension. Then simply input crate name or keywords to search. The extension will show you the top 20K crates that match your query. It is blazing fast, isn't it? Why it is so fast? Simple, we have intergrated a search index of top 20K crates into the extension. In next section, I will show you how I build the index and how it works.
+First, input `rs` in the address bar to activate the extension. Then, simply input the crate name or keywords you want to search for. The extension will instantly show you the top 20K crates that match your query. It is blazing fast, isn't it? So, how is this achieved? The answer is simple: we have integrated a search index of the top 20K crates into the extension. In the next section, we will show you how we built the index and how it works.
 
 # Build top 20K crates index
 
-In order to build the crates index, we need to access the database of [crates.io]. Fortunately, [crates.io] provides a public [CSV database dumps](https://crates.io/data-access) and keep it up-to-date in 24 hours.
+To build the crates index, we need to access the database of [crates.io]. Fortunately, [crates.io] provides a public [CSV database dumps](https://crates.io/data-access) that is updated every 24 hours.
 
 ## The essential database schema
 
-Here is the schema of the dumped database. What we need is the `crates.csv` to get the top 20K most downloaded crates and `versions.csv` to get the latest version of each crate.
+To build the top 20K crates index, we need access to the [crates.io] database schema. The schema includes several files, but we only need `crates.csv` to get the top 20K most downloaded crates and `versions.csv` to get the latest version of each crate.
+
+Here is the directory structure of the dumped database:
 
 ```
 $ tree .
@@ -81,7 +83,7 @@ $ xsv headers versions.csv
 
 ## Parse the database dumps
 
-The database dumps are in `tar.gz` format. We can use [tar](https://crates.io/crates/tar) to extract the files. Then we can use [csv](https://crates.io/crates/csv) to parse the CSV files.
+The database dumps are provided in `tar.gz` format, which we can extract using [tar](https://crates.io/crates/tar) crate. Once the files are extracted, we can use [csv](https://crates.io/crates/csv) crate to parse the CSV files.
 
 ```rust
 const MAX_CRATE_SIZE: usize = 20 * 1000;
@@ -129,13 +131,13 @@ fn execute(&self) -> crate::Result<()> {
 }
 ```
 
-We parse `crates.csv` and `versions.csv` into `Vec<Crate>` and `Vec<CrateVersion>`. Then sort the crates by `downloads` to get the top 20K crates.
+We parse `crates.csv` and `versions.csv` into `Vec<Crate>` and `Vec<CrateVersion>`, respectively. We then sort the crates by `downloads` to get the top 20K crates.
 
 > Note: We use [rayon](https://crates.io/crates/rayon)'s [par_sort_unstable_by()](https://docs.rs/rayon/latest/rayon/slice/trait.ParallelSliceMut.html#method.par_sort_unstable_by) instead of std's [sort_unstable_by()](https://doc.rust-lang.org/std/primitive.slice.html#method.sort_unstable_by) to parallelize the sorting process.
 
-## Build the search index
+## Building the search index
 
-20K items isn't a huge number for computer to iterate through. So we can simply adopt the map as the format of the index. The key is the crate name and the value is the crate description and version.
+While 20K items may not be a huge number for a computer to iterate through, we still need an efficient way to store and search through the crates. We can adopt the map as the format of the index, where the key is the crate name, and the value is the crate description and version.
 
 ```js
 {
@@ -145,7 +147,7 @@ We parse `crates.csv` and `versions.csv` into `Vec<Crate>` and `Vec<CrateVersion
 }
 ```
 
-However, we should get the latest version for each crate. Here is what I do.
+However, we need to ensure that we get the latest version for each crate. Here is how we do it:
 
 ```rust
 // A <crate_id, latest_version> map to store the latest version of each crate.
@@ -189,7 +191,7 @@ fn generate_javascript_crates_index(crates: Vec<Crate>) -> Result<()> {
 }
 ```
 
-We generate the index as a JavaScript file instead of a JSON file, here is the sample of the generated index:
+We generate the index as a JavaScript file instead of a JSON file. Here is a sample of the generated index:
 
 ```js
 var crateInde={
@@ -199,11 +201,11 @@ var crateInde={
 };
 ```
 
-# Compress index
+# Compressing the index
 
-The full index of top 20K crates is more than 1.7MB. Since we are going to integrate the whole index into the extension, we should compress it to reduce the size. The simplest idea I came up is to mapping most frequency words to a short token. Then we can replace the words with the token in the index. For example, the word `asynchronous"` and `applications` occur with high frequently in the index, we can replace it with `$1` and `$2` respectively.
+The full index of top 20K crates is more than 1.7MB. Since we are going to integrate the whole index into the extension, we should compress it to reduce the size. One idea is to map most frequent words to a short token. Then we can replace the words with the token in the index. For example, the words `asynchronous` and `applications` occur frequently in the index, we can replace them with `$1` and `$2`, respectively.
 
-## Tokenize the search words and build frequency map
+## Tokenizing the search words and building the frequency map
 
 The first step is to collect all text, including the crate name and description, and use [unicode-segmentation](https://crates.io/crates/unicode-segmentation) to tokenize them into words.
 
@@ -315,7 +317,7 @@ The final `frequency_words` is sorted by the score, which is calculated by the w
 
 ## Build the token map
 
-The next step is to build the token map. We can use the some special characters and ASCII table the prefix and suffix of the token.
+The next step is to build the token map. We can achieve this by combining a prefix and suffix of characters to form each token. The prefix can be a set of special characters, such as `@$^&`, while the suffix can be a combination of alphanumeric characters.
 
 ```rust
 #[derive(Debug)]
@@ -355,7 +357,7 @@ impl<'a> Minifier<'a> {
 }
 ```
 
-The `Minifier` will generate a mapping from the word to the token. Here is the sample of the `mapping`:
+The `Minifier` will generate a mapping from the word to the token. Here is a sample of the resulting `mapping`:
 
 ```js
 {
@@ -410,9 +412,9 @@ var crateIndex={
 };
 ```
 
-Notice we also include the mapping in the index, so we can decode the token back to the word.
+We also include the mapping field in the index, so that tokens can be decoded back to their corresponding words.
 
-Another thing worth mentioning is that we also use [minifier](https://crates.io/crates/minifier) crate to minify the `crateIndex` JavaScript object to reduce the file size further. After minification, the file size is reduced to 1.3MB, more than **20%** smaller than the original index. You can click [here](https://rust.extension.sh/crates/index.js) to see the latest crates index.
+Another thing worth mentioning is that we also use [minifier](https://crates.io/crates/minifier) crate to minify the `crateIndex` JavaScript object to reduce the file size further. After minification, the file size is reduced to 1.3MB, more than **20%** smaller than the original index. The resulting minified index can be found at <https://rust.extension.sh/crates/index.js>.
 
 ```
 $ ls -l
@@ -420,15 +422,17 @@ $ ls -l
 -rw-r--r--  1 root  1664707 Mar  11 17:06 crates-without-minified.js
 ```
 
-# Keep index up-to-date
+# Keeping the index up-to-date
 
-Since the index is generated from the [crates.io] API, we need to update the index regularly. We can use [GitHub Actions](https://github.com/huhu/rust-search-extension/blob/53c94708fb440e80ae134c6763eea99a1acc8afe/.github/workflows/crates-index.yml) to schedule the update. Then the user input `:update` command or directly visit this [update page](https://rust.extension.sh/update) to sync the lastest crate index.
+Since the index is generated from the [crates.io] API, it needs to be updated regularly to ensure that it reflects the latest state of the Rust ecosystem. We can use [GitHub Actions](https://github.com/huhu/rust-search-extension/blob/53c94708fb440e80ae134c6763eea99a1acc8afe/.github/workflows/crates-index.yml) to schedule the updates. The user can also manually trigger an update by entering the `:update` command or visiting the [update page](https://rust.extension.sh/update) on the Rust Search Extension website.
+
+![](/static/issue-3/update-index.png)
 
 # Conclusion
 
-In this article, we have introduced how to build top 20K crates index and how to minified the index to reduce the file size. The source code of is available on [GitHub](https://github.com/huhu/rust-search-extension/blob/8597db7227fcc0888e462489a47be7b794d9c784/rust/src/tasks/crates.rs).
+In this article, we have described how to build a top 20K crates index for Rust and how to minimize the index to reduce its file size. The source code for the index generation and minimization process is available on [GitHub](https://github.com/huhu/rust-search-extension/blob/8597db7227fcc0888e462489a47be7b794d9c784/rust/src/tasks/crates.rs). The Rust Search Extension is a powerful tool for searching the Rust crates ecosystem, and we hope that this article has provided some insight into how it works behind the scenes.
 
-Thanks for reading, and welcome to give [rust search extension] a try!
+Thanks for reading, and welcome to give [Rust Search Extension] a try!
 
 [rust search extension]: https://rust.extension.sh
 [crates.io]: https://crates.io
