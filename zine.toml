@@ -138,3 +138,6 @@ name = "Boshen"
 bio = """
 - [GitHub](https://github.com/Boshen)
 """
+
+[authors.robjtede]
+avatar = "/static/avatar/robjtede.jpeg"

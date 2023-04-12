@@ -39,3 +39,11 @@ pub_date = "2023-04-05"
 publish = true
 featured = true
 
+[[article]]
+file = "robjtede.md"
+title = "Interview with robjtede"
+author = ["folyd", "robjtede"]
+topic = ["interview"]
+pub_date = "2023-03-30"
+publish = true
+featured = true
