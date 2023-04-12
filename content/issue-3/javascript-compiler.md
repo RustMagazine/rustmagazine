@@ -1,6 +1,6 @@
 I am currently working on a personal project called the [JavaScript Oxidation Compiler](https://github.com/Boshen/oxc).
 The compiler has a fast linter that can process around 1000 files per 100 milliseconds.
-I am also in the process of developing a minifier.  See the project README for more details.
+I am also in the process of developing a minifier. See the project README for more details.
 
 ```urlpreview
 https://github.com/Boshen/oxc
@@ -48,10 +48,10 @@ The first architectural design for a compiler is its AST.
 
 All JavaScript tools work on the AST level, for example:
 
-* A linter (e.g. ESLint) checks the AST for errors
-* A formatter (e.g.prettier) prints the AST back to JavaScript text
-* A minifier (e.g. terser) transforms the AST
-* A bundler connects all import and export statements between ASTs from different files
+- A linter (e.g. ESLint) checks the AST for errors
+- A formatter (e.g.prettier) prints the AST back to JavaScript text
+- A minifier (e.g. terser) transforms the AST
+- A bundler connects all import and export statements between ASTs from different files
 
 It will be painful to build these tools if the AST is not user-friendly.
 
@@ -317,8 +317,8 @@ However, after profiling both `ustr` and the enhanced version of `string-cache`,
 
 Some preliminary guesses for the sub-par performance are:
 
-* Hashing - the interners need to hash the string for deduplication
-* Indirection - we need to read the string value from a "far away" heap, which is not cache friendly
+- Hashing - the interners need to hash the string for deduplication
+- Indirection - we need to read the string value from a "far away" heap, which is not cache friendly
 
 ### String Inlining
 
@@ -352,10 +352,10 @@ fn test_size() {
 Many crates in the Rust community aim to optimize memory usage. This is yet another battlefield within the community.
 The most popular ones are
 
-* [smol_str](https://crates.io/crates/smol_str)
-* [smartstring](https://crates.io/crates/smartstring)
-* [compact_str](https://crates.io/crates/compact_str)
-* [flexstr](https://crates.io/crates/flexstr)
+- [smol_str](https://crates.io/crates/smol_str)
+- [smartstring](https://crates.io/crates/smartstring)
+- [compact_str](https://crates.io/crates/compact_str)
+- [flexstr](https://crates.io/crates/flexstr)
 
 Each of these crates have unique characteristics and approaches to achieving memory optimization, leading to a variety of trade-offs and considerations when choosing which one to use.
 For example `smol_str` and `flexstr` clones are O(1).
@@ -602,7 +602,7 @@ struct Tree {
     nodes: Vec<Node>
 }
 
-struct node {
+struct Node {
     parent: Option<usize> // index into `nodes`
 }
 ```
@@ -686,7 +686,7 @@ There is no `par_iter` for `ignore::Walk::new(".")`.
 
 Instead, [primitives need to be used](https://github.com/Boshen/oxc/blob/b51c2df3cc43b9f7d57380acc1552fac7db75fab/crates/oxc_cli/src/lint/runner.rs#L116-L139)
 
-```
+```rust
 let walk = Walk::new(&self.options);
 rayon::spawn(move || {
     walk.iter().for_each(|path| {
@@ -716,8 +716,8 @@ This unlocks a useful feature where we can print all diagnostics in a single thr
 Printing the diagnostics was fast, but I have been working on this project for so long that it felt like an eternity to print thousands of diagnostic messages every time I run the linter on huge monorepos.
 So I started searching through the Rust GitHub issues and eventually found the relevant ones:
 
-* [io::Stdout should use block buffering when appropriate](https://github.com/rust-lang/rust/issues/60673)
-* [stdin and stdout performance considerations are not documented](https://github.com/rust-lang/rust/issues/106133)
+- [io::Stdout should use block buffering when appropriate](https://github.com/rust-lang/rust/issues/60673)
+- [stdin and stdout performance considerations are not documented](https://github.com/rust-lang/rust/issues/106133)
 
 In summary, a `println!` call will lock `stdout` every time it encounters a newline, this is called line buffering.
 To make things print faster, we need to opt-in for block buffering which is [documented here](https://rust-cli.github.io/book/tutorial/output.html#a-note-on-printing-performance).
@@ -743,10 +743,10 @@ writeln!(handle, "foo: {}", 42); // add `?` if you care about errors here
 At the moment of this writing,
 development of Oxc is slowing down because I am currently considering the bigger picture of this project:
 
-* an HIR (high-level intermediate representation) of the AST for scopes and symbols
-* a unified semantic model for building more sophisticated features, including a control flow graph
-* a performant Google Closure advanced compilation mode
-* partnership with the [ezno](https://github.com/kaleidawave/ezno) experimental type checker
+- an HIR (high-level intermediate representation) of the AST for scopes and symbols
+- a unified semantic model for building more sophisticated features, including a control flow graph
+- a performant Google Closure advanced compilation mode
+- partnership with the [ezno](https://github.com/kaleidawave/ezno) experimental type checker
 
 So please stay tuned.
 
