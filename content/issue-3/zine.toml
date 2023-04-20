@@ -2,3 +2,13 @@
 slug = "issue-3"
 number = 3
 title = "Issue 3"
+
+
+[[article]]
+file = "rustchat.md"
+title = "Using ChatGPT to Create the Ultimate Rust Learning 'Magic' System"
+author = ["HandongZhang"]
+topic = ["tutorial"]
+pub_date = "2023-04-20"
+publish = true
+featured = true
