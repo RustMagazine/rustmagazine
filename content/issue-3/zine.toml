@@ -2,3 +2,11 @@
 slug = "issue-3"
 number = 3
 title = "Issue 3"
+
+[[article]]
+file="Data_science_chatGPT_bard.md"
+title="A Data Science View of ChatGPT and Bard"
+author="LCrossman"
+topic=["article on ChatGPT and Bard"]
+pub_date="2023-23-04"
+publish=true
