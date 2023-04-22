@@ -7,13 +7,13 @@ Both approaches can achieve the goal, but introduce too much complexity to the p
 
 Meanwhile, in Rust, the `allocator_api` feature is still unstable. During testing, we found some APIs that could lead to memory leaks and could not be used in production. Thus, we are searching for a fast, stable, and less complex way to maintain statistics.
 
-## `GlobalAlloc` + `task_local`
+# `GlobalAlloc` + `task_local`
 
-`GlobalAlloc` was introduced in Rust 1.28. It is an abstraction layer that introduces the concept of a global allocator. `GlobalAlloc` should be thread-safe and can be used for memory statistics management without introducing a lot of complexity.
+[`GlobalAlloc`](https://doc.rust-lang.org/std/alloc/trait.GlobalAlloc.html) was introduced in Rust 1.28. It is an abstraction layer that introduces the concept of a global allocator. `GlobalAlloc` should be thread-safe and can be used for memory statistics management without introducing a lot of complexity.
 
-However, `GlobalAlloc` does not provide per-task memory management, which is essential for our use case. To address this, we found `tokio::task_local`.
+However, `GlobalAlloc` does not provide per-task memory management, which is essential for our use case. To address this, we found [`tokio::task_local`](https://docs.rs/tokio/latest/tokio/macro.task_local.html).
 
-`tokio::task_local` is a similar method to `thread_local` that is managed by the `tokio` runtime. The combination of `GlobalAlloc` and `task_local` provides a powerful and efficient solution for managing memory statistics. We can create a simple wrapper, `TaskStatsAlloc`, over any underlying allocator. It is safe, lightweight, and user-friendly.
+`tokio::task_local` is a similar method to [`thread_local`](https://doc.rust-lang.org/std/macro.thread_local.html) that is managed by the `tokio` runtime. The combination of `GlobalAlloc` and `task_local` provides a powerful and efficient solution for managing memory statistics. We can create a simple wrapper, `TaskStatsAlloc`, over any underlying allocator. It is safe, lightweight, and user-friendly.
 
 The `GlobalAlloc` trait has four methods. For the sake of simplicity, we will only consider the `alloc` and `dealloc` methods here.
 
@@ -24,9 +24,9 @@ pub unsafe trait GlobalAlloc {
 }
 ```
 
-## Intuitive implementation
+# Intuitive implementation
 
-The most straightforward idea is to record the allocation count of memory in task_local.
+The most straightforward idea is to record the allocation count of memory in `task_local`.
 
 ```rust
 task_local! {
@@ -98,11 +98,11 @@ async fn main() {
 }
 ```
 
-There is an undefined behavior (UB) here, but it's very likely that on your 64-bit machine, the output will be `Allocated 18446744073709551512`. Obviously, `data` was allocated in task1, moved to task2, and then deallocated in task2, causing task2 to destruct the 24 bytes it never allocated, resulting in an unsigned integer underflow.
+There is an undefined behavior (UB) here, but it's very likely that on your 64-bit machine, the output will be `Allocated 18446744073709551512`. Obviously, `data` was allocated in `task1`, moved to `task2`, and then deallocated in `task2`, causing `task2` to destruct the 24 bytes it never allocated, resulting in an unsigned integer underflow.
 
 Memory movement is one of the most important features of Rust, but it can lead to significant biases in our memory statistics. Many tasks may destruct memory from other tasks, leading to undercounted memory. Conversely, other tasks may have virtual inflated results due to the memory being moved.
 
-## Introduce scope meta
+# Introduce scope meta
 
 The core issue with the previous approach is that, memory movement effectively leaks the memory from its original scope statistics, but move itself is **inevitable and cannot be hooked**. Instead, we could take a classic approach: allocate a metadata block for each scope and add an extra pointer to the metadata block to every pointer, which is similar to a vtable. When we allocate memory, we record the metadata pointer of the current scope. When we deallocate memory, we operate on the scope that was allocated, rather than the current scope.
 
@@ -182,7 +182,7 @@ unsafe impl GlobalAlloc for TaskLocalAlloc {
 
 In this implementation, we allocate a `TaskLocalBytesAllocated` for each tokio task scope (See `TaskLocalBytesAllocated::default`. This is a wrapper around an `*AtomicUsize` that records the amount of memory allocated by that particular scope. Since the address of this allocation is saved within the pointers that are allocated in this scope, deallocation will still decrement the corresponding `TaskLocalBytesAllocated`.
 
-## Fix the memory leak in TaskLocalBytesAllocated
+# Fix the memory leak in TaskLocalBytesAllocated
 
 We have noticed that when creating `TaskLocalBytesAllocated`, we use `Box::leak` to create the `AtomicUsize` metadata, but we never deallocate it. This can lead to an 8-byte memory leak for each scope. This unlimited leakage is unacceptable for programs that continuously create new task scopes.
 
@@ -192,7 +192,7 @@ The current situation is similar to the one that can be managed by `Arc`. Indeed
 
 The lifecycle of `TaskLocalBytesAllocated` has two stages, which are marked by the exit of the scope. In the first stage, the scope allocates and deallocates memory. In the second stage, since the scope has completely exited, no new allocation will occur, and only the remaining memory will be freed. Therefore, the end of the second lifecycle is indicated by the `TaskLocalBytesAllocated` value dropping to 0 after the scope has exited.
 
-To simplify implementation, we can create a 1-byte guard at the beginning of the scope and release it when the scope exits. This ensures that the value is never 0 in the first stage. As a result, when the value drops to 0, the metadata itself also needs to be reclaimed. This is equivalent to a thin `Arc` where the value is also the reference count. In this case, only one atomic variable needs protection. Therefore, Relaxed Order can be used without adding an Acquire/Release fence, unlike Arc.
+To simplify implementation, we can create a 1-byte guard at the beginning of the scope and release it when the scope exits. This ensures that the value is never 0 in the first stage. As a result, when the value drops to 0, the metadata itself also needs to be reclaimed. This is equivalent to a thin `Arc` where the value is also the reference count. In this case, only one atomic variable needs protection. Therefore, `Relaxed` Order can be used without adding an `Acquire`/`Release` fence, unlike `Arc`.
 
 ```rust
 #[repr(transparent)]
@@ -263,16 +263,16 @@ impl TaskLocalBytesAllocated {
 And `dealloc` just call `sub`directly.
 
 ```rust
-    unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
-        let new_layout =
-            Layout::from_size_align_unchecked(layout.size() + usize::BITS as usize, layout.align());
-        // Get the meta scope ptr.
-        let ptr = ptr.sub(usize::BITS as usize);
-        let bytes: TaskLocalBytesAllocated = *ptr.cast();
-        bytes.sub(layout.size());
+unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+    let new_layout =
+        Layout::from_size_align_unchecked(layout.size() + usize::BITS as usize, layout.align());
+    // Get the meta scope ptr.
+    let ptr = ptr.sub(usize::BITS as usize);
+    let bytes: TaskLocalBytesAllocated = *ptr.cast();
+    bytes.sub(layout.size());
 
-        GLOBAL_ALLOC.dealloc(ptr, wrapped_layout);
-    }
+    GLOBAL_ALLOC.dealloc(ptr, wrapped_layout);
+}
 ```
 
 We also create a simple wrapper for caller to create the guard and monitor the metrics value:
@@ -307,7 +307,7 @@ where
 }
 ```
 
-## Pros and Cons
+# Pros and Cons
 
 This implementation still has many drawbacks:
 
@@ -317,7 +317,7 @@ This implementation still has many drawbacks:
 
 However, the benefits are also very obvious. **This implementation has zero invasion on the application code, and all complexity is covered in the allocator.**
 
-## Further plan
+# Further plan
 
 I have tested this approach in our application and it performed well. We were able to obtain detailed memory statistics for each module or query without significantly impacting the speed of the application. The impact was approximately 10% in high-concurrent workloads, such as sysbench, and almost no influence for long-running workloads.
 

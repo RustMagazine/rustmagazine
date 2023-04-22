@@ -38,6 +38,8 @@ database = {}
 optimizer = {}
 business = { description = "Rust in Business" }
 tutorial = {}
+memory = {}
+allocator = {}
 
 # Authors declare below
 [authors]

@@ -9,4 +9,5 @@ title = "TaskStatsAlloc: Fine-grained memory statistics in Rust"
 author = "tennyzhuang"
 topic = ["memory", "allocator"]
 pub_date = "2023-04-22"
+featured = true
 publish = true
