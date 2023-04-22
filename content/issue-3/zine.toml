@@ -2,3 +2,11 @@
 slug = "issue-3"
 number = 3
 title = "Issue 3"
+
+[[article]]
+file = "task-stats-alloc.md"
+title = "TaskStatsAlloc: Fine-grained memory statistics in Rust"
+author = "tennyzhuang"
+topic = ["memory", "allocator"]
+pub_date = "2023-04-22"
+publish = true
