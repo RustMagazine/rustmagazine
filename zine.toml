@@ -40,6 +40,8 @@ business = { description = "Rust in Business" }
 tutorial = {}
 memory = {}
 allocator = {}
+unsafe-rust = { name = "Unsafe Rust", description = "Topic of unsafe rust." }
+engineering = {}
 
 # Authors declare below
 [authors]
@@ -133,8 +135,15 @@ bio = """
 - [GitHub](https://github.com/wangrunji0408)
 """
 
+[authors.boshen]
+name = "Boshen"
+bio = """
+- [GitHub](https://github.com/Boshen)
+"""
+
 [authors.tennyzhuang]
 name = "tennyzhuang"
 bio = """
 - [GitHub](https://github.com/TennyZhuang)
 """
+
