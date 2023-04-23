@@ -122,7 +122,7 @@ fn main() {
     let mut totalchat: HashMap<String,Vec<f64>> = HashMap::new();
     let mut totalbard: HashMap<String,Vec<f64>> = HashMap::new();
     for ((ke,ye),value) in matrix_hash.iter() {
-         if ye <= &32 {
+         if ye <= &35 {
              //these are poems from ChatGPT, save all the cosine similarities under the poem name
              let item = totalchat.entry(ke.to_string()).or_insert(Vec::new());
              item.push(*value);
