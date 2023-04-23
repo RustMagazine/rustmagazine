@@ -12,7 +12,5 @@ module.exports = {
         preflight: false,
     },
     plugins: [
-        // A plugin to truncate text to a fixed number of lines.
-        require('@tailwindcss/line-clamp'),
     ],
 }

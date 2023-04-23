@@ -38,6 +38,7 @@ database = {}
 optimizer = {}
 business = { description = "Rust in Business" }
 tutorial = {}
+engineering = {}
 
 # Authors declare below
 [authors]
