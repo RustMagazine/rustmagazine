@@ -5,6 +5,11 @@
       "A simple Command Line Argument Parser with parser combinators",
       "https://crates.io/assets/og-image.png"
     ],
+    "https://github.com/Boshen/oxc": [
+      "GitHub - Boshen/oxc: The JavaScript Oxidation Compiler -> Linter",
+      "The JavaScript Oxidation Compiler -> Linter. Contribute to Boshen/oxc development by creating an account on GitHub.",
+      "https://opengraph.githubassets.com/2c5181ef0e49cd8cf380b484ddc24f0ee8a3ec6b4ad2c7b6132be6295a01437b/Boshen/oxc"
+    ],
     "https://github.com/Rust-for-Linux/linux": [
       "Rust-for-Linux/linux",
       "Adding support for the Rust language to the Linux kernel. - GitHub",
@@ -44,6 +49,11 @@
       "Improve slice.binary_search_by()'s best-case performance to O(1) by Folyd · Pull Request #74024 · rust-lang/rust · GitHub",
       "This PR aimed to improve the slice.binary_search_by()'s best-case performance to O(1).\nNoticed\nI don't know why the docs of binary_search_by said \"If there are multiple matches, then any one of the ma",
       "https://opengraph.githubassets.com/d65ab523be84a75f559441723a6b9725d967c3cb76c9c28c6f33b1c9619363bc/rust-lang/rust/pull/74024"
+    ],
+    "https://github.com/servo/string-cache/pull/268": [
+      "feat: use bucket mutex instead of global mutex for dynamic set by Boshen · Pull Request #268 · servo/string-cache · GitHub",
+      "Background:\nI'm working a concurrent program using swc to parse files in parallel. swc uses string-cache.\nI have found the global mutex in the dynamic set being the major performance bottleneck for ou",
+      "https://opengraph.githubassets.com/a83189ee3a2852575aee40e0671d5375b45eedb9744be6ebd0844754e55f4b8d/servo/string-cache/pull/268"
     ],
     "https://github.com/skyzh/mini-lsm": [
       "skyzh/mini-lsm",
