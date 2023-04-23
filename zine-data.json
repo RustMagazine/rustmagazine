@@ -69,6 +69,11 @@
       "Rust Search Extension - The ultimate search extension for Rust",
       "Search docs, crates, builtin attributes, official books, and error codes, etc in your address bar instantly.",
       "https://rust.extension.sh/banner.png"
+    ],
+    "https://ziglang.org/": [
+      "⚡\nZig Programming Language",
+      "Zig is a general-purpose programming language and toolchain for maintaining robust, optimal and reusable software.",
+      "https://ziglang.org/zig-logo-dark.svg"
     ]
   }
 }
