@@ -38,6 +38,8 @@ database = {}
 optimizer = {}
 business = { description = "Rust in Business" }
 tutorial = {}
+unsafe-rust = { name = "Unsafe Rust", description = "Topic of unsafe rust." }
+engineering = {}
 
 # Authors declare below
 [authors]
@@ -131,8 +133,13 @@ bio = """
 - [GitHub](https://github.com/wangrunji0408)
 """
 
+[authors.boshen]
+name = "Boshen"
+bio = """
+- [GitHub](https://github.com/Boshen)
+"""
+
 [authors.PsiACE]
-editor = true
 avatar = "/static/avatar/psiace.jpg"
 bio = """
 - [GitHub](https://github.com/psiace)

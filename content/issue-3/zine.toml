@@ -4,6 +4,43 @@ number = 3
 title = "Issue 3"
 
 [[article]]
+file = "how-rse-index-top-20k-crates.md"
+title = "How Rust Search Extension Indexes Top 20k Crates"
+author = "folyd"
+pub_date = "2023-03-11"
+topic = ["engineering"]
+publish = true
+featured = true
+
+[[article]]
+file = "javascript-compiler.md"
+title = "Pursuit of Performance on Building a JavaScript Compiler"
+author = "boshen"
+topic = []
+pub_date = "2023-03-22"
+publish = true
+featured = true
+
+[[article]]
+file = "understand-unsafe-rust.md"
+title = "Comprehensive Understanding of Unsafe Rust"
+author = "handongzhang"
+topic = ["unsafe-rust", "tutorial"]
+pub_date = "2023-04-05"
+publish = true
+featured = true
+
+[[article]]
+file = "is-zig-safer-than-unsafe-rust.md"
+title = "Is Zig safer than Unsafe Rust?"
+author = "handongzhang"
+topic = ["unsafe-rust"]
+pub_date = "2023-04-05"
+publish = true
+featured = true
+
+
+[[article]]
 file = "optimizing-compilation-for-databend.md"
 title = "Optimizing Compilation for Databend"
 author = ["PsiACE"]
