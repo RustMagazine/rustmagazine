@@ -1,4 +1,4 @@
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-02.png)
+![](/static/issue-3/optimizing-compilation-for-databend/2.png)
 
 # 背景
 
@@ -8,7 +8,7 @@
 
 对于 Databend 这样的中大型 Rust 程序而言，编译实在算不上是一件轻松的事情：
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-03.png)
+![](/static/issue-3/optimizing-compilation-for-databend/3.png)
 
 - 一方面，在复杂的项目依赖和样板代码堆积之下，Rust 的编译时间显得不那么理想，前两年 [Brian Anderson 的文章](https://cn.pingcap.com/blog/rust-compilation-model-calamity) 中也提到“Rust 糟糕的编译时间”这样的描述。
 - 另一方面，为了维护构建结果，不得不引入一些技巧来维护编译流水线的稳定，这并不是一件“一劳永逸”的事情，随着 Workflow 复杂性的提高，就不得不陷入循环之中。
@@ -28,13 +28,13 @@
 在浏览器中打开结果 HTML 可以看到一个甘特图，其中展示了程序中各个 crate 之间的依赖关系，以及程序的编译并行程度和代码生成量级。
 通过观察图表，我们可以决定是否要提高某一模块的代码生成单元数目，或者要不要进一步拆解以优化整个编译流程。
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-04.png)
+![](/static/issue-3/optimizing-compilation-for-databend/4.png)
 
 ## cargo-depgraph
 
 这个工具其实不太常用，但可以拿来分析依赖关系。有助于找到一些潜在的优化点，特别是需要替换某些同类依赖或者优化 crates 组织层次的时候。
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-05.png)
+![](/static/issue-3/optimizing-compilation-for-databend/5.png)
 
 # 无痛优化，从调整配置开始
 
@@ -52,7 +52,7 @@ components = ["rustfmt", "clippy", "rust-src", "miri"]
 
 另外，上游项目同样可能会随着时间的推移去改善过去不合理的设计，很多时候这些改进也最终会反映在对编译的影响上。
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-06.png)
+![](/static/issue-3/optimizing-compilation-for-databend/6.png)
 
 一个改善编译时间的最简单的优化方式就是始终跟进上游的变更，并且秉着“上游优先”的理念去参与到生态建设之中。Databend 团队从一开始就是 Rust nightly 的忠实簇拥，并且为更新工具链和依赖关系提供了简明的指导。
 
@@ -78,7 +78,7 @@ https://github.com/mozilla/sccache
 
 Rust 生态里面有一个很有意思的项目是 [mTvare6/hello-world.rs](https://github.com/mTvare6/hello-world.rs) ，它尽可能给你展现了如何让一个 Rust 项目变得尽可能糟糕。
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-08.png)
+![](/static/issue-3/optimizing-compilation-for-databend/8.png)
 
 特别是：
 
@@ -90,7 +90,7 @@ Rust 自身是不太能很好自动处理这一点的，它需要把所有依赖
 
 [sundy-li](https://github.com/sundy-li) 发现了另外一个快速好用的工具，叫做 cargo-machete 。
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-09.png)
+![](/static/issue-3/optimizing-compilation-for-databend/9.png)
 
 一个显著的优点是它很快，因为一切只需要简单的正则表达式来处理。而且也支持了自动修复，这意味着我们不再需要挨个检索文件再去编辑。
 
@@ -113,7 +113,7 @@ protocol = "sparse"
 
 最简单的办法就是选择比默认链接器更快的链接器。
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-10.png)
+![](/static/issue-3/optimizing-compilation-for-databend/10.png)
 
 lld 或者 mold 都可以改善链接时间，Databend 最后选择使用 mold 。其实在 Databend 这个量级的程序上，两个链接器的差距并不明显，但是，使用 mold 的一个潜在好处是能够节约一部分编译时候消耗的内存。
 
@@ -181,7 +181,7 @@ tests/
 
 另外，对于 Databend 而言，有相当一部分测试都是对输入输出的端到端测试，如果硬编码在单元测试中需要增加更多额外的格式相关的工作，维护也会比较费力。
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-12.png)
+![](/static/issue-3/optimizing-compilation-for-databend/12.png)
 
 Databend 巧妙运用 golden files 测试和 SQL logic 测试，替换了大量内嵌在单元测试中的 SQL 查询测试和输出结果检查，从而进一步改善了编译时间。
 
@@ -191,7 +191,7 @@ Databend 巧妙运用 golden files 测试和 SQL logic 测试，替换了大量�
 
 cargo nextest 让测试也可以快如闪电，并且提供更精细的统计和优雅的视图。Rust 社区中有不少项目通过引入 cargo nextest 大幅改善测试流水线的时间。
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-13.png)
+![](/static/issue-3/optimizing-compilation-for-databend/13.png)
 
 但 Databend 目前还无法迁移到这个工具上。一方面，配置相关的测试暂时还不被支持，如果再针对去单独跑 cargo test 还要重新编译。另一方面，有一部分与超时相关的测试设定了执行时间，必须等待执行完成。
 
@@ -199,7 +199,7 @@ cargo nextest 让测试也可以快如闪电，并且提供更精细的统计和
 
 改善依赖项的编译，典型的例子其实是 workspace-hack ，将重要的公共依赖放在一个目录下，这样这些依赖就不需要反复编译了。Rust 社区中的 cargo-hakari，可以用来自动化管理 workspace-hack 。
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-14.png)
+![](/static/issue-3/optimizing-compilation-for-databend/14.png)
 
 Databend 这边则是由于有大量的 common 组件，主要二进制程序都建立在 common 组件上，暗中符合这一优化思路。另外，随着 workspace 支持依赖继承之后，维护压力也得到减轻。
 

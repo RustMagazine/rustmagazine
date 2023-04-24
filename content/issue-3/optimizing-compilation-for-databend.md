@@ -1,10 +1,10 @@
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-01.png)
+![](/static/issue-3/optimizing-compilation-for-databend/1.png)
 
 # Background
 
 Compiling a medium to large Rust program is not a breeze due to the accumulation of complex project dependencies and boilerplate code. As noted in [an article by Brian Anderson](https://www.pingcap.com/blog/rust-compilation-model-calamity/), "But Rust compile times are so, so bad." To maintain the stability of the build pipeline, it is necessary to introduce some techniques, but there is no "one-size-fits-all" solution. As the complexity of the workflow increases, it can become a loop.
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-03.png)
+![](/static/issue-3/optimizing-compilation-for-databend/3.png)
 
 The Databend team encountered similar challenges in compiling the product from hundreds of thousands of lines of code and in developing Docker-based build tools to enhance the developers/CI workflow. This article outlines the measures taken by the team to address the compilation challenges. If you're interested, check out these earlier posts to get a general idea of how we compile Databend:
 
@@ -25,13 +25,13 @@ When opened in a web browser, the resulting HTML file shows a Gantt chart displa
 
 Based on the chart, we can decide whether to increase the number of code generation units for a particular module, or whether to further decompose to optimize the overall build process.
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-04.png)
+![](/static/issue-3/optimizing-compilation-for-databend/4.png)
 
 ## Dependent Relationships
 
 Although not commonly utilized, [cargo-depgraph](https://crates.io/crates/cargo-depgraph) can be employed to analyze dependent relationships. It helps to find potential optimization points, especially when you need to replace some similar dependencies or optimize the organization level of crates.
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-05.png)
+![](/static/issue-3/optimizing-compilation-for-databend/5.png)
 
 # Painless Optimization with Configuration Adjustments
 
@@ -49,7 +49,7 @@ components = ["rustfmt", "clippy", "rust-src", "miri"]
 
 In addition, upstream projects may also improve unreasonable designs over time, and many of these improvements will ultimately be reflected in the impact on compilation.
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-06.png)
+![](/static/issue-3/optimizing-compilation-for-databend/6.png)
 
 One of the simplest ways to improve compile time is to always keep up with upstream changes and participate in ecosystem building with the philosophy of "upstream first". Databend has been a loyal follower of Rust nightly from the very beginning and provided [concise guidance](https://databend.rs/doc/contributing/routine-maintenance) for updating the toolchain and dependency relationships.
 
@@ -77,7 +77,7 @@ Another important change is that the Rust community realized that incremental co
 
 There is an interesting project in the Rust ecosystem known as [mTvare6/hello-world.rs](https://github.com/mTvare6/hello-world.rs), which demonstrates how to create a Rust project that is as poorly written as possible.
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-08.png)
+![](/static/issue-3/optimizing-compilation-for-databend/8.png)
 
 In particular:
 
@@ -89,7 +89,7 @@ At first, Databend introduced [cargo-udeps](https://crates.io/crates/cargo-udeps
 
 [sundy-li](https://github.com/sundy-li) found another fast and easy to use tool called [cargo-machete](https://crates.io/crates/cargo-machete).
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-09.png)
+![](/static/issue-3/optimizing-compilation-for-databend/9.png)
 
 One significant benefit is that **machete** is fast as it only requires simple regular expressions to handle everything. Additionally, it supports automatic fixes, eliminating the need to search through files one by one and make manual edits.
 
@@ -114,7 +114,7 @@ If a project is relatively large and has many dependencies, it may waste a lot o
 
 The simplest solution is to choose a faster linker than the default one.
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-10.png)
+![](/static/issue-3/optimizing-compilation-for-databend/10.png)
 
 Both [lld](https://github.com/llvm/llvm-project/tree/main/lld) and [mold](https://github.com/rui314/mold) can improve link time. Databend eventually chose to use **mold**. In fact, the difference between the two linkers is not obvious for Databend. However, using **mold** has a potential benefit of saving some memory consumption during compilation.
 
@@ -186,7 +186,7 @@ We all know that the more code that needs to be compiled for unit tests, the slo
 
 In addition, for Databend, a considerable part of the tests are end-to-end tests of input and output. If these tests are hardcoded in unit tests, much more format-related work needs to be added, which also requires substantially more effort to maintain.
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-12.png)
+![](/static/issue-3/optimizing-compilation-for-databend/12.png)
 
 The use of golden file testing and SQL logic testing in Databend replaces a large number of SQL query tests and output result checks embedded in unit tests, which further improves compile time.
 
@@ -196,7 +196,7 @@ The use of golden file testing and SQL logic testing in Databend replaces a larg
 
 [cargo nextest](https://nexte.st/) makes testing as fast as lightning and provides finer statistics and elegant views. Many projects in the Rust community have greatly improved test pipeline time by introducing cargo nextest.
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-13.png)
+![](/static/issue-3/optimizing-compilation-for-databend/13.png)
 
 However, Databend is currently unable to switch to this tool for two reasons. Firstly, configuration-related tests are not currently supported, so if you need to run cargo test separately, you have to recompile. Secondly, some tests related to timeouts are set to a specific execution time and must wait for completion.
 
@@ -204,6 +204,6 @@ However, Databend is currently unable to switch to this tool for two reasons. Fi
 
 One typical example of improving the compilation of dependencies is workspace-hack, which places important public dependencies in a directory, avoiding the need to repeatedly recompile these dependencies. [cargo-hakari](https://crates.io/crates/cargo-hakari) can be used to automatically manage workspace-hack.
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-14.png)
+![](/static/issue-3/optimizing-compilation-for-databend/14.png)
 
 Databend has a large number of common components, and the main binary programs are built on common components, implicitly in line with this optimization idea. In addition, with the support of dependencies inheritance in the workspace, the maintenance pressure has also been reduced.
