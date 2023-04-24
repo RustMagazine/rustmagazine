@@ -192,7 +192,7 @@ The use of golden file testing and SQL logic testing in Databend replaces a larg
 
 # Cargo Snubs
 
-## `cargo-nextest`
+## cargo-nextest
 
 [cargo nextest](https://nexte.st/) makes testing as fast as lightning and provides finer statistics and elegant views. Many projects in the Rust community have greatly improved test pipeline time by introducing cargo nextest.
 
@@ -200,7 +200,7 @@ The use of golden file testing and SQL logic testing in Databend replaces a larg
 
 However, Databend is currently unable to switch to this tool for two reasons. Firstly, configuration-related tests are not currently supported, so if you need to run cargo test separately, you have to recompile. Secondly, some tests related to timeouts are set to a specific execution time and must wait for completion.
 
-## `cargo-hakari`
+## cargo-hakari
 
 One typical example of improving the compilation of dependencies is workspace-hack, which places important public dependencies in a directory, avoiding the need to repeatedly recompile these dependencies. [cargo-hakari](https://crates.io/crates/cargo-hakari) can be used to automatically manage workspace-hack.
 
