@@ -1,5 +1,8 @@
 ![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-02.png)
 
+> Databend 是一款现代云数仓。专为弹性和高效设计，为您的大规模分析需求保驾护航。自由且开源。
+> 即刻体验云服务：https://app.databend.cn 。
+
 ## 背景
 
 时至今日，Databend 已经成长为一个大型、复杂、完备的数据库系统。团队维护着数十万行代码，每次发布十几个编译产物，并且还提供基于 Docker 的一些构建工具以改善开发者 / CI 的体验。
