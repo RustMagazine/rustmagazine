@@ -39,7 +39,6 @@ pub_date = "2023-04-05"
 publish = true
 featured = true
 
-
 [[article]]
 file = "optimizing-compilation-for-databend.md"
 title = "Optimizing Compilation for Databend"
