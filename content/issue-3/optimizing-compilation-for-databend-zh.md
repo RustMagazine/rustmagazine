@@ -127,13 +127,13 @@ rustflags = ["-C", "link-arg=-fuse-ld=/path/to/mold"]
 
 先看一个常见的 split-debuginfo，在 MacOS 上，rustc 会运行一个名为 dsymutil 的工具，该工具会分析二进制文件，然后构建调试信息目录。配置 split-debuginfo，可以跳过 dsymutil ，从而加快构建速度。
 
-```
+```toml
 split-debuginfo = "unpacked"
 ```
 
 另外的一个例子是 codegen-units，Databend 在编译时使用 codegen-units = 1 来增强优化，并且克制二进制体积大小。但是考虑到部分依赖在编译时会有特别长的代码生成时间（因为重度依赖宏），所以需要针对性放开一些限制。
 
-```
+```toml
 [profile.release.package]
 arrow2 = { codegen-units = 4 }
 common-functions = { codegen-units = 16 }
