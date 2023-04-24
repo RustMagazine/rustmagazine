@@ -15,7 +15,7 @@ The Databend team encountered similar challenges in compiling the product from h
 
 While observability may not directly optimize compilation, it can aid in identifying where the bottleneck in the compilation process lies. This knowledge can help us determine the appropriate remedy to address the issue.
 
-### `cargo build --timings`
+### Compilation Process
 
 This command visualizes the compilation process of Databend.
 
@@ -27,9 +27,9 @@ Based on the chart, we can decide whether to increase the number of code generat
 
 ![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-04.png)
 
-### `cargo-depgraph`
+### Dependent Relationships
 
-Although not commonly utilized, [cargo-depgraph](https://crates.io/crates/cargo-depgraph) can be employed to analyze dependency relationships. It helps to find potential optimization points, especially when you need to replace some similar dependencies or optimize the organization level of crates.
+Although not commonly utilized, [cargo-depgraph](https://crates.io/crates/cargo-depgraph) can be employed to analyze dependent relationships. It helps to find potential optimization points, especially when you need to replace some similar dependencies or optimize the organization level of crates.
 
 ![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-05.png)
 
