@@ -42,7 +42,7 @@ featured = true
 [[article]]
 file = "optimizing-compilation-for-databend.md"
 title = "Optimizing Compilation for Databend"
-author = ["PsiACE"]
+author = ["PsiACE", "databend"]
 topic = ["database", "optimization"]
 pub_date = "2023-04-20"
 publish = true

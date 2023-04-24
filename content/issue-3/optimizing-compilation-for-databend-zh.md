@@ -1,9 +1,6 @@
 ![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-02.png)
 
-> Databend 是一款现代云数仓。专为弹性和高效设计，为您的大规模分析需求保驾护航。自由且开源。
-> 即刻体验云服务：https://app.databend.cn 。
-
-## 背景
+# 背景
 
 时至今日，Databend 已经成长为一个大型、复杂、完备的数据库系统。团队维护着数十万行代码，每次发布十几个编译产物，并且还提供基于 Docker 的一些构建工具以改善开发者 / CI 的体验。
 
@@ -18,32 +15,32 @@
 
 为了优化编译体验，Databend 陆陆续续做过很多优化工作，今天的文章将会和大家一同回顾 Databend 中改善编译时间的一些优化。
 
-## 可观测性
+# 可观测性
 
 可观测性并不是直接作用于编译优化的手段，但可以帮助我们识别当前编译的瓶颈在什么地方，从而对症下药。
 
-### cargo build --timings
+## cargo build --timings
 
 这一命令有助于可视化程序的编译过程。
 
-在 1.59或更早版本时可以使用 `cargo +nightly build -Ztimings` 。
+在 1.59 或更早版本时可以使用 `cargo +nightly build -Ztimings` 。
 
 在浏览器中打开结果 HTML 可以看到一个甘特图，其中展示了程序中各个 crate 之间的依赖关系，以及程序的编译并行程度和代码生成量级。
 通过观察图表，我们可以决定是否要提高某一模块的代码生成单元数目，或者要不要进一步拆解以优化整个编译流程。
 
 ![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-04.png)
 
-### cargo-depgraph
+## cargo-depgraph
 
 这个工具其实不太常用，但可以拿来分析依赖关系。有助于找到一些潜在的优化点，特别是需要替换某些同类依赖或者优化 crates 组织层次的时候。
 
 ![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-05.png)
 
-## 无痛优化，从调整配置开始
+# 无痛优化，从调整配置开始
 
 改善编译体验的第一步其实并不是直接对代码动手术，很多时候，只需要变更少数几项配置，就能够获得很大程度上的改善。
 
-### Bump, Bump, Booooooooom
+## Bump, Bump, Booooooooom
 
 前面提到过 Rust 团队的成员们也很早就意识到，编译时间目前还并不理想。所以编译器团队同样会有计划去不断进行针对性的优化。经常可以看到在版本更新说明中有列出对编译的一些改进工作。
 
@@ -59,7 +56,7 @@ components = ["rustfmt", "clippy", "rust-src", "miri"]
 
 一个改善编译时间的最简单的优化方式就是始终跟进上游的变更，并且秉着“上游优先”的理念去参与到生态建设之中。Databend 团队从一开始就是 Rust nightly 的忠实簇拥，并且为更新工具链和依赖关系提供了简明的指导。
 
-### 缓存，转角遇到 sccache
+## 缓存，转角遇到 sccache
 
 缓存是一种常见的编译优化手段，思路也很简单，只需要把预先构建好的产物存储起来，在下次构建的时候继续拿过来用。
 
@@ -67,15 +64,17 @@ components = ["rustfmt", "clippy", "rust-src", "miri"]
 
 随着时间的推移，一切变得不同了起来。
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-07.png)
+```urlpreview
+https://github.com/mozilla/sccache
+```
 
 首先是 Sccache 恢复了活力，而 OpenDAL 也成功打入其内部，成为支撑 Rust 编译缓存生态的重要组件，尽管在本地构建时使用它常常无法展现出真正的威力，但是放在 CI 中，还是能够带来很大惊喜的。
 
 另一个重要的改变是，Rust 社区意识到增量编译对于 CI 来讲并不能很好 Work 。
 
-> CI builds often are closer to from-scratch builds, as changes are  typically much bigger than from a local edit-compile cycle. For  from-scratch builds, incremental adds an extra dependency-tracking  overhead. It also significantly increases the amount of IO and the size  of ./target, which make caching less effective.
+> CI builds often are closer to from-scratch builds, as changes are typically much bigger than from a local edit-compile cycle. For from-scratch builds, incremental adds an extra dependency-tracking overhead. It also significantly increases the amount of IO and the size of ./target, which make caching less effective.
 
-## 轻装上阵，将冷气传递给每一个依赖
+# 轻装上阵，将冷气传递给每一个依赖
 
 Rust 生态里面有一个很有意思的项目是 [mTvare6/hello-world.rs](https://github.com/mTvare6/hello-world.rs) ，它尽可能给你展现了如何让一个 Rust 项目变得尽可能糟糕。
 
@@ -97,7 +96,7 @@ Rust 自身是不太能很好自动处理这一点的，它需要把所有依赖
 
 不过 machete 并不是完美的工具，由于只是进行简单的正则处理，有一些情况无法准确识别，不过 ignore 就好了，总体上性价比还是很高的。
 
-### 稀疏索引
+## 稀疏索引
 
 为了确定 crates.io 上存在哪些 crates，Cargo 需要下载并读取 crates.io-index ，该索引位于托管在 GitHub 上的 git 存储库中，其中列出了所有 crates 的所有版本。
 
@@ -108,7 +107,7 @@ Rust 自身是不太能很好自动处理这一点的，它需要把所有依赖
 protocol = "sparse"
 ```
 
-### linker
+## linker
 
 如果项目比较大，而且依赖繁多，那么可能在链接时间上会比较浪费。特别是在你只改了几行代码，但编译却花了很久的时候。
 
@@ -124,7 +123,7 @@ linker = "clang"
 rustflags = ["-C", "link-arg=-fuse-ld=/path/to/mold"]
 ```
 
-### 编译相关配置
+## 编译相关配置
 
 先看一个常见的 split-debuginfo，在 MacOS 上，rustc 会运行一个名为 dsymutil 的工具，该工具会分析二进制文件，然后构建调试信息目录。配置 split-debuginfo，可以跳过 dsymutil ，从而加快构建速度。
 
@@ -142,19 +141,21 @@ databend-query = { codegen-units = 4 }
 databend-binaries = { codegen-units = 4 }
 ```
 
-## 重新思考，更合理的代码组织
+# 重新思考，更合理的代码组织
 
 前面是一些配置上的调整，接下来将会探讨重构对代码编译时间的一些影响。
 
-### 拆分到更合理的 crates 规模
+## 拆分到更合理的 crates 规模
 
 对于一个大型的 All in One 式的 Crate 而言，拆分 crates 算是一个比较有收益的重构。一方面可以显著改善并行度。另一方面，通过解耦交叉依赖/循环依赖，可以帮助 Rust 更快地处理代码编译。
 
-![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-11.png)
+```urlpreview
+https://github.com/datafuselabs/databend/issues/6180
+```
 
 同时，还有一个潜在的好处，就是拆分以后，由于代码的边界更为清晰，维护起来也会省力一些。
 
-### 单元式测试与集成式测试的界限
+## 单元式测试与集成式测试的界限
 
 单元测试的常见组织形式包括在 src 中维护 tests mod ，和在 tests 目录下维护对应的测试代码。
 
@@ -174,7 +175,7 @@ tests/
 
 但是，这种形式并不十分优雅，不得不为所有需要测试的内容设置成 public ，容易破坏代码之间的模块化组织，在使用前建议进行深入评估。
 
-### 更优雅的测试方法
+## 更优雅的测试方法
 
 对应到编译时间上，可以简单认为，单元测试里需要编译的代码越多，编译时间自然就会越慢。
 
@@ -184,9 +185,9 @@ tests/
 
 Databend 巧妙运用 golden files 测试和 SQL logic 测试，替换了大量内嵌在单元测试中的 SQL 查询测试和输出结果检查，从而进一步改善了编译时间。
 
-## 遗珠之憾
+# 遗珠之憾
 
-### cargo nextest
+## cargo nextest
 
 cargo nextest 让测试也可以快如闪电，并且提供更精细的统计和优雅的视图。Rust 社区中有不少项目通过引入 cargo nextest 大幅改善测试流水线的时间。
 
@@ -194,7 +195,7 @@ cargo nextest 让测试也可以快如闪电，并且提供更精细的统计和
 
 但 Databend 目前还无法迁移到这个工具上。一方面，配置相关的测试暂时还不被支持，如果再针对去单独跑 cargo test 还要重新编译。另一方面，有一部分与超时相关的测试设定了执行时间，必须等待执行完成。
 
-### cargo hakari
+## cargo hakari
 
 改善依赖项的编译，典型的例子其实是 workspace-hack ，将重要的公共依赖放在一个目录下，这样这些依赖就不需要反复编译了。Rust 社区中的 cargo-hakari，可以用来自动化管理 workspace-hack 。
 
@@ -202,11 +203,11 @@ cargo nextest 让测试也可以快如闪电，并且提供更精细的统计和
 
 Databend 这边则是由于有大量的 common 组件，主要二进制程序都建立在 common 组件上，暗中符合这一优化思路。另外，随着 workspace 支持依赖继承之后，维护压力也得到减轻。
 
-## 总结
+# 总结
 
 这篇文章介绍了 Databend 团队在改善 Rust 项目编译时间上做的一些探索和努力，从配置优化和代码重构这两个角度，提供了一些能够优化编译时间的一些建议。
 
-## 参考资料
+# 参考资料
 
 - [Fast Rust Builds](https://matklad.github.io/2021/09/04/fast-rust-builds.html)
 - [Delete Cargo Integration Tests](https://matklad.github.io/2021/02/27/delete-cargo-integration-tests.html)
@@ -214,4 +215,3 @@ Databend 这边则是由于有大量的 common 组件，主要二进制程序都
 - [2023-04: 为什么你该试试 Sccache？](https://xuanwo.io/reports/2023-04/)
 - [The Rust Performance Book - Compile Times](https://nnethercote.github.io/perf-book/compile-times.html)
 - [Cargo Registry 稀疏索引的一些介绍](https://blog.dcjanus.com/posts/cargo-registry-index-in-http/)
-
