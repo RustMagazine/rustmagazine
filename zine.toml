@@ -130,3 +130,10 @@ avatar = "/static/avatar/wangrunji.jpeg"
 bio = """
 - [GitHub](https://github.com/wangrunji0408)
 """
+
+[authors.PsiACE]
+editor = true
+avatar = "/static/avatar/psiace.jpg"
+bio = """
+- [GitHub](https://github.com/psiace)
+"""
