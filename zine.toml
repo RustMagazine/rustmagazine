@@ -140,6 +140,7 @@ bio = """
 """
 
 [authors.PsiACE]
+name = "PsiACE"
 avatar = "/static/avatar/psiace.jpg"
 bio = """
 - [GitHub](https://github.com/psiace)
