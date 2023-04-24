@@ -10,7 +10,7 @@
 
 ![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-03.png)
 
-- 一方面，在复杂的项目依赖和样板代码堆积之下，Rust 的编译时间显得不那么理想，前两年 Brian Anderson 的文章中也提到“Rust 糟糕的编译时间”这样的描述。
+- 一方面，在复杂的项目依赖和样板代码堆积之下，Rust 的编译时间显得不那么理想，前两年 [Brian Anderson 的文章](https://cn.pingcap.com/blog/rust-compilation-model-calamity) 中也提到“Rust 糟糕的编译时间”这样的描述。
 - 另一方面，为了维护构建结果，不得不引入一些技巧来维护编译流水线的稳定，这并不是一件“一劳永逸”的事情，随着 Workflow 复杂性的提高，就不得不陷入循环之中。
 
 为了优化编译体验，Databend 陆陆续续做过很多优化工作，今天的文章将会和大家一同回顾 Databend 中改善编译时间的一些优化。

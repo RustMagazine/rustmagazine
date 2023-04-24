@@ -2,7 +2,7 @@
 
 ## Background
 
-Compiling a medium to large Rust program is not a breeze due to the accumulation of complex project dependencies and boilerplate code. As noted in an article by Brian Anderson, "But Rust compile times are so, so bad." To maintain the stability of the build pipeline, it is necessary to introduce some techniques, but there is no "one-size-fits-all" solution. As the complexity of the workflow increases, it can become a loop.
+Compiling a medium to large Rust program is not a breeze due to the accumulation of complex project dependencies and boilerplate code. As noted in [an article by Brian Anderson](https://www.pingcap.com/blog/rust-compilation-model-calamity/), "But Rust compile times are so, so bad." To maintain the stability of the build pipeline, it is necessary to introduce some techniques, but there is no "one-size-fits-all" solution. As the complexity of the workflow increases, it can become a loop.
 
 ![](/static/issue-3/optimizing-compilation-for-databend/databend-tips-for-rust-compile-03.png)
 
