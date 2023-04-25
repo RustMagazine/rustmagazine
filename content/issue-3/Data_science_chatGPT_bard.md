@@ -33,7 +33,7 @@ fn median(vector: Vec<f64>) -> f64 {
     let n = vector.len();
     let half = n/2;
     if n % 2 == 0 {
-       (vector[half] + vector[half-1])/2.0
+       (vector[half] + vector[half+1])/2.0
     } else {
        vector[half]
        }
