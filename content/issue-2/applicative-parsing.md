@@ -57,11 +57,11 @@ What if you could use functional programming to just describe what you want:
 
 ```rust
 fn parse() -> Args {
-    let name = Arg("--bin").parse(|n| n.to_string());
-    let answer = Arg("--jobs").parse(|a| a.parse::<u32>);
-    let Args = name
-      .zip(answer)
-      .map(|(name, answer)| Args { bin, jobs })
+    let bin = Arg("--bin").parse(|n| n.to_string());
+    let jobs = Arg("--jobs").parse(|a| a.parse::<u32>);
+    let Args = bin
+      .zip(jobs)
+      .map(|(bin, jobs)| Args { bin, jobs })
       .run()
       .unwrap()
 }
@@ -149,8 +149,8 @@ fn sample() {
     use std::path::PathBuf;
     // --jobs 4
     let jobs = Magic("4"); // Magic<&str>
-    let jobs = name.map(|s| u32::from_str(s).unwrap()); // Magic<u32>
-    let result = path.run();
+    let jobs = jobs.map(|s| u32::from_str(s).unwrap()); // Magic<u32>
+    let result = jobs.run();
     assert_eq!(result, 4);
 }
 ```
@@ -329,7 +329,7 @@ And a program that takes either a full or a nick name might look like this:
 ```rust
 let nick = Magic(Err("No nick name given").to_string());
 let fullname = Magic(Ok("Bob the Magnificent"));
-let name = short.alt(long);
+let name = nick.alt(fullname);
 
 println!("Hello {}!", name.run().unwrap());
 ```
@@ -371,7 +371,7 @@ let name = nick.alt(fullname).alt(fail("You need to pass --nick or --fullname"))
 Fallback to some default value:
 
 ```rust
-let name = short.alt(pure("Anonymous"));
+let name = nick.alt(fullname).alt(pure("Anonymous"));
 ```
 
 ## Defined operations summary
