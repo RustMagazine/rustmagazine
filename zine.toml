@@ -36,6 +36,7 @@ optimization = {}
 async = {}
 database = {}
 optimizer = {}
+tokio = { description = "A runtime for writing reliable, asynchronous, and slim applications with the Rust programming language" }
 business = { description = "Rust in Business" }
 tutorial = {}
 unsafe-rust = { name = "Unsafe Rust", description = "Topic of unsafe rust." }
@@ -137,4 +138,13 @@ bio = """
 name = "Boshen"
 bio = """
 - [GitHub](https://github.com/Boshen)
+"""
+
+[authors.lei]
+name = "Lei Huang"
+bio = """
+Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
+
+- [GitHub](https://github.com/v0y4g3r)
+- [Blog](https://huanglei.rocks/)
 """

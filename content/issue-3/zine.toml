@@ -39,3 +39,13 @@ pub_date = "2023-04-05"
 publish = true
 featured = true
 
+[[article]]
+file = "bridging-async-and-sync-in-rust.md"
+title = "Bridging Async and Sync Rust Code - A lesson learned while working with Tokio"
+author = ["lei", "greptime-team"]
+topic = ["async", "database", "tokio"]
+pub_date = "2023-03-13"
+publish = true
+featured = true
+canonical = "https://greptime.com/blogs/2023-03-09-bridging-async-and-sync-rust"
+i18n.zh = { file = "bridging-async-and-sync-in-rust-zh.md", title = "如何在同步的 Rust 方法中调用异步代码 - Tokio 使用中的几点教训" }
