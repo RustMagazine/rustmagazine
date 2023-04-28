@@ -310,7 +310,7 @@ https://github.com/servo/string-cache/pull/268
 
 It is worth mentioning that string interning is a battlefield within the Rust community.
 For the example shown in [this blog post](https://dev.to/cad97/string-interners-in-rust-797),
-there are string-threaded libraries such `string-interner`, `lasso`, `lalrpop-intern`, `intaglio` and `strena`.
+there are single-threaded libraries such `string-interner`, `lasso`, `lalrpop-intern`, `intaglio` and `strena`.
 
 Since we are parsing files in parallel, an option is to utilize a multi-threaded string interner library such as [`ustr`](https://crates.io/crates/ustr).
 However, after profiling both `ustr` and the enhanced version of `string-cache`, it became apparent that the performance was still below expectations compared to the approach I am going to explain below.
