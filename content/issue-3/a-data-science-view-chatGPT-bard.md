@@ -166,9 +166,9 @@ fn main() {
 
 And the results:  
   
-Name:  mean, std_dev, range, median_sim, word_range, word_mean, word_count_median, repeats_mean, poem_vocab_mean\
-ChatGPT: (0.406, 0.164, 1.000, 0.398, 142.000, 164.229, 162.000, 0.958, 48.944)\
-Bard: (0.539, 0.175, 0.902, 0.548, 245.000, 148.971, 141.000, 0.980, 26.714)\
+Name:  mean, std_dev, range, median_sim, word_range, word_mean, word_count_median, repeats_mean, poem_vocab_mean. 
+ChatGPT: (0.406, 0.164, 1.000, 0.398, 142.000, 164.229, 162.000, 0.958, 48.944). 
+Bard: (0.539, 0.175, 0.902, 0.548, 245.000, 148.971, 141.000, 0.980, 26.714). 
   
 The Bard poems were slightly more similar to each other in the cosine similarity metric than the ChatGPT poems, although this was not statistically significant by T-test.  In mean and median poem lengths, ChatGPT tended to write longer poems.  However, Bard wrote both the longest poem and the shortest and had a larger range of poem lengths.  Looking at repeated words, Bard had a slight increased tendency to repeat words across the poems, whilst overall ChatGPT had provided a larger vocabulary.  With a smaller difference in word range, the teacher might pick up on ChatGPT for the more consistent poem structure, whilst Bard had a greater range of different layouts.  
 In conclusion, I felt that I had a personal preference for the content of the ChatGPT poems, although their more consistent layout and possibly style as well compared to Bard poems could prove a way for our teacher to notice AI use.
