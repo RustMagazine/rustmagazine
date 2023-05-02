@@ -255,7 +255,7 @@ An abstraction from the Category Theory called [`Applicative
 Functor`](https://en.wikipedia.org/wiki/Applicative_functor) can help with this
 scenario.
 
-> Applicative functors allows us to run functorial computations in a sequence (unlike
+> Applicative functors allow us to run functorial computations in a sequence (unlike
 > plain functors), but don't allow us to use results from prior computations in the definition of
 > subsequent ones.
 
