@@ -40,6 +40,15 @@ publish = true
 featured = true
 
 [[article]]
+file = "task-stats-alloc.md"
+title = "TaskStatsAlloc: Fine-grained memory statistics in Rust"
+author = "tennyzhuang"
+topic = ["memory", "allocator"]
+pub_date = "2023-04-22"
+featured = true
+publish = true
+
+[[article]]
 file = "bridging-async-and-sync-in-rust.md"
 title = "Bridging Async and Sync Rust Code - A lesson learned while working with Tokio"
 author = ["lei", "greptime-team"]

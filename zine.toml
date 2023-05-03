@@ -39,6 +39,8 @@ optimizer = {}
 tokio = { description = "A runtime for writing reliable, asynchronous, and slim applications with the Rust programming language" }
 business = { description = "Rust in Business" }
 tutorial = {}
+memory = {}
+allocator = {}
 unsafe-rust = { name = "Unsafe Rust", description = "Topic of unsafe rust." }
 engineering = {}
 
@@ -139,6 +141,12 @@ bio = """
 name = "Boshen"
 bio = """
 - [GitHub](https://github.com/Boshen)
+"""
+
+[authors.tennyzhuang]
+name = "tennyzhuang"
+bio = """
+- [GitHub](https://github.com/TennyZhuang)
 """
 
 [authors.lei]
