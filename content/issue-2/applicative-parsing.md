@@ -115,7 +115,7 @@ At this point the parser can represent single string arguments using `Magic` and
 
 ## Adding more types
 
-Next step would be to allow to have arguments of different types. Consider `--jobs` argument.
+Next step would be to allow it to have arguments of different types. Consider `--jobs` argument.
 For some applications passing "4" to the consumer is valid, but in most cases consumer would
 prefer to use its numeric value. To be able to pass a number like `4u32` the parser needs a way
 to represent it in the first place. This can be achieved by making `Magic` a generic datatype:
@@ -133,7 +133,7 @@ type `Magic<&'static str>`, the parser still needs a way to change the type to a
 
 For that [Category Theory](https://en.wikipedia.org/wiki/Category_theory) gives an abstraction called
 [`Functor`](<https://en.wikipedia.org/wiki/Functor_(functional_programming)>).
-A functor allows to change a value inside of a generic context to some other value with the same
+A functor allows us to change a value inside of a generic context to some other value with the same
 or a different type but without changing the context. Sounds scary, but `Option::map` does more
 or less the same thing:
 
@@ -255,8 +255,8 @@ An abstraction from the Category Theory called [`Applicative
 Functor`](https://en.wikipedia.org/wiki/Applicative_functor) can help with this
 scenario.
 
-> Applicative functors allows to run functorial computations in a sequence (unlike
-> plain functors), but don't allow to use results from prior computations in the definition of
+> Applicative functors allow us to run functorial computations in a sequence (unlike
+> plain functors), but don't allow us to use results from prior computations in the definition of
 > subsequent ones.
 
 Sounds scary but `Option::zip` does something similar for `Option` and a variant for `Magic` looks
@@ -428,7 +428,7 @@ impl<T> Magic<T> {
 }
 ```
 
-Those seven operations serve as a base for the parser. They allow to compose primitive argument
+Those seven operations serve as a base for the parser. They allow us to compose primitive argument
 parsers in many ways to create a very wide range of computations and there's no mutations in the
 API itself so it fits perfectly with a functional programming style.
 
@@ -525,7 +525,7 @@ struct ParseMap<P, F, T, R> {
 }
 ```
 
-`PhantomData` here is something required by the Rust type system to allow to implement `Parser`
+`PhantomData` here is something required by the Rust type system to allow us to implement `Parser`
 trait for `ParseMap`. Since `ParseMap` doesn't need to know what exact parser it works on.
 As long as types align - `map` can go directly into the trait as a default implementation.
 
