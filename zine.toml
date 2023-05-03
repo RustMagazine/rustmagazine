@@ -44,7 +44,7 @@ engineering = {}
 
 # Authors declare below
 [authors]
-rust-magazine = { name = "The Editorial Team", editor = true, bio = "The magazine editorial team" }
+rust-magazine = { name = "The Editorial Team", editor = true, team = true, bio = "The magazine editorial team" }
 lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
 HandongZhang = { name = "Handong Zhang", editor = true }
@@ -90,6 +90,7 @@ Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
 
 [authors.greptime-team]
 name = "Greptime Team"
+team = true
 bio = """
 Greptime was founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud.
 
