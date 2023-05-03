@@ -64,7 +64,7 @@ Some of the less exciting breaking changes are being trialled in the [`actix-web
 """
 ```
 
-**Is actix-web still a web framework powered by the actor model? If not, why?**
+**Is Actix Web still a web framework powered by the actor model? If not, why?**
 
 ```quote
 author="Rob"
