@@ -13,6 +13,15 @@ publish = true
 featured = true
 
 [[article]]
+file = "robjtede.md"
+title = "Interview with @robjtede"
+author = ["folyd", "robjtede"]
+topic = ["interview"]
+pub_date = "2023-03-20"
+publish = true
+featured = true
+
+[[article]]
 file = "javascript-compiler.md"
 title = "Pursuit of Performance on Building a JavaScript Compiler"
 author = "boshen"
@@ -36,14 +45,5 @@ title = "Is Zig safer than Unsafe Rust?"
 author = "handongzhang"
 topic = ["unsafe-rust"]
 pub_date = "2023-04-05"
-publish = true
-featured = true
-
-[[article]]
-file = "robjtede.md"
-title = "Interview with robjtede"
-author = ["folyd", "robjtede"]
-topic = ["interview"]
-pub_date = "2023-03-30"
 publish = true
 featured = true
