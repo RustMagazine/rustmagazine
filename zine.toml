@@ -36,14 +36,17 @@ optimization = {}
 async = {}
 database = {}
 optimizer = {}
+tokio = { description = "A runtime for writing reliable, asynchronous, and slim applications with the Rust programming language" }
 business = { description = "Rust in Business" }
 tutorial = {}
+memory = {}
+allocator = {}
 unsafe-rust = { name = "Unsafe Rust", description = "Topic of unsafe rust." }
 engineering = {}
 
 # Authors declare below
 [authors]
-rust-magazine = { name = "The Editorial Team", editor = true, bio = "The magazine editorial team" }
+rust-magazine = { name = "The Editorial Team", editor = true, team = true, bio = "The magazine editorial team" }
 lcrossman = { name = "LCrossman", editor = true }
 macko76 = { editor = true }
 HandongZhang = { name = "Handong Zhang", editor = true }
@@ -89,6 +92,7 @@ Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
 
 [authors.greptime-team]
 name = "Greptime Team"
+team = true
 bio = """
 Greptime was founded in April 2022 with two main offerings: [GreptimeDB](https://github.com/greptimeteam/greptimedb) and Greptime Cloud.
 
@@ -154,4 +158,19 @@ bio = """
 [Databend](https://github.com/datafuselabs/databend/) is a modern cloud data warehouse focusing on reducing cost and complexity for your massive-scale analytics needs. Open source alternative to Snowflake.
 
 Also available in the cloud: <https://app.databend.com>
+"""
+
+[authors.tennyzhuang]
+name = "tennyzhuang"
+bio = """
+- [GitHub](https://github.com/TennyZhuang)
+"""
+
+[authors.lei]
+name = "Lei Huang"
+bio = """
+Working on [GreptimeDB](https://github.com/greptimeteam/greptimedb)
+
+- [GitHub](https://github.com/v0y4g3r)
+- [Blog](https://huanglei.rocks/)
 """
