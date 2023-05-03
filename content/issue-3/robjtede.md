@@ -44,7 +44,7 @@ During this time, I'd been driving the development work along with some other co
 """
 ```
 
-**What is the current status of actix-web, and how does it compare to two years ago? Are there any major changes or updates in the works?**
+**What is the current status of Actix Web, and how does it compare to two years ago? Are there any major changes or updates in the works?**
 
 ```quote
 author="Rob"
