@@ -24,7 +24,7 @@ In the 4 years since then, I've transitioned to a purely backend role; as the te
 """
 ```
 
-# actix-web
+# Actix Web
 
 **How did you become involved with actix-web, and what motivated you to take over the project after [@fafhrd91] quit?**
 
