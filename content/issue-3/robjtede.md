@@ -80,24 +80,6 @@ The only part of the stack that still requires actors is `WebSockets`, since thi
 """
 ```
 
-# deps.rs
-
-**Let's talk about deps.rs. What is it, and how did you get involved with deps.rs? How can Rust developers use it to improve their projects?**
-
-```quote
-author="Rob"
-avatar="/static/avatar/robjtede.jpeg"
-content="""
-**[deps.rs](https://deps.rs) is a tool you can use to analyze your crates for outdated dependencies.** We think that, in general, dependency freshness is a reasonably good indicator of maintainer activity, ecosystem compatibility, and, therefore, a factor in a crate's suitability for use in your project. Searching a crate on [deps.rs](https://deps.rs) will give details about dependency freshness and shows a snippet to include a badge/shield to put in your project README that will show green if all dependencies are up to date, or hint that some are outdated. We also integrated with the RustSec security advisory database to show indicators that updates are needed to patch security vulnerabilities.
-
-In Nov 2019, there was a [call for maintainers](https://github.com/deps-rs/deps.rs/issues/40#issuecomment-552179964) from the original author, **Sam** ([@srijs](https://github.com/srijs)) which a few of us responded to, including [@cecton](https://github.com/cecton) and [@paolobarbolini](https://github.com/paolobarbolini) who are well known in the Rust community. We started a chatroom on Matrix to start co-ordinating ideas and resources. Since deps.rs is a free public tools that is not free to operate, this was more challenging to get started due to natural trust barriers of "strangers" on the internet. We didn't want to give any one person control of the service so the responsibilities of keeping it running were divided up; one person would operate and pay for running the application itself and another would manage and and pay for the domain name when it was transferred.
-
-To give **Sam**  assurance that we meant business, we forked the project and started assessing open issues and PRs, integrating them with our fork. A few weeks later, **Sam**  gave our team ownership of the original repo and transferred the domain over to me. Then in December 2020, we put [an announcement out on Reddit](https://www.reddit.com/r/rust/comments/kbqgt8/we_have_restored_depsrs_dependency_status_reports) that this popular service was now community operated! I had already been toying with GitHub sponsors, so I changed the description on my page to encourage donations to cover domain costs, and it worked; the domain costs are effectively crowdsourced now! **Paolo** doesn't have GitHub sponsors set up so he must be fronting the cloud server expenses himself. **Even so, I consider this a real open-source success story.**
-
-On a related note, I've been offering support to many crates that seem to be falling out of maintenance; most recently [`tinymap`](https://github.com/robjtede/tinymap). It takes very little time and I can help increase the bus factor and improve code quality. **If anyone has a crate and needs help keeping it up to date, message me on Discord. I'd be happy to take a look.**
-"""
-```
-
 **What inspired you to maintain such a large project voluntarily, and what challenges have you faced in doing so?**
 
 ```quote
@@ -113,6 +95,24 @@ One particular change of viewpoint I've had throughout my maintainer-ship is abo
 With it being a large project, it also comes with a community of users; including contributors. Opening up the Discord server as an initial discussion zone for help instead of GitHub issues was a great move; there's lots of folks in there asking questions and many apart from myself answering them. It also serves as a hub for Actix Web devs and third-party crate authors to bounce ideas around. Though with any community of significant size, we have to deal with the usual annoyances: spam, disagreements, Code of Conduct violations. The core team has been able to keep on top of all these issues, so far.
 
 It's also been really challenging for me be critical of feedback and PRs from regular contributors and team members when they don't align with the overall vision for the project. I really want folks contributing code to remain excited and motivated so having to say "no" to an idea is hard. I try my best to understand their point of view, but have to stay balanced and consider _all_ Actix Web users; sometimes that means having to significantly re-work a PR myself or close it outright.
+"""
+```
+
+# deps.rs
+
+**Let's talk about deps.rs. What is it, and how did you get involved with deps.rs? How can Rust developers use it to improve their projects?**
+
+```quote
+author="Rob"
+avatar="/static/avatar/robjtede.jpeg"
+content="""
+**[deps.rs](https://deps.rs) is a tool you can use to analyze your crates for outdated dependencies.** We think that, in general, dependency freshness is a reasonably good indicator of maintainer activity, ecosystem compatibility, and, therefore, a factor in a crate's suitability for use in your project. Searching a crate on [deps.rs](https://deps.rs) will give details about dependency freshness and shows a snippet to include a badge/shield to put in your project README that will show green if all dependencies are up to date, or hint that some are outdated. We also integrated with the RustSec security advisory database to show indicators that updates are needed to patch security vulnerabilities.
+
+In Nov 2019, there was a [call for maintainers](https://github.com/deps-rs/deps.rs/issues/40#issuecomment-552179964) from the original author, **Sam** ([@srijs](https://github.com/srijs)) which a few of us responded to, including [@cecton](https://github.com/cecton) and [@paolobarbolini](https://github.com/paolobarbolini) who are well known in the Rust community. We started a chatroom on Matrix to start co-ordinating ideas and resources. Since deps.rs is a free public tools that is not free to operate, this was more challenging to get started due to natural trust barriers of "strangers" on the internet. We didn't want to give any one person control of the service so the responsibilities of keeping it running were divided up; one person would operate and pay for running the application itself and another would manage and and pay for the domain name when it was transferred.
+
+To give **Sam**  assurance that we meant business, we forked the project and started assessing open issues and PRs, integrating them with our fork. A few weeks later, **Sam**  gave our team ownership of the original repo and transferred the domain over to me. Then in December 2020, we put [an announcement out on Reddit](https://www.reddit.com/r/rust/comments/kbqgt8/we_have_restored_depsrs_dependency_status_reports) that this popular service was now community operated! I had already been toying with GitHub sponsors, so I changed the description on my page to encourage donations to cover domain costs, and it worked; the domain costs are effectively crowdsourced now! **Paolo** doesn't have GitHub sponsors set up so he must be fronting the cloud server expenses himself. **Even so, I consider this a real open-source success story.**
+
+On a related note, I've been offering support to many crates that seem to be falling out of maintenance; most recently [`tinymap`](https://github.com/robjtede/tinymap). It takes very little time and I can help increase the bus factor and improve code quality. **If anyone has a crate and needs help keeping it up to date, message me on Discord. I'd be happy to take a look.**
 """
 ```
 
