@@ -4,7 +4,7 @@ Thanks to **Rob** for sharing his story with us. We hope you enjoy this intervie
 
 ![](/static/issue-3/robjtede.jpeg)
 
-> Rob and a Saitama cosplay from One Punch Man, and his avatar also is Saitama.
+> Rob uses One Punch Man's Saitama as his avatar online. Here he is meeting his hero.
 
 # Introduction
 
