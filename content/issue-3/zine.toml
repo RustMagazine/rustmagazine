@@ -40,6 +40,17 @@ publish = true
 featured = true
 
 [[article]]
+file = "optimizing-compilation-for-databend.md"
+title = "Optimizing Compilation for Databend"
+author = ["PsiACE", "databend"]
+topic = ["database", "optimization"]
+pub_date = "2023-04-20"
+publish = true
+featured = true
+canonical = "https://databend.rs/blog/2023/04/20/optimizing-compilation-for-databend"
+i18n.zh = { file = "optimizing-compilation-for-databend-zh.md", title = "Databend 中的 Rust 编译时间优化小技巧"}
+
+[[article]]
 file = "task-stats-alloc.md"
 title = "TaskStatsAlloc: Fine-grained memory statistics in Rust"
 author = "tennyzhuang"

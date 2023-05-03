@@ -143,6 +143,23 @@ bio = """
 - [GitHub](https://github.com/Boshen)
 """
 
+[authors.PsiACE]
+name = "PsiACE"
+avatar = "/static/avatar/psiace.jpg"
+bio = """
+- [GitHub](https://github.com/psiace)
+"""
+
+[authors.databend]
+name = "Databend"
+avatar = "/static/avatar/databend.svg"
+team = true
+bio = """
+[Databend](https://github.com/datafuselabs/databend/) is a modern cloud data warehouse focusing on reducing cost and complexity for your massive-scale analytics needs. Open source alternative to Snowflake.
+
+Also available in the cloud: <https://app.databend.com>
+"""
+
 [authors.tennyzhuang]
 name = "tennyzhuang"
 bio = """

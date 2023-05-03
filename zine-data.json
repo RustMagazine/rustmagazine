@@ -25,10 +25,20 @@
       "A GraphQL server library implemented in Rust. Contribute to async-graphql/async-graphql development by creating an account on GitHub.",
       "https://opengraph.githubassets.com/a3613d90408005e2e1b9323a30ba15151184685a902bfa501fa7d1bb67d04e53/async-graphql/async-graphql"
     ],
+    "https://github.com/datafuselabs/databend/issues/6180": [
+      "split databend-query to multiple crates · Issue #6180 · datafuselabs/databend · GitHub",
+      "Summary Now Databend-Query is a rather large crate and we had to waste a lot of time on compiling and linking. It's time to split it up into a few relatively small crates. Related #4399",
+      "https://opengraph.githubassets.com/855cd62b49753184fd23c301b3da40402c443696013761c9ec887426aea4e548/datafuselabs/databend/issues/6180"
+    ],
     "https://github.com/egraphs-good/egg": [
       "GitHub - egraphs-good/egg: egg is a flexible, high-performance e-graph library",
       "egg is a flexible, high-performance e-graph library - GitHub - egraphs-good/egg: egg is a flexible, high-performance e-graph library",
       "https://opengraph.githubassets.com/f583a5edadcea6c19dfc54b6e93d2235480606c8ca18ac9d9b1cbaaef0484f06/egraphs-good/egg"
+    ],
+    "https://github.com/mozilla/sccache": [
+      "GitHub - mozilla/sccache: sccache is ccache with cloud storage",
+      "sccache is ccache with cloud storage. Contribute to mozilla/sccache development by creating an account on GitHub.",
+      "https://opengraph.githubassets.com/b01339bd81ff2a776c3e5f704c0e86d73f5ae7f17c5c9fb8ae8f7e51a95d8959/mozilla/sccache"
     ],
     "https://github.com/poem-web/poem": [
       "GitHub - poem-web/poem: A full-featured and easy-to-use web framework with the Rust programming language.",
