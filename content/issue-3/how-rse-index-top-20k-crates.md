@@ -8,7 +8,7 @@ https://rust.extension.sh
 
 If you are not familiar with the extension, here is a quick demonstration of how to search the top 20K crates in the address bar.
 
-![](/static/issue-3/rust-search-extension.png)
+![](/static/issue-3/rust-search-extension.gif)
 
 First, input `rs` in the address bar to activate the extension. Then, simply input the crate name or keywords you want to search for. The extension will instantly show you the top 20K crates that match your query. It is blazing fast, isn't it? So, how is this achieved? The answer is simple: we have integrated a search index of the top 20K crates into the extension. In the next section, we will show you how we built the index and how it works.
 
