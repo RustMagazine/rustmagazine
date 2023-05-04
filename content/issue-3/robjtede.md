@@ -146,5 +146,7 @@ Finally, a massive thanks for this opportunity to speak to the Rust community.
 """
 ```
 
+> **Editor: We are trying to open an [OpenCollective account](https://opencollective.com/rustmagazine) for Rust Magazine, so that we can pay our contributors for incentivizing them to write more high-quality articles. We are also looking for sponsors to help us pay for the domain and email newsletter costs. If you are interested in helping us, please contact us on [Discord](https://discord.gg/DdwgBuReJe) or email us at [opencollective@rustmagazine.com](mailto://opencollective@rustmagazine.com).**
+
 [@robjtede]: https://github.com/robjtede
 [@fafhrd91]: https://github.com/fafhrd91
