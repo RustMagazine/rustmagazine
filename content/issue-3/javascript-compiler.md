@@ -16,7 +16,7 @@ I decided to rewrite it in Rust and it succeeded. The server handled unimaginabl
 
 I was convinced after this experience. I told myself that I wanted to become a full-time Rust developer.
 
-So eventually I started wandering around the internet looking for interesting open-source projects. The [Rome project](rome.tools) caught my attention -
+So eventually I started wandering around the internet looking for interesting open-source projects. The [Rome project](https://rome.tools) caught my attention -
 [Rome will be written in Rust](https://rome.tools/blog/2021/09/21/rome-will-be-rewritten-in-rust/).
 
 Although I had previously looked at JavaScript tools as black boxes and never studied how they work, I decided to dive in and learn anyway.
