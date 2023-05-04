@@ -1,4 +1,4 @@
-We are thrilled to present our third interview with **Rob** ([@robjtede]), the core maintainer of [Actix Web](https://github.com/actix/actix-web) and [deps.rs](https://deps.rs/). In this interview, we talked about how he became involved with Actix Web, what motivated him to take over the project after [@fafhrd91] quit, and his experience of maintaining popular Rust projects.
+We are thrilled to present our third interview, this time with **Rob** ([@robjtede]), the core maintainer of [Actix Web](https://github.com/actix/actix-web) and [deps.rs](https://deps.rs/). In this interview, we talked about how he became involved with Actix Web, what motivated him to take over the project after [@fafhrd91] quit, and his experience of maintaining popular Rust projects.
 
 Thanks to **Rob** for sharing his story with us. We hope you enjoy this interview!
 
