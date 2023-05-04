@@ -143,6 +143,9 @@ bio = """
 - [GitHub](https://github.com/Boshen)
 """
 
+[authors.robjtede]
+avatar = "/static/avatar/robjtede.jpeg"
+
 [authors.PsiACE]
 name = "PsiACE"
 avatar = "/static/avatar/psiace.jpg"
