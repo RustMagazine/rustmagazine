@@ -138,7 +138,7 @@ If you're familiar with the micro-framework style of creating web services in ot
 author="Rob"
 avatar="/static/avatar/robjtede.jpeg"
 content="""
-I think the Magazine is a great initiative and fills a gap for more editorial content than you get from links via This Week in Rust, for example. I really enjoyed issue 1's interview with [Weihang Lo](https://rustmagazine.org/issue-1/weihanglo) and that's not the kind of written content you could find anywhere else but a magazine.
+I think the Magazine is a great initiative and fills a gap for more editorial content than you get from links via This Week in Rust, for example. I really enjoyed issue 1's `/issue-1/weihanglo` and that's not the kind of written content you could find anywhere else but a magazine.
 
 I've personally had good success with GitHub sponsors to fund my otherwise free work. It may be a road to look at for the Magazine to encourage high quality content either by directing sponsorship money to article authors or reviewers/editors in some way.
 
