@@ -33,10 +33,10 @@ think about how to scale and maintain this:
 
 ```rust
 fn parse() -> Args {
-    let bin = None;
-    let jobs = None;
+    let mut bin = None;
+    let mut jobs = None;
 
-    let args = std::env::args();
+    let mut args = std::env::args();
     while let (Some(arg), Some(value)) = (args.next(), args.next()){
         if arg == "--bin" {
             bin = Some(value.to_string());
@@ -47,8 +47,8 @@ fn parse() -> Args {
     };
 
     Args {
-        name: name.expect("'--bin' not given"),
-        answer: answer.expect("'--jobs' not given"),
+        bin: bin.expect("'--bin' not given"),
+        jobs: jobs.expect("'--jobs' not given"),
     }
 }
 ```
@@ -106,7 +106,7 @@ impl Magic {
 fn sample() {
     // --bin hello
     let bin = Magic("hello");
-    let result = name.run();
+    let result = bin.run();
     assert_eq!(result, "hello");
 }
 ```
@@ -210,13 +210,13 @@ fn sample() {
     use std::str::FromStr;
     // --jobs 42
     let jobs = Magic(Ok("42"));
-    let result = answer
+    let result = jobs
         .parse(|n| u32::from_str(n).map_err(|e| e.to_string()))
         .run();
     assert_eq!(result, Ok(42));
 
     let jobs = Magic(Ok("Forty-two"));
-    let result = answer
+    let result = jobs
         .parse(|n| u32::from_str(n).map_err(|e| e.to_string()))
         .run();
     assert_eq!(result, Err("invalid digit found in string".to_owned()))
@@ -233,11 +233,11 @@ it also adds a new corner case: consider an app that takes a name and the answer
 answer is correct and reports to the user:
 
 ```rust
-let bin = match bin.run().expect("You need to specify --bin");
+let bin = bin.run().expect("You need to specify --bin");
 
 // println!("Building binary {bin}!") // (1)
 
-let jobs = match jobs.run().expect("You need to specify --jobs");
+let jobs = jobs.run().expect("You need to specify --jobs");
 
 // println!("Building binary {bin}!") // (2)
 
@@ -317,7 +317,7 @@ impl<T> Magic<T> {
     /// if first computation fails - pick the second one
     fn alt(self, other: Self) -> Self {
         match self.0 {
-            Ok(t) => Magic(Ok(t)), => T
+            Ok(t) => Magic(Ok(t)),
             Err(_) => other,
         }
     }
@@ -327,7 +327,7 @@ impl<T> Magic<T> {
 And a program that takes either a full or a nick name might look like this:
 
 ```rust
-let nick = Magic(Err("No nick name given").to_string());
+let nick = Magic(Err("No nick name given".to_string()));
 let fullname = Magic(Ok("Bob the Magnificent"));
 let name = nick.alt(fullname);
 
@@ -451,7 +451,7 @@ Validating values with a function:
 fn guard(magic: Magic<T>, check: impl Fn(&T) -> bool, msg: &str) -> Magic<T> {
     magic.parse(|val| {
         if check(&val) {
-            Ok(val(
+            Ok(val)
         } else {
             Err(msg.into())
         }
