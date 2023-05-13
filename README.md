@@ -18,3 +18,9 @@ See [#5](https://github.com/RustMagazine/rustmagazine/issues/5).
 ## Contribute to magazine
 
 https://rustmagazine.org/contribution/
+
+## License
+
+- The source code of the magazine is licensed under the [MIT LICENSE](./LICENSE).
+
+- The content of the magazine is licensed under the [CC BY-NC-SA 4.0 LICENSE](https://creativecommons.org/licenses/by-nc-sa/4.0/) by default unless otherwise specified.
