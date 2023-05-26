@@ -30,6 +30,7 @@ highlight_theme = "ayu-light"
 [topics]
 announcement = {}
 interview = {}
+show-magazine = { name = "Show Magazine", description = "This is a dedicated space for Rustaceans to showcase their projects and crates to the larger Rust community. Similar to [Show HN](https://news.ycombinator.com/shownew) or [Show /r/rust](https://www.google.com.hk/search?q=site%3Areddit.com+show+%2Fr%2Frust), **#show-magazine** is an opportunity for developers to share their works-in-progress, completed projects, and upcoming Rust-related events with the community." }
 game = { name = "Game development", description = "Topic of rust game development." }
 pr-demystifying = { name = "PR Demystifying", description = "Topic of PR demystifying in Rust community." }
 optimization = {}

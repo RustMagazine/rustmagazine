@@ -4,3 +4,12 @@ cover = ""
 default_cover = ""
 pub_date = "2023-06-05"
 publish = false
+
+[[article]]
+file = "show.md"
+title = "Show Magazine #1"
+author = "rust-magazine"
+topic = ["show-magazine"]
+pub_date = "2023-05-26"
+publish = true
+featured = true
