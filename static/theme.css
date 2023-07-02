@@ -41,3 +41,55 @@ main, footer {
 .prose, .max-w-prose {
   max-width: 80ch !important;
 }
+
+/* ============== sponsorship styles ======================= */
+.hill {
+    position: absolute;
+    contain: paint;
+    height: 100%;
+    width: 100%;
+}
+
+.hill::before {
+    z-index: 0;
+    border-top-left-radius: 100%;
+    border-top-right-radius: 100%;
+    position: absolute;
+    top: 2rem;
+}
+
+.hill::before, :not(.has-ferris)>.hill::before {
+    background: rgb(240 236 232);
+    right: -16rem;
+    left: -16rem;
+    bottom: -8rem;
+    content: "";
+}
+
+.friendship-footer .friendship-tier h3 {
+    font-size: 22px;
+    color: rgb(122, 95, 79);
+    font-weight: 600;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.friendship-footer .friendship-tier h3::before {
+    content: "";
+    display: block;
+    height: 1px;
+    width: 90%;
+    background-color: rgba(118,110,101,40%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 70rem;
+}
+
+.friendship-footer .friendship-tier h3>span {
+    background-color: rgb(240 236 232);
+    position: relative;
+    padding-right: 2rem;
+    padding-left: 2rem;
+}
