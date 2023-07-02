@@ -13,3 +13,11 @@ topic = ["show-magazine"]
 pub_date = "2023-05-26"
 publish = true
 featured = true
+
+[[article]]
+file = "jhpratt.md"
+title = "Interview with @jhpratt"
+author = ["folyd", "jhpratt"]
+pub_date = "2023-05-27"
+publish = true
+featured = true
