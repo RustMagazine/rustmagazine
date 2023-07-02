@@ -2,8 +2,8 @@
 slug = "issue-2"
 number = 2
 title = "Issue 2"
-default_cover = "/static/ferris-sunshine.png"
-cover = "/static/ferris-sunshine.png"
+default_cover = "/static/ferris/2.jpeg"
+cover = "/static/ferris/2.jpeg"
 pub_date = "2023-03-08"
 publish = true
 

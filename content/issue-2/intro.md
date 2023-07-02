@@ -1,8 +1,6 @@
 Dear Rustaceans,
 
-Welcome to the second issue of Rust Magazine! We are excited to bring you another round of engaging articles and tutorials from the Rust community. As you may have noticed, we have a new cover featuring our beloved mascot Ferris.
-
-![](/static/ferris-sunshine.png)
+Welcome to the second issue of Rust Magazine! We are excited to bring you another round of engaging articles and tutorials from the Rust community.
 
 In this issue, we explore topics ranging from optimizing Rust binary search to designing an API for a user-friendly retry crate. We also have an interview with `@sunli`, the creator of popular crates such as [async-graphql] and [poem], as well as a conversation with ChatGPT on the topic of Rust lifetimes. Additionally, we feature articles on [Egg](https://github.com/egraphs-good/egg), a popular Rust framework to help build a SQL optimizer, and an applicative command-line parser with Category Theory.
 
