@@ -20,30 +20,23 @@
             <div class="pt-12 sm:pt-0">
                 <div class="bg-primary w-5 h-5 my-4"></div>
                 <div class="text-xl font-bold mb-4">Editors</div>
-                <a class="my-2 block hover:underline" href="/@folyd">@Folyd</a>
-                <a class="my-2 block hover:underline" href="/@lcrossman">@LCrossman</a>
-                <a class="my-2 block hover:underline" href="/@macko76">@macko76</a>
-                <a class="my-2 block hover:underline" href="/@handongzhang">@HandongZhang</a>
-                <a class="my-2 block hover:underline" href="/@pau1tuck">@pau1tuck</a>
-                <a class="my-2 block hover:underline" href="/@mfrw">@mfrw</a>
-                <a class="my-2 block hover:underline" href="/@malagant">@malagant</a>
+                {% set authors = get_entity("authors") -%}
+                {% for author in authors|sort(attribute="id") -%}
+                {% if author.editor -%}
+                <a class="my-2 block hover:underline" href="/@{{ author.id }}">@{{ author.name }}</a>
+                {% endif -%}
+                {% endfor -%}
             </div>
+            {% set footer = load_json("footer.json") -%}
+            {% for column, items in footer | items -%}
             <div class="pt-12 sm:pt-0">
                 <div class="bg-primary w-5 h-5 my-4"></div>
-                <div class="text-xl font-bold mb-4">Magazine</div>
-                <a class="my-2 block hover:underline" href="/topics">All topics</a>
-                <a class="my-2 block hover:underline" href="/authors">All authors</a>
+                <div class="text-xl font-bold mb-4 capitalize">{{ column }}</div>
+                {% for item in items -%}
+                <a class="my-2 block hover:underline" href="{{ item.url }}">{{ item.name }}</a>
+                {% endfor -%}
             </div>
-            <div class="pt-12 sm:pt-0">
-                <div class="bg-primary w-5 h-5 my-4"></div>
-                <div class="text-xl font-bold mb-4">More</div>
-                <a class="my-2 block hover:underline" href="/about">About</a>
-                <a class="my-2 block hover:underline" href="/faq">FAQ</a>
-                <a class="my-2 block hover:underline" href="https://opencollective.com/rustmagazine">Open Collective</a>
-                <a class="my-2 block hover:underline" href="/contribution">How to contribute</a>
-                <a class="my-2 block hover:underline" href="https://github.com/RustMagazine/rustmagazine">GitHub</a>
-                <a class="my-2 block hover:underline" href="https://discord.gg/DdwgBuReJe">Discord</a>
-            </div>
+            {% endfor -%}
         </div>
     </div>
 </div>
