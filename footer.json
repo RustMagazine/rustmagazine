@@ -31,6 +31,10 @@
             "url": "https://github.com/RustMagazine/rustmagazine"
         },
         {
+            "name": "Twitter",
+            "url": "https://twitter.com/rustmagazineorg"
+        },
+        {
             "name": "Discord",
             "url": "https://discord.gg/DdwgBuReJe"
         }
