@@ -1,7 +1,6 @@
 slug = "issue-1"
 number = 1
 title = "Issue 1"
-default_cover = "/static/ferris/1.jpeg"
 cover = "/static/ferris/1.jpeg"
 pub_date = "2023-02-06"
 publish = true
