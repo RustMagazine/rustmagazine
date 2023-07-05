@@ -1,40 +1,100 @@
-<div class="bg-[#0f1125] p-10 py-20 text-slate-100 translate-y-[-9rem]">
-    <div class="flex justify-center mb-28 top-16 font-bold">
-        <div class="text-sm md:text-2xl border-solid border-2 border-primary py-3">
-            <span class="bg-primary text-main p-4">Subscriber:</span>
-            <span class="px-2 md:px-4">
-                <a class="hover:underline" href="#">Newsletter</a>,
-                <a class="hover:underline" href="/feed.xml">RSS</a>
-            </span>
+<div class="translate-y-[-9rem]">
+    {% set sponsors = load_json("sponsors.json") %}
+    {% if sponsors|length > 0 -%}
+    <div class="relative flex pb-10">
+        <div class="hill"></div>
+        <img class="w-28 m-auto z-10" src="/static/ferris/rustacean-flat-happy.svg" alt="Ferris the Crab">
+    </div>
+    <div class="bg-[#f0ece8] friendship-footer text-center">
+        <h3 class="text-3xl font-bold py-6">Thanks our sponsors</h3>
+        <div>
+            <ol class="mt-4">
+                <li class="friendship-tier">
+                    <h3 class="uppercase">
+                        <span>Gold</span>
+                    </h3>
+                    <ul class="flex justify-center flex-wrap text-center py-8">
+                        {% for item in sponsors["gold"] -%}
+                        <li class="p-4 sm:p-6">
+                            <a href="{{ item.url }}">
+                                <img class="h-20 sm:h-24" src="{{ item.logo }}" alt="{{ item.name }}">
+                            </a>
+                        </li>
+                        {% endfor -%}
+                    </ul>
+                </li>
+
+                <li class="friendship-tier">
+                    <h3 class="uppercase">
+                        <span>Silver</span>
+                    </h3>
+                    <ul class="flex justify-center flex-wrap text-center py-8">
+                        {% for item in sponsors["silver"] -%}
+                        <li class="p-4 sm:p-6">
+                            <a href="{{ item.url }}">
+                                <img class="h-14 sm:h-18" src="{{ item.logo }}" alt="{{ item.name }}">
+                            </a>
+                        </li>
+                        {% endfor -%}
+                    </ul>
+                </li>
+
+                <li class="friendship-tier">
+                    <h3 class="uppercase">
+                        <span>Bronze</span>
+                    </h3>
+                    <ul class="flex justify-center flex-wrap text-center py-8">
+                        {% for item in sponsors["bronze"] -%}
+                        <li class="p-4 sm:p-6">
+                            <a href="{{ item.url }}">
+                                <img class="h-10 sm:h-12" src="{{ item.logo }}" alt="{{ item.name }}">
+                            </a>
+                        </li>
+                        {% endfor -%}
+                    </ul>
+                </li>
+            </ol>
         </div>
     </div>
-    <div class="container mx-auto flex flex-col sm:flex-row">
-        <div class="text-sm max-w-sm">
-            <div class="bg-primary w-12 h-5 my-4"></div>
-            <a class="zine-brand-bottom text-4xl font-bold" href="/">{{ site.name }}</a>
-            <div class="py-6 text-lg">
-                {{ site.description }}
+    {% endif -%}
+    <div class="bg-[#0f1125] px-10 py-28 text-slate-100">
+        <div class="flex justify-center mb-28 top-16 font-bold">
+            <div class="text-sm md:text-2xl border-solid border-2 border-primary py-3">
+                <span class="bg-primary text-main p-4">Subscriber:</span>
+                <span class="px-2 md:px-4">
+                    <a class="hover:underline" href="#">Newsletter</a>,
+                    <a class="hover:underline" href="/feed.xml">RSS</a>
+                </span>
             </div>
         </div>
-        <div class="flex flex-col sm:flex-row sm:justify-around grow">
-            <div class="pt-12 sm:pt-0">
-                <div class="bg-primary w-5 h-5 my-4"></div>
-                <div class="text-xl font-bold mb-4">Editors</div>
-                {% set authors = get_entity("authors") -%}
-                {% for author in authors|sort(attribute="id") -%}
-                {% if author.editor -%}
-                <a class="my-2 block hover:underline" href="/@{{ author.id }}">@{{ author.name }}</a>
-                {% endif -%}
-                {% endfor -%}
+        <div class="container mx-auto flex flex-col sm:flex-row">
+            <div class="text-sm max-w-sm">
+                <div class="bg-primary w-12 h-5 my-4"></div>
+                <a class="zine-brand-bottom text-4xl font-bold" href="/">{{ site.name }}</a>
+                <div class="py-6 text-lg">
+                    {{ site.description }}
+                </div>
             </div>
-            {% set footer = load_json("footer.json") -%}
-            {% for column, items in footer | items -%}
-            <div class="pt-12 sm:pt-0">
-                <div class="bg-primary w-5 h-5 my-4"></div>
-                <div class="text-xl font-bold mb-4 capitalize">{{ column }}</div>
-                {% for item in items -%}
-                <a class="my-2 block hover:underline" href="{{ item.url }}">{{ item.name }}</a>
-                {% endfor -%}
+            <div class="flex flex-col sm:flex-row sm:justify-around grow">
+                <div class="pt-12 sm:pt-0">
+                    <div class="bg-primary w-5 h-5 my-4"></div>
+                    <div class="text-xl font-bold mb-4">Editors</div>
+                    {% set authors = get_entity("authors") -%}
+                    {% for author in authors|sort(attribute="id") -%}
+                    {% if author.editor and not author.team -%}
+                    <a class="my-2 block hover:underline" href="/@{{ author.id }}">@{{ author.name }}</a>
+                    {% endif -%}
+                    {% endfor -%}
+                </div>
+                {% set footer = load_json("footer.json") -%}
+                {% for column, items in footer | items -%}
+                <div class="pt-12 sm:pt-0">
+                    <div class="bg-primary w-5 h-5 my-4"></div>
+                    <div class="text-xl font-bold mb-4 capitalize">{{ column }}</div>
+                    {% for item in items -%}
+                    <a class="my-2 block hover:underline" href="{{ item.url }}">{{ item.name }}</a>
+                    {% endfor -%}
+                </div>
             </div>
             {% endfor -%}
         </div>
@@ -43,8 +103,9 @@
 <div class="absolute bottom-0 left-0 right-0 p-16 bg-[#0f1125] text-slate-400 text-xs">
     <div class="text-center text-xs text-slate-400">
         <img class="mx-auto mb-4 h-8" src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png"
-            alt="cc-by-nc-sa"/>
-        The content of the magazine is licensed under the <a class="underline" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+            alt="cc-by-nc-sa" />
+        The content of the magazine is licensed under the <a class="underline"
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
             CC BY-NC-SA 4.0 LICENSE
         </a> by default unless otherwise specified.
     </div>
