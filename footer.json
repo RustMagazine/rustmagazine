@@ -1,42 +1,49 @@
 {
-    "magazine": [
-        {
-            "name": "All topics",
-            "url": "/topics"
-        },
-        {
-            "name": "All authors",
-            "url": "/authors"
-        }
-    ],
-    "more": [
-        {
-            "name": "About",
-            "url": "/about"
-        },
-        {
-            "name": "FAQ",
-            "url": "/faq"
-        },
-        {
-            "name": "Open Collective",
-            "url": "https://opencollective.com/rustmagazine"
-        },
-        {
-            "name": "How to contribute",
-            "url": "/contribution"
-        },
+    "social": [
         {
             "name": "GitHub",
+            "image": "/static/github.svg",
             "url": "https://github.com/RustMagazine/rustmagazine"
         },
         {
             "name": "Twitter",
+            "image": "/static/twitter.svg",
             "url": "https://twitter.com/rustmagazineorg"
         },
         {
             "name": "Discord",
+            "image": "/static/discord.svg",
             "url": "https://discord.gg/DdwgBuReJe"
         }
-    ]
+    ],
+    "column": {
+        "magazine": [
+            {
+                "name": "All topics",
+                "url": "/topics"
+            },
+            {
+                "name": "All authors",
+                "url": "/authors"
+            }
+        ],
+        "more": [
+            {
+                "name": "About",
+                "url": "/about"
+            },
+            {
+                "name": "FAQ",
+                "url": "/faq"
+            },
+            {
+                "name": "Open Collective",
+                "url": "https://opencollective.com/rustmagazine"
+            },
+            {
+                "name": "How to contribute",
+                "url": "/contribution"
+            }
+        ]
+    }
 }

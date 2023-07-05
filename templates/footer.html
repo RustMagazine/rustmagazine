@@ -67,12 +67,20 @@
                 </span>
             </div>
         </div>
+        {% set footer = load_json("footer.json") -%}
         <div class="container mx-auto flex flex-col sm:flex-row">
             <div class="text-sm max-w-sm">
                 <div class="bg-primary w-12 h-5 my-4"></div>
                 <a class="zine-brand-bottom text-4xl font-bold" href="/">{{ site.name }}</a>
                 <div class="py-6 text-lg">
                     {{ site.description }}
+                </div>
+                <div class="flex">
+                    {% for social in footer["social"] -%}
+                    <a class="m-2 first:ml-0" href="{{ social.url }}">
+                        <img class="w-8" src="{{ social.image }}" alt="{{ social.name }}">
+                    </a>
+                    {% endfor -%}
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row sm:justify-around grow">
@@ -86,8 +94,7 @@
                     {% endif -%}
                     {% endfor -%}
                 </div>
-                {% set footer = load_json("footer.json") -%}
-                {% for column, items in footer | items -%}
+                {% for column, items in footer["column"] | items -%}
                 <div class="pt-12 sm:pt-0">
                     <div class="bg-primary w-5 h-5 my-4"></div>
                     <div class="text-xl font-bold mb-4 capitalize">{{ column }}</div>
@@ -95,8 +102,8 @@
                     <a class="my-2 block hover:underline" href="{{ item.url }}">{{ item.name }}</a>
                     {% endfor -%}
                 </div>
+                {% endfor -%}
             </div>
-            {% endfor -%}
         </div>
     </div>
 </div>
