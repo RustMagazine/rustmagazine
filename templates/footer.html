@@ -1,7 +1,7 @@
 <div class="translate-y-[-9rem]">
     <div class="relative flex pb-10">
         <div class="hill"></div>
-        <img class="w-28 m-auto z-10" src="/static/rustacean-flat-happy.svg" alt="Ferris the Crab">
+        <img class="w-28 m-auto z-10" src="/static/ferris/rustacean-flat-happy.svg" alt="Ferris the Crab">
     </div>
     <div class="bg-[#f0ece8] friendship-footer text-center">
         <h3 class="text-3xl font-bold py-6">Thanks our sponsors</h3>
@@ -93,21 +93,21 @@
                     <a class="my-2 block hover:underline" href="{{ item.url }}">{{ item.name }}</a>
                     {% endfor -%}
                 </div>
-                {% endfor -%}
             </div>
+            {% endfor -%}
         </div>
     </div>
-    <div class="absolute bottom-0 left-0 right-0 p-16 bg-[#0f1125] text-slate-400 text-xs">
-        <div class="text-center text-xs text-slate-400">
-            <img class="mx-auto mb-4 h-8"
-                src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png" alt="cc-by-nc-sa" />
-            The content of the magazine is licensed under the <a class="underline"
-                href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-                CC BY-NC-SA 4.0 LICENSE
-            </a> by default unless otherwise specified.
-        </div>
-        <div class="text-xs text-slate-400 text-center mt-12">
-            Copyright © 2023 {{ site.name }}
-        </div>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-16 bg-[#0f1125] text-slate-400 text-xs">
+    <div class="text-center text-xs text-slate-400">
+        <img class="mx-auto mb-4 h-8" src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png"
+            alt="cc-by-nc-sa" />
+        The content of the magazine is licensed under the <a class="underline"
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+            CC BY-NC-SA 4.0 LICENSE
+        </a> by default unless otherwise specified.
+    </div>
+    <div class="text-xs text-slate-400 text-center mt-12">
+        Copyright © 2023 {{ site.name }}
     </div>
 </div>
