@@ -49,11 +49,7 @@ engineering = {}
 [authors]
 rust-magazine = { name = "The Editorial Team", editor = true, team = true, bio = "The magazine editorial team" }
 lcrossman = { name = "LCrossman", editor = true }
-macko76 = { editor = true }
 HandongZhang = { name = "Handong Zhang", editor = true }
-pau1tuck = { name = "Paul Tuck", editor = true }
-mfrw = { editor = true }
-malagant = { name = "Michael Johann", editor = true, avatar = '/static/avatar/malagant.png' }
 skyzh = { avatar = "/static/avatar/skyzh.jpeg" }
 
 [authors.folyd]
@@ -124,8 +120,8 @@ bring a new flexible and practical development approach to Rust.
 """
 
 [authors.xuanwo]
-name = "xuanwo"
 avatar = "/static/avatar/xuanwo.jpeg"
+editor = true
 bio = """
 - [GitHub](https://github.com/Xuanwo)
 - [Blog](https://xuanwo.io)

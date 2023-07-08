@@ -8,11 +8,8 @@ Rust Magazine is maintained by Rustaceans from all around the world and currentl
 
 - `@folyd`
 - `@lcrossman`
-- `@macko76`
 - `@HandongZhang`
-- `@pau1tuck`
-- `@mfrw`
-- `@malagant`
+- `@Xuanwo`
 
 ## Disclaimer
 

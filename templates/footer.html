@@ -90,15 +90,15 @@
                     {% set authors = get_entity("authors") -%}
                     {% for author in authors|sort(attribute="id") -%}
                     {% if author.editor and not author.team -%}
-                    <a class="my-2 block hover:underline" href="/@{{ author.id }}">@{{ author.name }}</a>
+                    <a class="capitalize my-2 block hover:underline" href="/@{{ author.id }}">@{{ author.name }}</a>
                     {% endif -%}
                     {% endfor -%}
                 </div>
-                {% for column, items in footer["column"] | items -%}
+                {% for column in ["reviewers", "magazine", "more"] -%}
                 <div class="pt-12 sm:pt-0">
                     <div class="bg-primary w-5 h-5 my-4"></div>
                     <div class="text-xl font-bold mb-4 capitalize">{{ column }}</div>
-                    {% for item in items -%}
+                    {% for item in footer["column"][column] -%}
                     <a class="my-2 block hover:underline" href="{{ item.url }}">{{ item.name }}</a>
                     {% endfor -%}
                 </div>
