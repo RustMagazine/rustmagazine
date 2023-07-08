@@ -17,6 +17,24 @@
         }
     ],
     "column": {
+        "reviewers": [
+            {
+                "name": "@Macko76",
+                "url": "https://github.com/macko76"
+            },
+            {
+                "name": "@Michael Johann",
+                "url": "https://github.com/malagant"
+            },
+            {
+                "name": "@Mfrw",
+                "url": "https://github.com/mfrw"
+            },
+            {
+                "name": "@Paul Tuck",
+                "url": "https://github.com/pau1tuck"
+            }
+        ],
         "magazine": [
             {
                 "name": "All topics",

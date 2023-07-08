@@ -34,7 +34,7 @@ If you are interested in joining the Rust Magazine editorial team, please fill t
 
 ## Exit
 
-In the event that you need to step down from your role as an editor for Rust Magazine, we understand that life circumstances can change. We kindly request that you inform us of your intentions by sending a PR to move your profile into the alumni section.
+In the event that you need to step down from your role as an editor for Rust Magazine, we understand that life circumstances can change. We kindly request that you inform us of your intentions by sending a PR to move your profile into the alumni section. After being inactive for more than **three months** as the editor, we will change you to the **Reviewer** role.
 
 We are grateful for your contributions to Rust Magazine and would like to take this opportunity to thank you for your time and dedication to the publication. We wish you all the best in your future endeavors and hope that you will continue to be a part of the Rust community.
 
