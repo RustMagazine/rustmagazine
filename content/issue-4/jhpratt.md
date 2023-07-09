@@ -118,3 +118,7 @@ content="""
 While I do not train any more, I trained for nearly ten years in [American Kenpo](https://en.wikipedia.org/wiki/American_Kenpo), specializing in self-defense and achieving the rank of third degree black belt. In that time, I taught others for a number of years. Another thing I do on occasion is solving Rubik's cubes, though like the martial arts I don't do this as much as I used to. Something I do quite often nowadays is watch various sports.
 """
 ```
+
+![](/static/issue-4/jacob-in-training.jpg)
+
+> Jacob is in training for American Kenpo
