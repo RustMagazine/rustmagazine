@@ -32,6 +32,6 @@ Each author must submit an expense request on the OpenCollective platform. After
 This is a **draft** and is subject to change in the future.
 ```
 
-Rust Magazine has several editors who take turns being responsible for each Issue. The editor on duty for each Issue will receive a payment of **$50**. If an editor is not on duty for a particular Issue, Rust Magazine will not pay them for that Issue.
+Rust Magazine has several editors who take turns being responsible for each Issue. The editor on duty for each Issue will receive a payment of **$50**. If an editor is not on duty for a particular Issue, Rust Magazine will not pay them for that Issue. Worth noting there is only one duty editor for each Issue.
 
 Each editor must submit an expense request on the OpenCollective platform. After the admin approves the request, the Fiscal Host will make a payout.
