@@ -18,6 +18,7 @@ featured = true
 file = "jhpratt.md"
 title = "Interview with @jhpratt"
 author = ["folyd", "jhpratt"]
+topic = ["interview"]
 pub_date = "2023-05-27"
 publish = true
 featured = true
