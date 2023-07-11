@@ -1,1 +1,73 @@
-{}
+{
+    "gold": [
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        },
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        }
+    ],
+    "silver": [
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        },
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        },
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        }
+    ],
+    "bronze": [
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        },
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        },
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        },
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        },
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        },
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        },
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        },
+        {
+            "name": "Ferris",
+            "url": "https://rust-lang.org",
+            "logo": "/static/ferris/rustacean-flat-happy.svg"
+        }
+    ]
+}

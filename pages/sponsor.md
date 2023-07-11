@@ -1,6 +1,6 @@
 # Sponsorship
 
-## Why Rust Magazine needs sponsorship?
+## Why does Rust Magazine need sponsorship?
 
 Rust Magazine is a non-profit, community-driven publication that relies on the contributions of volunteers to bring high-quality content to the Rust community. Rust Magazine is seeking sponsorships to:
 
@@ -16,6 +16,8 @@ You can sponsor Rust Magazine through the [OpenCollective](https://opencollectiv
 - For enterprise, you can sponsor us with $25, $50, and $100 per month. Rust Magazine offers different benefits for each tiers.
 - For more detail, please visit <https://opencollective.com/rustmagazine>.
 
+[![](https://opencollective.com/rustmagazine/tiers/reader.svg?avatarHeight=120)](https://opencollective.com/rustmagazine)
+
 ## How does Rust Magazine pay the authors?
 
 ```callout, theme:red
@@ -26,7 +28,7 @@ We pay each author according to the following formula: **_min($100, word count /
 
 Each author must submit an expense request on the OpenCollective platform. After the admin approves the request, the Fiscal Host will make a payout.
 
-## How Rust Magazine pay the editors?
+## How does Rust Magazine pay the editors?
 
 ```callout, theme:red
 This is a **draft** and is subject to change in the future.
