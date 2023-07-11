@@ -7,17 +7,9 @@ A publication dedicated to the Rust programming language.
 
 https://rustmagazine.org
 
-## Call for editors
+## Sponsor us
 
-See [#4](https://github.com/RustMagazine/rustmagazine/issues/4).
-
-## Call for articles
-
-See [#5](https://github.com/RustMagazine/rustmagazine/issues/5).
-
-## Contribute to magazine
-
-https://rustmagazine.org/contribution/
+[![](https://opencollective.com/rustmagazine/tiers/reader.svg?avatarHeight=120)](https://opencollective.com/rustmagazine)
 
 ## License
 
