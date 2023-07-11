@@ -30,6 +30,11 @@
       "Summary Now Databend-Query is a rather large crate and we had to waste a lot of time on compiling and linking. It's time to split it up into a few relatively small crates. Related #4399",
       "https://opengraph.githubassets.com/855cd62b49753184fd23c301b3da40402c443696013761c9ec887426aea4e548/datafuselabs/databend/issues/6180"
     ],
+    "https://github.com/duo-rs/duo": [
+      "GitHub - duo-rs/duo: Observability duet: Logging and Tracing",
+      "Observability duet: Logging and Tracing. Contribute to duo-rs/duo development by creating an account on GitHub.",
+      "https://opengraph.githubassets.com/ec2f377627caf39b7257e864c34fdd9442c582b6406287ca42a97f9d39dddb79/duo-rs/duo"
+    ],
     "https://github.com/egraphs-good/egg": [
       "GitHub - egraphs-good/egg: egg is a flexible, high-performance e-graph library",
       "egg is a flexible, high-performance e-graph library - GitHub - egraphs-good/egg: egg is a flexible, high-performance e-graph library",
