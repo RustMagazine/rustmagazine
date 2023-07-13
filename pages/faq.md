@@ -48,7 +48,7 @@ We don't have concrete details on the distribution of our readers since we have 
 
 ## Does the author get paid?
 
-Although we are a non-profit community magazine and do not pay our authors, we deeply appreciate and value their contributions. We recognize the time and effort that goes into creating high-quality content, and we are grateful for the opportunity to feature the work of talented Rustaceans in our magazine.
+Since Rust Magainze is a non-profit publication, we rely on sponsorship to pay our authors. Visit the [Sponsor us](/sponsor) page to learn more.
 
 ## What is the license of the content in Rust Magazine?
 
