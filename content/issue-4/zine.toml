@@ -3,7 +3,7 @@ number = 4
 title = "Issue 4"
 cover = "/static/ferris/4.jpeg"
 pub_date = "2023-06-05"
-publish = false
+publish = true
 
 [[article]]
 file = "show.md"
