@@ -22,3 +22,13 @@ topic = ["interview"]
 pub_date = "2023-05-27"
 publish = true
 featured = true
+
+[[article]]
+file = "a-brief-discussion-on-invariants-in-rust.md"
+title = "A Brief Discussion on Invariants in Rust: Essential Properties to Uphold"
+author = ["TOETOE55"]
+topic = ["unsafe-rust"]
+pub_date = "2023-08-15"
+publish = true
+featured = true
+i18n.zh = { file = "a-brief-discussion-on-invariants-in-rust-zh.md", title = "稍微聊聊Rust中的Invariant —— 那些必须保持的性质"}
