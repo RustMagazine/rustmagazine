@@ -167,7 +167,7 @@ unsafe 算是 Rust 中一大特色了。如果没有 unsafe，但又要完全安
 
 3. rust 的绝大数第三方库没有验证是否 soundness，尤其是内部用到 unsafe 的库。
 
-4. rust 的编译器也有可能破坏 invariant，进行错误的优化，让我们在 safe rust 下构造出[segment fault](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=2179a4f4567edd276818c7869aac7e60)。
+4. rust 的编译器也有可能破坏 invariant，进行错误的优化，让我们在 safe rust 下构造出[段错误](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=2179a4f4567edd276818c7869aac7e60)。
 
 5. 运行 rust 程序的平台也有可能破坏 invariant，比如说`proc/self/mem`可以破坏内存独占的 invariant，修改内存。但从实践意义来说，rust 接受这种 cornercase。
 

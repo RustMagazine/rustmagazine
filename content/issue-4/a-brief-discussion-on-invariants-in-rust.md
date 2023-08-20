@@ -66,7 +66,7 @@ let p: &String;
     let s = String::from("123");
     p = &s;
 }
-// Compilation error because the borrowing scope of `p` extends beyond the scope of `s`
+// Compilation error because the lifetime of `p` outlives the scope of `s`
 println!("{p:?}");
 ```
 
@@ -170,7 +170,7 @@ There are also some limited formal verification tools available, such as [flux](
 1. Rust's type system has not yet been proven to be entirely reliable. This implies that there might be [inconsistencies](https://github.com/rust-lang/rust/issues/25860) and contradictions in certain rules. Consequently, at this stage, proofs of invariants might not always be dependable.
 2. The soundness of Rust's standard library has also not been fully established. This means that certain interface invariants within the standard library might still be susceptible to violation.
 3. The vast majority of third-party libraries in Rust have not been verified for soundness, especially those that internally employ `unsafe` constructs.
-4. Rust's compiler is also capable of inadvertently breaking invariants through incorrect optimizations, potentially allowing us to create a [segment fault](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=2179a4f4567edd276818c7869aac7e60) in safe Rust.
+4. Rust's compiler is also capable of inadvertently breaking invariants through incorrect optimizations, potentially allowing us to create a [Segmentation fault](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=2179a4f4567edd276818c7869aac7e60) in safe Rust.
 5. The platform on which a Rust program runs can also undermine invariants. For example, `proc/self/mem` can disrupt memory-exclusive invariants by altering memory. However, from a practical standpoint, Rust accommodates such corner cases.
 
 In the future, points 1 and 2 might see resolution, but 3, 4, and 5 appear to be inevitable challenges. This indicates that Rust's safety has limitations; critical aspects still rely on human judgment, although humans remain fallible. This reminds me of Linus Torvalds' quote about safety:
