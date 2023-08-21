@@ -182,3 +182,12 @@ name = "TOETOE55"
 bio = """
 - [GitHub](https://github.com/TOETOE55)
 """
+
+[authors.jiacai2050]
+name = "Jiacai Liu"
+bio = """
+- [GitHub](https://github.com/jiacai2050)
+- [Mastodon](https://mastodon.social/@liujiacai)
+- [Twitter](https://twitter.com/liujiacai)
+- [Blog](https://en.liujiacai.net/)
+"""
