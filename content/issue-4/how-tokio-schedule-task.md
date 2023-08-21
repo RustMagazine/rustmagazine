@@ -3,7 +3,7 @@
 This article will analyze a problem I encountered while developing CeresDB to look at issues that may arise with Tokio scheduling. Please point out any inadequacies as my knowledge is limited.
 
 # Background
-CeresDB is a high-performance time series database designed for cloud-native. The storage engine uses an LSM-like architecture where data is first written to memtable, and when some threshold is reached, it is flushed to the underlying storage(e.g. S3). To prevent too many small files, there is also a background thread that does compaction.
+[CeresDB](https://github.com/CeresDB/ceresdb) is a high-performance time series database designed for cloud-native. The storage engine uses an LSM-like architecture where data is first written to memtable, and when some threshold is reached, it is flushed to the underlying storage(e.g. S3). To prevent too many small files, there is also a background thread that does compaction.
 
 In production, I found a strange problem. Whenever compaction requests increased for a table, the flush time would spike even though flush and compaction run in different thread pools and have no direct relationship. Why did they affect each other?
 
@@ -103,7 +103,7 @@ This program has two runtimes, one for IO and one for CPU scenarios. All request
 
 The above log shows io-5 already took 192ms before the HTTP request, and cost 823ms from request to response, which should only be 50ms. It seems like the connection pool in reqwest have issues, with the IO thread waiting for connections held by the CPU thread, increasing IO task time. Setting `pool_max_idle_per_host` to 0 to disable connection reuse fixed the problem.
 
-I ask this issue [here](https://github.com/seanmonstar/reqwest/discussions/1935), but don't get any answers yet, so the root cause here is still unclear. However I gain better understand how Tokio schedule tasks, it's kinds of like Node.js, we should never block schedule thread. and in CeresDB we solve it by adding a dedicated runtime to isolate CPU and IO tasks instead of disabling the pool, see [here](https://github.com/CeresDB/ceresdb/pull/907/files) in you want to know details.
+I ask this issue [here](https://github.com/seanmonstar/reqwest/discussions/1935), but don't get any answers yet, so the root cause here is still unclear. However I gain better understand how Tokio schedule tasks, it's kinds of like Node.js, we should never block schedule thread. and in CeresDB we solve it by adding a dedicated runtime to isolate CPU and IO tasks instead of disabling the pool, see [here](https://github.com/CeresDB/ceresdb/pull/907/files) in case of curiosity.
 
 # Summary
 Through a CeresDB production issue, this post explains Tokio scheduling in simple terms. Real situations are of course more complex, users need to analyze carefully how async code get scheduled before come up a solution. Also Tokio makes many detailed optimizations for lowest possible latency, interested readers can learn more from links below:
