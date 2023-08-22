@@ -1,6 +1,6 @@
-`Future`, representing an asynchronous computation task, are the basis for implementing asynchronous in Rust. Unlike other languages, the computation does not automatically execute in the background, it needs to actively call its `poll` method. Tokio is the most widely used asynchronous runtime in the community. It uses various tips internally to ensure that `Future` are scheduled and executed fairly and timely. However, since the execution of Futures is cooperative, starvation of `Future` can inevitably occur in some scenarios.
+`Future`s, representing an asynchronous computation task, are the basis for implementing asynchronous task in Rust. Unlike other languages, the computation does not automatically execute in the background, it needs to actively call its `poll` method. Tokio is the most widely used asynchronous runtime in the community. It uses various tips internally to ensure that `Future` are scheduled and executed fairly and timely. However, since the execution of a `Future` is cooperative, starvation can inevitably occur in some scenarios.
 
-This article will analyze a problem I encountered while developing CeresDB to look at issues that may arise with Tokio scheduling. Please point out any inadequacies as my knowledge is limited.
+This article will analyze a problem I encountered while developing CeresDB and discuss issues that may arise with Tokio scheduling. Please point out any inadequacies as my knowledge is limited.
 
 # Background
 [CeresDB](https://github.com/CeresDB/ceresdb) is a high-performance time series database designed for cloud-native. The storage engine uses an LSM-like architecture where data is first written to memtable, and when some threshold is reached, it is flushed to the underlying storage(e.g. S3). To prevent too many small files, there is also a background thread that does compaction.
@@ -8,7 +8,7 @@ This article will analyze a problem I encountered while developing CeresDB to lo
 In production, I found a strange problem. Whenever compaction requests increased for a table, the flush time would spike even though flush and compaction run in different thread pools and have no direct relationship. Why did they affect each other?
 
 # Analysis
-To investigate the root cause, we need to understand Tokio's task scheduling mechanism. Tokio is event-driven, users submit tasks via `spawn`, then Tokio's scheduler decides how to execute them, most of time using a multi-threaded scheduler.
+To investigate the root cause, we need to understand Tokio's task scheduling mechanism. Tokio is an event-driven, non-blocking I/O platform for writing asynchronous applications, users submit tasks via `spawn`, then Tokio's scheduler decides how to execute them, most of time using a multi-threaded scheduler.
 
 Multi-threaded scheduler dispatches tasks to a fixed thread pool, each worker thread has a local run queue to save pending tasks. When starts, each worker thread will enter a loop to sequentially fetch and execute tasks in its run queue. Without a strategy, this scheduling can easily become imbalanced. Tokio uses work stealing to address this - when a worker's run queue is empty, it tries to "steal" tasks from other workers' queues to execute.
 
@@ -93,7 +93,7 @@ As we can see, both flush and compact have the above issue - `expensive_cpu_task
 
 If flush and compact run in the same runtime, there is no further explanation needed. But how do they affect each other when running in different runtimes? I wrote a [minimal program](https://github.com/jiacai2050/tokio-debug) to reproduce this.
 
-This program has two runtimes, one for IO and one for CPU scenarios. All requests should take only 50ms but actual time is longer due to blocking API used in the CPU scenario. IO has no blocking so should cost around 50ms, but some tasks, especially io-5 and io-6, cost roughly 1s:
+This program has two runtimes, one for IO and one for CPU scenarios. All requests should take only 50ms but actual time is longer due to blocking API used in the CPU scenario. IO has no blocking so should cost around 50ms, but some tasks, especially `io-5` and `io-6`, their cost are roughly 1s:
 ```bash
 [2023-08-06T02:58:49.679Z INFO  foo] io-5 begin
 [2023-08-06T02:58:49.871Z TRACE reqwest::connect::verbose] 93ec0822 write (vectored): b"GET /io-5 HTTP/1.1\r\naccept: */*\r\nhost: 127.0.0.1:8080\r\n\r\n"
@@ -101,15 +101,15 @@ This program has two runtimes, one for IO and one for CPU scenarios. All request
 [2023-08-06T02:58:50.694Z INFO  foo] io-5 cost:1.015695346s
 ```
 
-The above log shows io-5 already took 192ms before the HTTP request, and cost 823ms from request to response, which should only be 50ms. It seems like the connection pool in reqwest have issues, with the IO thread waiting for connections held by the CPU thread, increasing IO task time. Setting `pool_max_idle_per_host` to 0 to disable connection reuse fixed the problem.
+The above log shows `io-5` already took 192ms before the HTTP request, and cost 823ms from request to response, which should only be 50ms. It seems like the connection pool in `reqwest` have some weird issues, that's the IO thread is waiting for connections held by the CPU thread, increasing cost of IO task. Setting `pool_max_idle_per_host` to 0 to disable connection reuse solve the problem.
 
-I ask this issue [here](https://github.com/seanmonstar/reqwest/discussions/1935), but don't get any answers yet, so the root cause here is still unclear. However I gain better understand how Tokio schedule tasks, it's kinds of like Node.js, we should never block schedule thread. and in CeresDB we solve it by adding a dedicated runtime to isolate CPU and IO tasks instead of disabling the pool, see [here](https://github.com/CeresDB/ceresdb/pull/907/files) in case of curiosity.
+I filed this issue [here](https://github.com/seanmonstar/reqwest/discussions/1935), but haven't get any answers yet, so the root cause here is still unclear. However I gain better understand how Tokio schedule tasks, it's kinds of like Node.js, we should never block schedule thread. In CeresDB we fix it by adding a dedicated runtime to isolate CPU and IO tasks instead of disabling the pool, see [here](https://github.com/CeresDB/ceresdb/pull/907/files) if curious.
 
 # Summary
-Through a CeresDB production issue, this post explains Tokio scheduling in simple terms. Real situations are of course more complex, users need to analyze carefully how async code get scheduled before come up a solution. Also Tokio makes many detailed optimizations for lowest possible latency, interested readers can learn more from links below:
+Through a CeresDB production issue, this post explains Tokio scheduling in simple terms. Real situations are of course more complex, users need to analyze carefully how async code gets scheduled before finding a solution. Also, Tokio makes many detailed optimizations for lowest possible latency, interested readers can learn more from links below:
 
 - [Making the Tokio scheduler 10x faster](https://tokio.rs/blog/2019-10-scheduler)
 - [One bad task can halt all executor progress forever #4730](https://github.com/tokio-rs/tokio/issues/4730)
 - [Using Rustlang's Async Tokio Runtime for CPU-Bound Tasks](https://www.influxdata.com/blog/using-rustlangs-async-tokio-runtime-for-cpu-bound-tasks/)
 
-Finally, I hope readers can realize potential issues when using Tokio. As a thumb, try to isolate blocking tasks to minimize impact on IO tasks.
+Finally, I hope readers can realize potential issues when using Tokio. As a rule of thumb, try to isolate blocking tasks to minimize impact on IO tasks.
