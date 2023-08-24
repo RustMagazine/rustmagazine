@@ -34,7 +34,7 @@ featured = true
 i18n.zh = { file = "a-brief-discussion-on-invariants-in-rust-zh.md", title = "稍微聊聊 Rust 中的 Invariant —— 那些必须保持的性质" }
 
 [[article]]
-file = "how-tokio-schedule-task.md"
+file = "how-tokio-schedule-tasks.md"
 title = "How Tokio schedule tasks: A hard Lesson learnt"
 author = ["jiacai2050"]
 topic = ["tokio", "async"]
