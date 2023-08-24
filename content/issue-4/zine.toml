@@ -32,3 +32,12 @@ pub_date = "2023-08-15"
 publish = true
 featured = true
 i18n.zh = { file = "a-brief-discussion-on-invariants-in-rust-zh.md", title = "稍微聊聊 Rust 中的 Invariant —— 那些必须保持的性质" }
+
+[[article]]
+file = "how-tokio-schedule-task.md"
+title = "How Tokio schedule tasks: A hard Lesson learnt"
+author = ["jiacai2050"]
+topic = ["tokio", "async"]
+pub_date = "2023-08-21"
+publish = true
+featured = true
