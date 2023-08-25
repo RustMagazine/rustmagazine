@@ -191,3 +191,21 @@ bio = """
 - [Twitter](https://twitter.com/liujiacai)
 - [Blog](https://en.liujiacai.net/)
 """
+
+[authors.ieni]
+name = "Marco Ieni"
+bio = """
+- [Website](https://ieni.dev/)
+- [Twitter](https://twitter.com/MarcoIeni)
+- [GitHub](https://github.com/MarcoIeni)
+- [Mastodon](https://hachyderm.io/@MarcoIeni)
+"""
+
+[authors.orhun]
+name = "Orhun Parmaksız"
+bio = """
+- [Website](https://orhun.dev/)
+- [Twitter](https://twitter.com/orhunp_)
+- [GitHub](https://github.com/orhun)
+- [Mastodon](https://fosstodon.org/@orhun)
+"""
