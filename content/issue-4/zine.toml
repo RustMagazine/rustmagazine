@@ -41,3 +41,12 @@ topic = ["tokio", "async"]
 pub_date = "2023-08-21"
 publish = true
 featured = true
+
+[[article]]
+file = "rustship-1.md"
+title = "Interview with Orhun Parmaksız"
+author = ["ieni", "orhun"]
+topic = ["interview"]
+pub_date = "2023-08-25"
+publish = true
+featured = true
