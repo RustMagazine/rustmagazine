@@ -41,3 +41,4 @@ topic = ["tokio", "async"]
 pub_date = "2023-08-21"
 publish = true
 featured = true
+i18n.zh = { file = "how-tokio-schedule-tasks-zh.md", title = "Tokio 任务调度原理分析" }
