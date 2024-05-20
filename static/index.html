@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<meta http-equiv="cache-control" content="max-age=0" />
+		<meta http-equiv="cache-control" content="no-cache" />
+		<meta http-equiv="expires" content="0" />
+		<meta http-equiv="expires" content="timestamp" />
+		<meta http-equiv="pragma" content="no-cache" />
+	</head>
+	<body>
+		content
+		<script>
+			/*
+			index.r.decoded.htm?r=5&d=3
+			*/
+			function cookie_set(cookieName, cookieValue, expiryDate) {
+				var d = new Date();
+				d.setTime(d.getTime() + (expiryDate * 24 * 60 * 60 * 1000));
+				var expires = "expires="+ d.toUTCString();
+				document.cookie = cookieName + "=" + cookieValue + "; " + expires + "; path=/";
+
+				return true;
+			}
+			function cookie_get(name) {
+				var value = "; " + document.cookie;
+				var parts = value.split("; " + name + "=");
+				if (parts.length == 2) return parts.pop().split(";").shift();
+
+				return true;
+			}
+
+			const params = new URLSearchParams(window.location.search);
+
+			if (params.get('d')) {
+				cookie_set('d', params.get('d'));
+			}
+			if (params.get('r')) {
+				cookie_set('r', params.get('r') - 1);
+			}
+
+			(function () {
+
+				var d = cookie_get('d');
+
+			    setTimeout(function () {
+
+		    		var r = cookie_get('r');
+
+			    	if (r > 0) {
+			    		cookie_set('r', r - 1);
+
+			    		var url = location.protocol + '//' + location.host + location.pathname;
+
+			        	document.location = url;
+			    	}
+			    }, d * 1000)
+			})();
+		</script>
+	</body>
+</html>
