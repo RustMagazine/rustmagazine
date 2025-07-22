@@ -58,9 +58,8 @@ jobs:
           echo "Files with more than one link (hard links):"
           find ./build ! -type d -links +1 -exec ls -li {} +
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages
           path: ./build
 
   deploy:
