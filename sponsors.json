@@ -1,14 +1,14 @@
 {
     "gold": [
         {
-            "name": "Ferris",
-            "url": "https://rust-lang.org",
-            "logo": "/static/ferris/rustacean-flat-happy.svg"
+            "name": "Geddle",
+            "url": "https://geddle.com",
+            "logo": "https://geddle.com/logo.svg"
         },
         {
-            "name": "Ferris",
-            "url": "https://rust-lang.org",
-            "logo": "/static/ferris/rustacean-flat-happy.svg"
+            "name": "Query.rs",
+            "url": "https://query.rs",
+            "logo": "https://query.rs/assets/logo-red.svg"
         }
     ],
     "silver": [
