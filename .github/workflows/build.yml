@@ -33,6 +33,24 @@ jobs:
           wget https://github.com/zineland/zine/releases/download/$ZINE_VERSION/zine-x86_64-unknown-linux-gnu.tar.gz -O zine.tar.gz
           tar xvf zine.tar.gz
           ./zine build
+      - name: Check for symlinks and hard links
+        run: |
+          if find ./build -type l | grep .; then
+            echo "Error: Symlinks found in build output. Remove them before deploying."
+            exit 1
+          fi
+          if find ./build ! -type d -links +1 | grep .; then
+            echo "Error: Hard links found in build output. Remove them before deploying."
+            exit 1
+          fi
+      - name: Check build size
+        run: |
+          du -sh ./build
+          size=$(du -s ./build | cut -f1)
+          if [ "$size" -gt 10485760 ]; then  # 10GB in KB
+            echo "Error: Build artifact exceeds 10GB limit."
+            exit 1
+          fi
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
