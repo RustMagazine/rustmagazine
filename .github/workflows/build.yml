@@ -51,6 +51,12 @@ jobs:
             echo "Error: Build artifact exceeds 10GB limit."
             exit 1
           fi
+      - name: List symlinks and hard links in build output
+        run: |
+          echo "Symlinks found:"
+          find ./build -type l
+          echo "Files with more than one link (hard links):"
+          find ./build ! -type d -links +1 -exec ls -li {} +
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
