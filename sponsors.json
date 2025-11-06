@@ -13,9 +13,9 @@
     ],
     "silver": [
         {
-            "name": "Ferris",
-            "url": "https://rust-lang.org",
-            "logo": "/static/ferris/rustacean-flat-happy.svg"
+            "name": "Arrfounder",
+            "url": "https://arrfounder.com",
+            "logo": "https://arrfounder.com/logo.svg"
         },
         {
             "name": "Ferris",
