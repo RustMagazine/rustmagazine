@@ -23,9 +23,9 @@
             "logo": "/static/aiberm.svg"
         },
         {
-            "name": "Ferris",
-            "url": "https://rust-lang.org",
-            "logo": "/static/ferris/rustacean-flat-happy.svg"
+            "name": "Meiguo",
+            "url": "https://meiguo.app",
+            "logo": "/static/meiguo.svg"
         }
     ],
     "bronze": [
