@@ -191,3 +191,11 @@ bio = """
 - [Twitter](https://twitter.com/liujiacai)
 - [Blog](https://en.liujiacai.net/)
 """
+
+[authors.sekowski]
+name = "Aleksander Sekowski"
+bio = """
+I maintain [vastlint](https://github.com/aleksUIX/vastlint), an open-source VAST checker written in Rust.
+
+- [GitHub](https://github.com/aleksUIX)
+"""

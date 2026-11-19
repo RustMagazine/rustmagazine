@@ -42,3 +42,12 @@ pub_date = "2023-08-21"
 publish = true
 featured = true
 i18n.zh = { file = "how-tokio-schedule-tasks-zh.md", title = "Tokio 任务调度原理分析" }
+
+[[article]]
+file = "a-line-cursor-for-byte-offsets.md"
+title = "A line cursor keeps byte-offset scans linear"
+author = ["sekowski"]
+topic = ["optimization"]
+pub_date = "2026-11-18"
+publish = true
+featured = true
